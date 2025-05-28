@@ -1,0 +1,104 @@
+<div class="container shoppings" id="cases" style="margin-top: 135px;">
+    <h1 style="text-align: center;
+    color: #6868AC;">Shipping Address</h1>
+    <div class="row mt-4">
+        <div class="col-md-4" ng-repeat="(key, value) in DataAdress">
+            <div class="card p-2">
+                <div class="header">
+                    <div style="width: 100%;">
+                        <button style="padding: 4px 14px;width: auto;margin-right: 5px;" class="btn btn-dark float-right" ng-click="showModelShippingEdit(value.id)">Edit</button>
+                        <button style="padding: 4px 14px;width: auto;margin-right: 5px;background: #f53535;    color: #fff;"  class="btn btn-dark float-right" ng-click="RemoveShippingById(value.id)">Remove</button>
+                    </div>
+                    <h5 style="color: #6868ab;
+                    font-size: 15px;
+                    font-weight: 600;" class="float-left">{{value.fullName}}</h5>
+                </div>
+                <div class="body">
+                    <p style="color: #000;">{{value.fullName+' | '+value.address1+'  |  '+value.countryName+'  |  '+value.cityName}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 New">
+            <div class="card p-3" ng-click="showModelShippingCreate()">
+                <h4 style="color:#8BD670;">Add a new Address</h4>
+                <a>
+                    <svg id="Group_69" data-name="Group 69" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 60.527 60.516">
+                        <defs>
+                          <clipPath id="clip-path">
+                            <rect id="Rectangle_44" data-name="Rectangle 44" width="60.527" height="60.516" fill="#8bd670"/>
+                          </clipPath>
+                        </defs>
+                        <g id="Group_68" data-name="Group 68" clip-path="url(#clip-path)">
+                          <path id="Path_459" data-name="Path 459" d="M0,30.253A30.263,30.263,0,1,1,29.93,60.516,30.3,30.3,0,0,1,0,30.253M33,33h.855c3.329,0,6.658.005,9.988,0a2.736,2.736,0,1,0,.147-5.467c-3.394-.026-6.787-.008-10.181-.009H33v-.856c0-3.329.005-6.657,0-9.986a2.737,2.737,0,1,0-5.467-.147c-.026,3.393-.008,6.786-.009,10.179,0,.249,0,.5,0,.81h-.854c-3.351,0-6.7-.006-10.052,0a2.734,2.734,0,1,0-.085,5.465c3.394.028,6.787.009,10.181.01h.811c0,.347,0,.6,0,.853,0,3.307-.025,6.615.023,9.921a3.8,3.8,0,0,0,.5,1.811,2.589,2.589,0,0,0,3,1.054,2.641,2.641,0,0,0,1.943-2.522c.026-3.049.013-6.1.015-9.148,0-.62,0-1.24,0-1.969" transform="translate(0 -0.001)" fill="#8bd670"/>
+                        </g>
+                      </svg>                      
+                    </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- sample modal content -->
+<div id="modelShipping" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelShippings">
+            <div class="LoaderKiven" ng-if="LoaderForm">
+                <div class="spinner-border avatar-lg text-primary m-2" role="status"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{TitleForm}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="text" id="fullName" ng-disabled="formStop" EClass="errorInput" SClass="sucssInput" required="" placeholder="Full Name">
+                            <a class="ErrorMessage" titleError="Full Name is required"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="text" id="address1" ng-disabled="formStop" EClass="errorInput" SClass="sucssInput" required="" placeholder="Address1">
+                            <a class="ErrorMessage" titleError="Address1 is required"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="text" id="address2" ng-disabled="formStop" EClass="errorInput" SClass="sucssInput" placeholder="Address2">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <select class="form-control inputLogin" ng-change="changeCountry()" ng-disabled="formStop" ng-model="Country" VFORM id="countryId" EClass="errorInput" SClass="sucssInput" required="" placeholder="Country">
+                                <option value="{{value.id}}" ng-repeat="(key, value) in CountryItem">{{value.countryName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <select class="form-control inputLogin" ng-model="City" ng-disabled="formStop"  VFORM id="cityId" EClass="errorInput" SClass="sucssInput" required="" placeholder="City">
+                                <option value="{{value.id}}" ng-repeat="(key, value) in CitysItem">{{value.cityName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="tel" ng-disabled="formStop" format  typeinp="number" id="phone" EClass="errorInput" SClass="sucssInput" required="" placeholder="Phone">
+                            <a class="ErrorMessage" titleError="Phone is required"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="tel" ng-disabled="formStop" id="postalCode" EClass="errorInput" SClass="sucssInput" placeholder="PostalCode">
+                            <a class="ErrorMessage" titleError="Postal Code is required"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="CreateUpdate()" class="btn btn-primary waves-effect waves-light" ng-if="!formStop">{{idAdress==-1?'Add':'Save'}}</button>
+                <button type="button" ng-click="Edit()" class="btn btn-primary waves-effect waves-light" ng-if="formStop">Edit</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

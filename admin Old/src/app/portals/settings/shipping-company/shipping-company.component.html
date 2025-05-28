@@ -1,0 +1,120 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="SHIPPING SETTINGS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-success" (click)="AddCompany(shippingCompanyModal)"><i class="fe-truck "></i>  ADD NEW  </button>
+    <div class="row">
+      <div class="col-lg-4" >
+        <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-primary float-left">
+              <i class="fe-truck "></i> SHIPPING COMPANIES</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <div class="table-responsive">
+                <table class="table table-borderless mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sc of shippingCompany ">
+                          <th>{{sc.shippingName}}</th>
+                          <th><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,sc.id)"   [checked]="getStatus(sc.status)"></ui-switch></th>
+                            <th>
+                                <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-warning" (click)="getAllParam(sc.id)"> <i class="icon-paper-clip"></i> </button>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card-box ribbon-box" *ngIf="shippingParam">
+            <div class="ribbon ribbon-primary float-left">
+              <i class="mdi mdi-folder-key-network"></i> Param</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+           <hr>
+            <button style="float: right;"  type="button" class="btn btn-outline-success" (click)="AddParam(shippingParamModal)">Add <i class="icon-key"></i> </button>
+            <div class="ribbon-content">
+              <div class="table-responsive">
+                <table class="table table-borderless mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>key</th>
+                            <th>Value</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  *ngFor="let param of shippingParam ">
+                          <th>{{param.key}}</th>
+                          <th>{{param.value}}</th>
+                            <td>
+                                <button type="button" class="btn btn-outline-warning" (click)="EditParam(shippingParamModal,param.id) " style="margin-right: 10px;">Edit <i class="mdi mdi-content-save-edit-outline"></i> </button>
+                                <button  type="button" class="btn btn-outline-danger" (click)="DeleteParam(shippingParamModal,param.id) " style="margin-right: 10px;">Delete <i class="fas fa-minus-circle"></i> </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+<ng-template #shippingCompanyModal role="document" let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">ADD SHIPPING COMPANY</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              <label for="field-1" class="control-label">Shipping Name</label>
+              <input type="shippingName" class="form-control" [formControl]="shippingName"  placeholder="Shipping Name">
+          </div>
+      </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')"> Cancel </button>
+      <button type="button" class="btn btn-primary" (click)="createCompany()">Save</button>
+  </div>
+</ng-template>
+<ng-template #shippingParamModal role="document" let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">ADD KEY</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              <label for="field-1" class="control-label">Shipping key</label>
+              <input type="shippingName" class="form-control" [formControl]="key"  placeholder="Shipping key">
+          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+            <label for="field-1" class="control-label">Shipping Value</label>
+            <input type="shippingName" class="form-control" [formControl]="value"  placeholder="Shipping Value">
+        </div>
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')"> Cancel </button>
+      <button type="button" class="btn btn-primary" (click)="submitParam()">Save</button>
+  </div>
+</ng-template>

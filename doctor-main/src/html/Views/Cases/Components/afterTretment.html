@@ -1,0 +1,131 @@
+<div class="row" id="AfterTretment">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="card" style="background: none; box-shadow: none;">
+      <div class="card-header cardheaderCases">
+       Follow up / Post Records
+      </div>
+
+      <div class="card-body cardBodyCases" style="padding: 23px 63px;height: 100vh;">
+          <lable style="text-aline:center;">Please add the records relevant to the treatment stage</lable>
+                       <div class="tab" ng-click="AddDevice()" style="background: #6868ab;
+  color: #fff;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 20px;    float: right;cursor: pointer;">Select Treatment Stage</div>
+        <div class="tabKiven">
+          <div class="tabs">
+            <div class="tab" ng-repeat="tab in Folder" ng-class="{'active': tab.set}" ng-click="setTab(tab.id)">Aligner :Upper/Lower {{tab.id}}</div>
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content-item" ng-init="renderTab(tab.id)" ng-class="{'active': tab.set}" ng-repeat="tab in Folder">
+                  <div class="row createOrderImage" ng-if="idPatient != -1">
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageFrontPose" id="/AfterTretment/{{tab.id}}/imageFrontPose" idPatient="{{idPatient}}"
+                        imgclass="imagePatient" filesrc="{{tab.PR.imageFrontPose.length==1?tab.PR.imageFrontPose[0].path:''}}"
+                        class="dragdrop" defultimage="assets/images/imagePatient/2.png" drag-Drop typefile="png jpeg jpg"
+                        multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageFrontSmiling" id="/AfterTretment/{{tab.id}}/imageFrontSmiling"
+                        idPatient="{{idPatient}}" imgclass="imagePatient"
+                        filesrc="{{tab.PR.imageFrontSmiling.length==1?tab.PR.imageFrontSmiling[0].path:''}}" class="dragdrop"
+                        defultimage="assets/images/imagePatient/1.png" ; drag-Drop typefile="png jpeg jpg" multifile="false">
+                      </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageProfile" id="/AfterTretment/{{tab.id}}/imageProfile" idPatient="{{idPatient}}"
+                        imgclass="imagePatient" class="dragdrop"
+                        filesrc="{{tab.PR.imageProfile.length==1?tab.PR.imageProfile[0].path:''}}"
+                        defultimage="assets/images/imagePatient/3.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageUpperOcclusal" id="/AfterTretment/{{tab.id}}/imageUpperOcclusal"
+                        idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                        filesrc="{{tab.PR.imageUpperOcclusal.length==1?tab.PR.imageUpperOcclusal[0].path:''}}"
+                        defultimage="assets/images/imagePatient/4.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageLowerOcclusal" id="/AfterTretment/{{tab.id}}/imageLowerOcclusal"
+                        idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                        filesrc="{{tab.PR.imageLowerOcclusal.length==1?tab.PR.imageLowerOcclusal[0].path:''}}"
+                        defultimage="assets/images/imagePatient/5.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageLeftBuccal" id="/AfterTretment/{{tab.id}}/imageLeftBuccal" idPatient="{{idPatient}}"
+                        imgclass="imagePatient" class="dragdrop"
+                        filesrc="{{tab.PR.imageLeftBuccal.length==1?tab.PR.imageLeftBuccal[0].path:''}}"
+                        defultimage="assets/images/imagePatient/6.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageFrontal" id="/AfterTretment/{{tab.id}}/imageFrontal" idPatient="{{idPatient}}"
+                        imgclass="imagePatient" class="dragdrop"
+                        filesrc="{{tab.PR.imageFrontal.length==1?tab.PR.imageFrontal[0].path:''}}"
+                        defultimage="assets/images/imagePatient/7.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.imageRightBuccal" id="/AfterTretment/{{tab.id}}/imageRightBuccal" idPatient="{{idPatient}}"
+                        imgclass="imagePatient" class="dragdrop"
+                        filesrc="{{tab.PR.imageRightBuccal.length==1?tab.PR.imageRightBuccal[0].path:''}}"
+                        defultimage="assets/images/imagePatient/8.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row createOrderImage">
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="display: flex;justify-content: center; align-items: center;width: 100%;height: 100%;">
+                        <h1>X-Rays</h1>
+                      </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.PANAROMIC" id="/AfterTretment/{{tab.id}}/PANAROMIC" idPatient="{{idPatient}}"
+                        imgclass="imagePatient higtAuto" class="dragdrop"
+                        filesrc="{{tab.PR.PANAROMIC.length==1?tab.PR.PANAROMIC[0].path:''}}"
+                        defultimage="assets/images/imagePatient/9.jpg" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                      <div style="position: relative;" ng-if="tab.PR.CEPHALOMETRIC" id="/AfterTretment/{{tab.id}}/CEPHALOMETRIC" idPatient="{{idPatient}}"
+                        imgclass="imagePatient higtAuto" class="dragdrop"
+                        filesrc="{{tab.PR.CEPHALOMETRIC.length==1?tab.PR.CEPHALOMETRIC[0].path:''}}"
+                        defultimage="assets/images/imagePatient/10.jpg" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<div ng-if="modelOpen" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;padding: 20%;z-index: 99999;background: #00000069;display: inline-flex;    justify-content: center;    align-items: center;">
+  <div class="modal-content" id="modelShippings" style="    max-width: 300px;">
+    <div class="LoaderKiven" ng-if="LoaderForm">
+        <div class="spinner-border avatar-lg text-primary m-2" role="status"></div>
+    </div>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Select Treatment Stage</h4>
+        <button type="button" class="close" ng-click="CloseModel()">×</button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group ">
+                    <select id="deviceNumber" class="form-control inputLogin">
+                      <option value="{{dev.id}}" ng-repeat="dev in Devices">Aligner:Upper / Lower {{dev.text.split('Device')[1]}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" ng-click="CreateDevice()" class="btn btn-primary waves-effect waves-light" ng-if="!formStop">Add</button>
+    </div>
+</div><!-- /.modal-content -->
+</div>

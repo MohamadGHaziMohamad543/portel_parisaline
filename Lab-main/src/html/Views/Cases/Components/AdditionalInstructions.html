@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Additional Instructions
+            </div>
+            <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+                <div class="row">
+                    <div class="boxChat">
+                        <div class="boxItems">
+                            <div class="box">
+                                <div ng-repeat="(key, value) in dataChat" class="itemChat {{value.me?'':'other'}}"
+                                    style="position:relative;">
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                        ng-if="!value.me && value.typeSend==3">
+                                        <label style="    display: block;">{{value.nameLab}}</label>
+                                        <img src="{{serverImage+value.logo}}" style="    width: 50px;
+                                    height: 50px;
+                                    border-radius: 50%;
+                                    object-fit: cover;">
+                                    </div>
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                    ng-if="!value.me && value.typeSend==40">
+                                        <label style="    display: block;">{{value.nameLab}}</label>
+                                        <img src="{{serverImage+value.logo}}" style="    width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                        object-fit: cover;">
+                                    </div>
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                    ng-if="!value.me && value.typeSend==41">
+                                        <label style="    display: block;">{{value.nameLab}}</label>
+                                        <img src="{{serverImage+value.logo}}" style="    width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                        object-fit: cover;">
+                                    </div>
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                        ng-if="!value.me && value.typeSend==1">
+                                        <label style="    display: block;">Clinic</label>
+                                        <img src="{{serverImage}}uploads/defult/avatar.jpeg" style="    width: 50px;
+                                    height: 50px;
+                                    border-radius: 50%;
+                                    object-fit: cover;">
+                                    </div>
+                                    <div class="Message" style="position: relative;"
+                                        ng-if="value.typeSend!==40 && value.typeSend!==41">
+                                        <span style="background: green;color: #fff;padding: 6px; border-radius: 8px;"
+                                            ng-if="value.optionId && value.optionId!==-1 && optionId == '-1'">OPTION -
+                                            {{value.optionId}} </span>
+                                        <p style="direction: ltr;" ng-bind-html="value.message | nl2p"></p>
+                                        <div class="dateMessage">
+                                            <span class="mr-1"> {{value.createdAt | date}}</span><span>{{value.createdAt
+                                                | time}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="Message" style="position: relative;background-color: green;" ng-if="value.typeSend==40">
+                                    <p style="direction: ltr;color: #fff;" ng-bind-html="value.message | nl2p"></p>
+                                    <div class="dateMessage">
+                                        <span class="mr-1" style="color: #fff;"> {{value.createdAt | date}}</span><span style="color: #fff;">{{value.createdAt | time}}</span>
+                                    </div>
+                                </div>
+                                <div class="Message" style="position: relative;background-color: #ad023e;"
+                                    ng-if="value.typeSend==41">
+                                    <p style="direction: ltr;color: #fff;" ng-bind-html="value.message | nl2p"></p>
+                                    <div class="dateMessage">
+                                        <span class="mr-1" style="color: #fff;"> {{value.createdAt | date}}</span><span style="color: #fff;">{{value.createdAt | time}}</span>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="boxInput">
+                            <div class="inputMessage">
+                                <textarea placeholder="Type here..." ng-model="inputMessage"></textarea>
+                            </div>
+
+                            <button class="btnMessage" ng-click="sendMessage($event)"
+                                ng-disabled="inputMessage.trim().length==0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 43 43">
+                                    <circle id="Ellipse_2" data-name="Ellipse 2" cx="21.5" cy="21.5" r="21.5"
+                                        fill="#8bd670" />
+                                    <g id="Sent" transform="translate(15.052 14.167)">
+                                        <path id="Vector"
+                                            d="M1.771,2.18V4.329A.885.885,0,1,1,0,4.329V.885A.885.885,0,0,1,1.206.06l15.937,6.2a.885.885,0,0,1,0,1.65l-15.937,6.2A.885.885,0,0,1,0,13.281V8.854A2.656,2.656,0,0,1,2.656,6.2H7.083a.886.886,0,0,1,0,1.771H2.656a.885.885,0,0,0-.885.885v3.133l12.609-4.9Z"
+                                            transform="translate(0 0)" fill="#fff" />
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

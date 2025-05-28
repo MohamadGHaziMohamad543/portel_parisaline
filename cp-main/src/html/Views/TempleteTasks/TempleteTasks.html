@@ -1,0 +1,98 @@
+<h1 style="color: #6868ab;text-shadow: 1px 1px 8px #6868ab;">List Of Coordinators</h1>
+<div class="col-md-12 m-2 text-right">
+    <a href="javascript:void(0);" class="btn btn-danger" ng-click="Add()" style="margin-top: 10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="29.24" viewBox="0 0 29.924 29.24">
+        <defs>
+          <clipPath id="clip-path">
+            <rect id="Rectangle_15" data-name="Rectangle 15" width="29.924" height="29.24" fill="#fff"></rect>
+          </clipPath>
+        </defs>
+        <g id="Group_23" data-name="Group 23" clip-path="url(#clip-path)">
+          <path id="Path_51" data-name="Path 51" d="M26.629,0H3.295A3.3,3.3,0,0,0,0,3.295V25.945A3.3,3.3,0,0,0,3.295,29.24H26.629a3.3,3.3,0,0,0,3.295-3.295V3.295A3.3,3.3,0,0,0,26.629,0M23.2,16.028H16.37v6.828H13.553V16.028H6.725V13.211h6.828V6.383H16.37v6.828H23.2Z" fill="#fff" fill-rule="evenodd"></path>
+        </g>
+      </svg>
+      Create a new Templete
+    </a>
+</div>
+<div>
+    <table id="scroll-vertical-datatable" class="table dt-responsive nowrap tabelStatus">
+        <thead>
+            <tr>
+                <th>Templete Name</th>
+                <th>Type</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Doctor</th>
+                <th>Type Case</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+<div id="FormModal" class="modal-demo">
+    <button type="button" class="close" onclick="Custombox.modal.close();">
+        <span>&times;</span><span class="sr-only">Close</span>
+    </button>
+    <h4 class="custom-modal-title" style="background: #4b4b8f;">{{TitleForm}}</h4>
+    <div class="custom-modal-text">
+        <form action="#" id="formLogin">
+            <div class="row">
+                <div class="col-md-12" style="display: inline-grid;align-items: center;">
+                    <div class="form-group justify-content-center">
+                        <input class="form-control inputLogin"  VFORM type="text" id="nameTemplete" EClass="errorInput" SClass="sucssInput" required="" placeholder="Templete Name">
+                        <a class="ErrorMessage" titleError="Sorry, your username must be between 3 and 12 characters long."></a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group ">
+                        <select class="form-control inputLogin" ng-model="selectTypeTask" ng-disabled="formStop"  VFORM id="typeSelect" EClass="errorInput" SClass="sucssInput" required="" placeholder="City">
+                            <option value="0" selected>Country And City</option>
+                            <option value="1">Doctor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-if="selectTypeTask=='0'">
+                    <div class="form-group ">
+                        <select class="form-control inputLogin" ng-change="changeCountry()" ng-disabled="formStop" ng-model="Country" VFORM id="countryId" EClass="errorInput" SClass="sucssInput" required="" placeholder="Country">
+                            <option value="{{value.id}}" ng-repeat="(key, value) in CountryItem">{{value.countryName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-if="selectTypeTask=='0'">
+                    <div class="form-group ">
+                        <select class="form-control inputLogin" ng-model="City" ng-disabled="formStop"  VFORM id="cityId" EClass="errorInput" SClass="sucssInput" required="" placeholder="City">
+                            <option value="-1">All</option>
+                            <option value="{{value.id}}" ng-repeat="(key, value) in CitysItem">{{value.cityName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-if="selectTypeTask=='1'">
+                    <div class="form-group ">
+                        <select class="form-control inputLogin" ng-model="Doctor" ng-disabled="formStop"  VFORM id="doctorId" EClass="errorInput" SClass="sucssInput" required="" placeholder="Doctors">
+                            <option value="-1">All</option>
+                            <option value="{{value.id}}" ng-repeat="(key, value) in DoctorItem">{{value.nameDoctor}} | {{value.email}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <select class="form-control inputLogin" ng-disabled="formStop"  VFORM id="typeCase" EClass="errorInput" SClass="sucssInput" required="" placeholder="type Case">
+                            <option value="0" selected>New Patient</option>
+                            <option value="1">Refinement</option>
+                            <option value="2">Retainer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="ladda-button btn btn-success" data-style="expand-left" ng-if="typeForm==='Edit'" ng-click="saveAccount()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Save </button>
+                <button class="ladda-button btn btn-primary" ng-if="typeForm==='Add'" data-style="expand-left" ng-click="CreateAccount()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Create </button>
+                <button class="ladda-button btn btn-primary" ng-if="typeForm==='Clone'" data-style="expand-left" ng-click="CloneTemplete()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Clone </button>
+            </div>
+        </form> 
+    </div>
+</div>  

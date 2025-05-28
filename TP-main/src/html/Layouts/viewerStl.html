@@ -1,0 +1,55 @@
+<div ng-controller="viewerStl">
+    <div class="modal-backdrop fade show" ng-if="display"></div>
+    <div id="viewerStl" ng-if="display" class="modal fade bs-example-modal-lg show" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: block;">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content" style="border-radius: 20px;">
+                <div class="modal-header">
+                    <h4 class="modal-title">Show Dental Impression File</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">×</button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="position: relative;border: 1px dashed #6868ab;" >
+                                <div ng-init="init('kittens')"  style="    position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                text-align: center;
+                                z-index: 0;
+                                opacity: 0.4;
+                                -webkit-box-pack: center;
+                                -ms-flex-pack: center;
+                                justify-content: center;
+                                -webkit-box-align: center;
+                                -ms-flex-align: center;
+                                align-items: center;
+                                display: grid;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="300.711" height="274.397" viewBox="0 0 300.711 274.397">
+                                    <path id="Path_460" data-name="Path 460" d="M77.779,0H6.412A6.42,6.42,0,0,0,0,6.419v167.4a3.108,3.108,0,0,0,3.113,3.113H30.435a3.116,3.116,0,0,0,3.113-3.113V115.053H77.779q29.565,0,46.1-15.531T140.4,57.65q0-26.6-16.524-42.126T77.779,0m21,78.9q-7.829,7.329-22.489,7.332H33.547V28.821H76.286q14.657,0,22.489,7.452T106.6,57.65q0,13.918-7.825,21.25" fill="#6868ac"/>
+                                    <path id="Path_461" data-name="Path 461" d="M66.074,137.922h.06l10.125-28.575h0L82.971,90.2q11.178-29.815,21.616-60.629Q117.754,68.1,126.45,90.2l6.972,19.143,10.185,28.575,13.171,36.947a3.107,3.107,0,0,0,2.933,2.066h28.8a3.113,3.113,0,0,0,2.906-4.233L125.663,3.086A4.827,4.827,0,0,0,121.157,0H88.536a4.833,4.833,0,0,0-4.519,3.119l-64.555,169.6a3.1,3.1,0,0,0,2.906,4.213H50.2a3.119,3.119,0,0,0,2.939-2.08Z" transform="translate(109.081)" fill="#6868ac"/>
+                                    <path id="Path_462" data-name="Path 462" d="M127.484,75.363h-.02c-40.739,0-78.019-16.017-100.829-43.092A5.194,5.194,0,0,0,19.5,31.4L6.106,41.6a5.179,5.179,0,0,0-.92,7.385c27.895,33.634,73.167,53.564,122.278,53.564h.02c49.118,0,94.4-19.95,122.3-53.59a5.179,5.179,0,0,0-.926-7.385l-13.4-10.2a5.187,5.187,0,0,0-7.132.88c-22.8,27.082-60.083,43.112-100.835,43.112" transform="translate(22.869 171.846)" fill="#6868ac"/>
+                                  </svg>
+                                  
+                                </div>
+                                <div id="sstl" style="width: 100%;height: 400px;margin: 0 auto;position: relative;z-index: 9;"></div>
+                                <div id="loaderStlPrograss" style="    position: absolute; top: 40%; left: 40%;">
+                                    <a style="    position: absolute;
+                                    left: 30px;
+                                    top: 35px;
+                                    font-size: 16px;
+                                    color: #6868ab;
+                                    font-weight: 700;"><span id="textProssessSpanStl">0</span>%</a>
+                                    <div class="spinner-border avatar-lg text-primary m-2" role="status" ></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary waves-effect" ng-click="amited()" data-dismiss="modal"><i class="{{animated?'fe-pause':'fe-play'}} "></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

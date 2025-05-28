@@ -1,0 +1,129 @@
+<h1 style="color: #6868ab;text-shadow: 1px 1px 8px #6868ab;">List Of Meet</h1>
+<div class="col-md-12 m-2 text-right">
+    <a href="javascript:void(0);" class="btn btn-danger" ng-click="Add()" style="margin-top: 10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="29.24" viewBox="0 0 29.924 29.24">
+        <defs>
+          <clipPath id="clip-path">
+            <rect id="Rectangle_15" data-name="Rectangle 15" width="29.924" height="29.24" fill="#fff"></rect>
+          </clipPath>
+        </defs>
+        <g id="Group_23" data-name="Group 23" clip-path="url(#clip-path)">
+          <path id="Path_51" data-name="Path 51" d="M26.629,0H3.295A3.3,3.3,0,0,0,0,3.295V25.945A3.3,3.3,0,0,0,3.295,29.24H26.629a3.3,3.3,0,0,0,3.295-3.295V3.295A3.3,3.3,0,0,0,26.629,0M23.2,16.028H16.37v6.828H13.553V16.028H6.725V13.211h6.828V6.383H16.37v6.828H23.2Z" fill="#fff" fill-rule="evenodd"></path>
+        </g>
+      </svg>
+      Create a new Meet
+    </a>
+</div>
+<div>
+    <table id="scroll-vertical-datatable" class="table dt-responsive nowrap tabelStatus">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+<div id="FormModal" class="modal-demo">
+    <button type="button" class="close" onclick="Custombox.modal.close();">
+        <span>&times;</span><span class="sr-only">Close</span>
+    </button>
+    <h4 class="custom-modal-title" style="background: #4b4b8f;">{{TitleForm}}</h4>
+    <div class="custom-modal-text">
+        <form action="#" id="formLogin">
+            <div class="row">
+                <div class="col-md-12" style="display: inline-grid;align-items: center;">
+                    <div class="form-group justify-content-center">
+                        <input class="form-control inputLogin" VFORM type="text" id="description" EClass="errorInput" SClass="sucssInput" required="" placeholder="description">
+                        <a class="ErrorMessage" titleError="Sorry, your description must be between 3 and 12 characters long."></a>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group ">
+                        <input class="form-control inputLogin"  VFORM type="datetime-local" id="createAt" EClass="errorInput" SClass="sucssInput" required="" placeholder="">
+                        <a class="ErrorMessage" titleError="Are you sure you entered your Date correctly?"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="ladda-button btn btn-primary" ng-if="typeForm==='Add'" data-style="expand-left" ng-click="CreateMeet()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Create </button>
+            </div>
+        </form> 
+    </div>
+</div>  
+
+<div id="FormModalUsers" class="modal-demo">
+    <button type="button" class="close" onclick="Custombox.modal.close();">
+        <span>&times;</span><span class="sr-only">Close</span>
+    </button>
+    <h4 class="custom-modal-title" style="background: #4b4b8f;">{{TitleFormUsers}}</h4>
+    <div class="custom-modal-text">
+        <form action="#" id="formLogin">
+            <div class="row">
+                <div class="col-md-12" style="display: inline-grid;align-items: center;">
+                    <div class="form-group divGrop" VFORM >
+                        <select class="form-control inputLogin" ng-model="usertypeSelect" id="meetUserType" EClass="errorInput" SClass="sucssInput">
+                            <option value="2">Doctors</option>
+                            <option value="3">Lab</option>
+                            <option value="4">Coordinators</option>
+                            <option value="7">Supervisors</option>
+                            <option value="5">TreatmentPlanners</option>
+                            <option value="9">Accountants</option>
+                        </select>
+                     </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group divGrop" VFORM >
+                       <select class="form-control inputLogin" id="MeetUserId" EClass="errorInput" SClass="sucssInput">
+                         <option ng-repeat="user in Users" value="{{user.id}}">
+                           {{user.userName+'  | '+user.Country+'  | '+user.City}}
+                          </option>
+                       </select>
+                    </div>
+                    <div style="height: 10px;">
+                        <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                        margin-top: -19px;
+                        margin-left: 18px;"></a>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <button class="ladda-button-FormModalUsers btn btn-primary"  data-style="expand-left" ng-click="AddUsers()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Add </button>
+                </div>
+                <div class="col-md-12">
+                    <table id="Users" class="table dt-responsive nowrap" style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Info User</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in MeetUsers" ng-if="user.typeUser !=1">
+                                <td>
+                                    <a ng-if="user.typeUser==2">Doctor</a>
+                                    <a ng-if="user.typeUser==3">Lab</a>
+                                    <a ng-if="user.typeUser==4">Coordinators</a>
+                                    <a ng-if="user.typeUser==7">Supervisors</a>
+                                    <a ng-if="user.typeUser==5">TreatmentPlanners</a>
+                                    <a ng-if="user.typeUser==9">Accountants</a>
+                                </td>
+                                <td>{{user.userName}}</td>
+                                <td>
+                                    <a class="btn btn-outline-danger" ng-click="DeleteUser(user)"><i class="fe-delete"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form> 
+    </div>
+</div>  

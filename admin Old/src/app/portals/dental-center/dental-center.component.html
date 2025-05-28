@@ -1,0 +1,166 @@
+<div class="container-fluid">
+
+  <app-page-title title="DENTAL CENTERS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="col-lg-12 col-xl-12">
+    <div class="">
+      <button _ngcontent-ogl-c10="" (click)="add(doctorModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class=" fas fa-layer-group"></i> <i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> </button>
+      <h5 class="mb-3 mt-4 text-uppercase">
+        LIST OF DENTAL CENTERS</h5> 
+     
+    <div class="table-responsive">
+        <table class="table table-borderless mb-0">
+            <thead class="thead-light">
+                <tr>
+                    <th>Center Logo</th>
+                    <th>Center Number</th>
+                    <th>Center Name</th>
+                    <th>ACenter's Administrator Name</th>
+                    <th>Phone</th>
+                    <th>Center Status</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dtc of dentalCenter">
+                    <td><img src="{{url+'/'+dtc.logo}}" style="width: 39px" class="img-fluid rounded-circle"></td>
+                    <td>{{dtc.id}}</td>
+                    <td><a routerLink="{{getLink(dtc.id,1)}}" routerLinkActive="active" class="side-nav-link-ref">{{dtc.dentalCenterName}}</a></td>
+                    <td><a routerLink="{{getLink(dtc.doctorId)}}" routerLinkActive="active" class="side-nav-link-ref">{{dtc.nameDoctor}}</a></td>
+                    <td>{{dtc.phoneNumber}}</td>
+                    <td><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,dtc.id)"  [checked]="status(dtc.status)"></ui-switch></td>
+                    <td>
+                      <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-warning btn-sm" style="margin-left: 10px;"  (click)="edit(doctorModal,dtc.id)">Edit<i class="fas fa-minus-circle"></i> </button>
+                      <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-danger btn-sm" style="margin-left: 10px;" (click)="delete(doctorModal,dtc.id)">Delete<i class="fe-trash-2"></i>  </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+</div>
+
+
+<ng-template #doctorModal role="document" let-modal="close">
+  <form class="needs-validation" name="formDentelCenter" [formGroup]="formDentelCenter" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h6 class="modal-title">{{titleForm}}</h6>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert type="danger" *ngIf="errors" [dismissible]="false">{{ errors }}</ngb-alert>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="img-container">
+          <image-cropper 
+          [imageBase64]="imageChangedEvent" 
+          [maintainAspectRatio]="true" 
+          [aspectRatio]="20 / 20"
+          [resizeToWidth]="256" 
+          [cropperMinWidth]="300"
+          [cropperMinHeight]="300"
+          format="png" 
+          (imageCropped)="imageCropped($event)" style="height: 139px;" ></image-cropper>
+        </div>
+      </div>
+      <div class="form-group col-lg-6" >
+        <label>Dental Center's Logo </label>
+        <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" accept="image/x-png,image/gif,image/jpeg"  (change)="onFileSelect($event)" >
+              <label class="custom-file-label" for="inputGroupFile04">Dental Center's Logo </label>
+            </div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">CENTER NAME</label>
+  
+        <input type="dentalCenterName" formControlName="dentalCenterName"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.dentalCenterName.errors }" id="dentalCenterName"  />
+        <div *ngIf="submitted && fn.dentalCenterName.errors" class="invalid-feedback">
+          <div *ngIf="fn.dentalCenterName.errors.required">CENTER NAME</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">ADMIN NAME</label>
+  
+        <input type="nameOfAdministrator" formControlName="nameOfAdministrator" disabled  class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.nameOfAdministrator.errors }" id="nameOfAdministrator"  />
+        <div *ngIf="submitted && fn.nameOfAdministrator.errors" class="invalid-feedback">
+          <div *ngIf="fn.nameOfAdministrator.errors.required" >ADMIN NAME</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">ADDRESS</label>
+  
+        <input type="address" formControlName="address"  class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.address.errors }" id="address"  />
+        <div *ngIf="submitted && fn.address.errors" class="invalid-feedback">
+          <div *ngIf="fn.address.errors.required">ADDRESS</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Used Currency</label>
+         <ng-select   formControlName="currencyId"  bindLabel="currencyName" bindValue="id" [items]="Currency" ></ng-select>
+        <div *ngIf="submitted && fn.currencyId.errors" class="invalid-feedback">
+          <div *ngIf="fn.currencyId.errors.required">CURRENCY</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">COUNTRY</label>
+        <ng-select   formControlName="countryId" (ngModelChange)="onChangeCountry()"  bindLabel="countryName" bindValue="id" [items]="Country" >
+          <ng-template ng-label-tmp let-item="item">
+            <flag-icon country="{{item.code}}" ></flag-icon>
+            <b>{{item.countryName}}</b>
+         </ng-template>
+         <ng-template ng-option-tmp let-item="item" let-index="index">
+          <flag-icon country="{{item.code}}" ></flag-icon>
+          <b>{{item.countryName}}</b>
+      </ng-template>
+        </ng-select>
+  
+        <div *ngIf="submitted && fn.countryId.errors" class="invalid-feedback">
+          <div *ngIf="fn.countryId.errors.required">COUNTRY</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">CITY</label>
+  
+         <ng-select   formControlName="cityId"  bindLabel="cityName" (ngModelChange)="onChangeCountry()" bindValue="id" [items]="city" ></ng-select>
+        <div *ngIf="submitted && fn.cityId.errors" class="invalid-feedback">
+          <div *ngIf="fn.cityId.errors.required">CITY</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Center's Broker</label>
+  
+         <ng-select   formControlName="mediatorId"  bindLabel="nameMediator" bindValue="id" [items]="mediator" ></ng-select>
+        <div *ngIf="submitted && fn.mediatorId.errors" class="invalid-feedback">
+          <div *ngIf="fn.mediatorId.errors.required">Center's Broker</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Center's Lab</label>
+  
+         <ng-select   formControlName="laboratorysId"  bindLabel="nameLab" bindValue="id" [items]="laboratorys" ></ng-select>
+        <div *ngIf="submitted && fn.laboratorysId.errors" class="invalid-feedback">
+          <div *ngIf="fn.laboratorysId.errors.required">Center's Lab</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Center's Shipping Compnay</label>
+  
+        <ng-select   formControlName="shippingCompanyId"  bindLabel="shippingName" bindValue="id" [items]="shippingCompany" ></ng-select>
+        <div *ngIf="submitted && fn.shippingCompanyId.errors" class="invalid-feedback">
+          <div *ngIf="fn.shippingCompanyId.errors.required">SHIPPING COMPANY</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit" *ngIf="typeForm!=2">{{trans.users.btn_modal_save}}</button>
+      <button type="button" class="btn btn-primary" type="submit" *ngIf="typeForm==2">Delete</button>
+  </div>
+</form>
+</ng-template>

@@ -1,0 +1,158 @@
+<div class="col-lg-12 col-xl-12" >
+  <div class="card-box">
+    <h5 class="" style="width: 100%;text-align: left;">
+      List of Patients</h5> 
+      <div style="width: 100%;display: flow-root;padding: 16px;">
+      </div> 
+      <div class="table-responsive">
+        <table class="table table-borderless mb-0">
+          <thead class="thead-light">
+              <tr>
+                  <th>Photo</th>
+                  <th>Serial Number</th>
+                  <th *ngIf="USERTYPE">Doctor Name</th>
+                  <th>Patient Name</th>
+                  <th>Status</th>
+                  <th>#</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let pt of patient">
+                  <td><img src="{{URLStatic+pt.image}}" style=" width: 70px; height: 70px;border-radius: 50%;border: 1px solid; padding: 1px;"></td>
+                  <td>{{pt.id}}</td>
+                  <td *ngIf="USERTYPE">{{pt.nameDoctor}}</td>
+                  <td>{{pt.firstName+' '+pt.lastName}}</td>
+                  <td>
+                    <div *ngIf="pt.caseStatus==null" style="background: #20a9f1;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Draft</a>
+                      </div>
+                    </div>
+                    <div *ngIf="pt.caseStatus==0" style="background: #20a9f1;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Draft</a>
+                      </div>
+                    </div>
+                    <div *ngIf="pt.caseStatus==1" style="background: #0075c2;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Patient records processing</a>
+                      </div>
+                    </div>
+                    <div  *ngIf="pt.caseStatus==2" style="background: #fb7e00;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Digital Setup</a>
+                      </div>
+                    </div>
+                    <div *ngIf="pt.caseStatus==3"  style="background: #d2691e;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Revision</a>
+                      </div>
+                    </div>
+                    <div  *ngIf="pt.caseStatus==4" style="background: #696969;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Dr. Review</a>
+                      </div>
+                    </div>
+                    <div *ngIf="pt.caseStatus==6" style="background: #7ecd00;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Appliance Fabrication</a>
+                      </div>
+                    </div>
+                    <div  *ngIf="pt.caseStatus==7" style="background: #a19703;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Shipping</a>
+                      </div>
+                    </div>
+                    <div *ngIf="pt.caseStatus==8"  style="background: #009688;text-align: center;color: #fff;">
+                      <div  class="">
+                        <a>Completed</a>
+                      </div>
+                    </div>
+                  </td>
+                  <td></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  </div>
+</div>
+
+<ng-template #patientModel role="document" let-modal="close">
+  <form class="needs-validation" name="formPatient" [formGroup]="formPatient" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormName}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group col-lg-6">
+        <label for="name">Name Patient</label>
+  
+        <input type="namePatient" formControlName="namePatient"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.namePatient.errors }" id="namePatient"  />
+        <div *ngIf="submitted && fn.namePatient.errors" class="invalid-feedback">
+          <div *ngIf="fn.namePatient.errors.required">Name Patient</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Phone Number</label>
+  
+        <input type="phoneNumber" formControlName="phoneNumber"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.phoneNumber.errors }" id="phoneNumber"  />
+        <div *ngIf="submitted && fn.phoneNumber.errors" class="invalid-feedback">
+          <div *ngIf="fn.phoneNumber.errors.required">Phone Number</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Email</label>
+  
+        <input type="email" formControlName="email"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.email.errors }" id="email"  />
+        <div *ngIf="submitted && fn.email.errors" class="invalid-feedback">
+          <div *ngIf="fn.email.errors.required">Email</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Country</label>
+        <ng-select   formControlName="countryId" (ngModelChange)="onChangeCountry()"  bindLabel="countryName" bindValue="id" [items]="Country" >
+          <ng-template ng-label-tmp let-item="item">
+            <flag-icon country="{{item.code}}" ></flag-icon>
+            <b>{{item.countryName}}</b>
+         </ng-template>
+         <ng-template ng-option-tmp let-item="item" let-index="index">
+          <flag-icon country="{{item.code}}" ></flag-icon>
+          <b>{{item.countryName}}</b>
+      </ng-template>
+        </ng-select>
+  
+        <div *ngIf="submitted && fn.countryId.errors" class="invalid-feedback">
+          <div *ngIf="fn.countryId.errors.required">Country</div>
+        </div>
+      </div>
+      
+      <div class="form-group col-lg-6">
+        <label for="name">City</label>
+  
+         <ng-select   formControlName="cityId"  bindLabel="cityName" (ngModelChange)="onChangeCountry()" bindValue="id" [items]="city" ></ng-select>
+        <div *ngIf="submitted && fn.cityId.errors" class="invalid-feedback">
+          <div *ngIf="fn.cityId.errors.required">City</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-12">
+        <label for="name">Address</label>
+  
+        <textarea type="address" formControlName="address"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.address.errors }" id="address"  >
+
+        </textarea>
+        <div *ngIf="submitted && fn.address.errors" class="invalid-feedback">
+          <div *ngIf="fn.address.errors.required">Address</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+

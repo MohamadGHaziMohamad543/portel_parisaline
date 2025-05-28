@@ -1,0 +1,220 @@
+<div class="row" >
+    <div class="col-md-12">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases" style="display:{{(optionId == '-1'&& !$ctrl.title)?'':'none'}};">
+                Additional Instructions
+            </div>
+            <div class="card-header cardheaderCases" ng-if="$ctrl.title">
+                Additional Instructions {{$ctrl.title}}
+            </div>
+            <div class="card-body cardBodyCases">
+                <div class="row">
+                    <div class="boxChat">
+                        <div class="boxItems" p-el="elemBoxChat">
+                            <div class="box">
+                                <div ng-repeat="(key, value) in dataChat" class="itemChat {{value.me?'':'other'}}"
+                                    style="position:relative;">
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                        ng-if="!value.me && value.typeSend==5">
+                                        <label style="    display: block;">{{value.nameDoctor}}</label>
+                                        <img src="{{serverImage+value.logo}}" style="    width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                        object-fit: cover;">
+                                    </div>
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                        ng-if="!value.me && value.typeSend==1">
+                                        <label style="    display: block;">Parisaline</label>
+                                        <img src="{{serverImage}}uploads/defult/avatar.jpeg" style="    width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                        object-fit: cover;">
+                                    </div>
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                        ng-if="!value.me && value.typeSend==2">
+                                        <label style="    display: block;">Doctor</label>
+                                        <img src="{{serverImage}}uploads/defult/avatar.jpeg" style="    width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                        object-fit: cover;">
+                                    </div>
+                                    <div style="color: #3d0450;padding: 6px; text-align: center;border-radius: 8px;margin: 4px;"
+                                        ng-if="!value.me && (value.typeSend==40 || value.typeSend==41) ">
+                                        <label style="    display: block;">{{value.nameDoctor}}</label>
+                                        <img src="{{serverImage+value.logo}}" style="    width: 50px;
+                                        height: 50px;
+                                        border-radius: 50%;
+                                        object-fit: cover;">
+                                    </div>
+                                    <div class="Message" style="position: relative;"
+                                        ng-if="value.typeSend!==40 && value.typeSend!==41">
+                                        <span style="background: green;color: #fff;padding: 6px; border-radius: 8px;"
+                                            ng-if="value.optionId && value.optionId!==-1">OPTION -
+                                            {{value.optionId}} </span>
+                                        <p style="direction: ltr;" ng-bind-html="value.message | nl2p"></p>
+                                        <div audio-render style="width: 200px;height: 100px;direction: ltr !important;"
+                                            srcadata="{{serverImage+value.link}}" ng-if="value.typeText==1"></div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==2">
+                                            <img src="{{serverImage+value.link}}" style="width: 100%;cursor: pointer;"
+                                                ng-click="showImage(serverLink+value.link)">
+                                        </div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==3">
+                                            <img src="https://www.file-extension.info/images/resource/formats/stl.png"
+                                                style="width: 100%;cursor: pointer;" ng-click="showSTL(value.link)">
+                                        </div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==4">
+                                            <video style="width: 100%;" controls src="{{serverImage+value.link}}"></video>
+                                        </div>
+
+                                        <div class="dateMessage">
+                                            <span class="mr-1"> {{value.createdAt | date}}</span><span>{{value.createdAt | time}}</span>
+                                            <span ng-if="value.me && value.ViewDoctor==1"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                                        </div>
+                                        <div class="dateMessage" ng-if="value.IsTemp==1" style="display: flex; justify-content: space-between;font-size: 13px;">
+                                            <a ng-click="UndoMessageNowTemp(value.id)" style="color: #ff9a00;"><strong ng-if="value.me">Undo</strong></a>
+                                            <a ng-click="SendMessageNowTemp(value.id)" style="color: #66ad0c;" ><strong ng-if="value.me">send</strong></a>
+                                        </div>
+                                    </div>
+                                    <div class="Message" style="position: relative;background-color: green;"
+                                        ng-if="value.typeSend==40">
+                                        <p ng-if="value.me" style="direction: ltr;color: #fff;">The case has been approved by you</p>
+                                        <p ng-if="!value.me" style="direction: ltr;color: #fff;">Approved the case</p>
+                                        <p style="direction: ltr;color: #fff;" ng-if="value.message"
+                                            ng-bind-html="value.message | nl2p"></p>
+                                        <div class="dateMessage">
+                                            <span class="mr-1" style="color: #fff;"> {{value.createdAt |
+                                                date}}</span><span style="color: #fff;">{{value.createdAt |
+                                                time}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="Message" style="position: relative;background-color: #ad023e;"
+                                        ng-if="value.typeSend==41">
+                                        <p ng-if="value.me" style="direction: ltr;color: #fff;">The case has been
+                                            rejected by you</p>
+                                        <p ng-if="!value.me" style="direction: ltr;color: #fff;">Rejected the case</p>
+                                        <p style="direction: ltr;color: #fff;" ng-if="value.message"
+                                            ng-bind-html="value.message | nl2p"></p>
+                                        <div class="dateMessage">
+                                            <span class="mr-1" style="color: #fff;"> {{value.createdAt |
+                                                date}}</span><span style="color: #fff;">{{value.createdAt |
+                                                time}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label ng-if="$ctrl.optionId" style="font-size: 10px;color: #9d9b9b;">The message will be sent
+                            based on your selection of <strong>option {{$ctrl.optionId}}</strong></label>
+                        <label ng-if="!$ctrl.optionId"></label>
+                        <div class="boxInput">
+                            <div class="card MessageTemplete" ng-if="ListTempleteMenu">
+                                <button class="btnMessage" ng-click="CloseListTempleteMenu()"
+                                    style="height: 30px;  border: 1px solid #9f1003bc;   width: 30px; border-radius: 50%;margin-left: 10px;margin-top: 10px;">
+                                    <a>X</a>
+                                </button>
+                                <div class="boxItems">
+                                    <div class="itemTemplete" ng-repeat="(key, value) in messageHistory">
+                                        <label ng-click="InsertTempleteText(value.Message)"
+                                            style="width: 81%;">{{value.Subject}}</label>
+                                        <button class="btnMessage" ng-click="DeleteMessageTemple(value.id)"
+                                            style="height: 30px;  border: 1px solid #9f1003bc;   width: 30px; border-radius: 50%;margin-left: 10px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="#9f1003bc" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-trash-2">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path
+                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                </path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btnMessage"  ng-click="ShowModalHostory()"
+                                ng-disabled="inputMessage.trim().length==0"
+                                style="height: 43px;  border: 1px solid #6868ac69;   width: 43px; border-radius: 50%;margin-left: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-save">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                    <polyline points="7 3 7 8 15 8"></polyline>
+                                </svg>
+                            </button>
+                            <button class="btnMessage"  ng-click="ShowListTempleteMenu()"
+                                style="height: 43px;  border: 1px solid #6868ac69;   width: 43px; border-radius: 50%;margin-left: 5px;margin-right: 5px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-file-text">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                            </button>
+
+                            <div class="inputMessage">
+                                <textarea placeholder="Type here..." ng-model="inputMessage"></textarea>
+                                <a href="" class="buttons" ng-click="StartRecordScreen()" title="" style="
+                                color: #6363a1;
+                                border-radius: 9px;
+                                width: 134px;
+                                height: auto;
+                                font-size: 14px;
+                                opacity: 1;
+                                position: absolute;
+                                bottom: -4px;
+                                left: 113px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            ">
+                                    <i class="fe-video" style="color: #6363a1;font-size: 19px;margin-right: 10px;"></i>
+                                    Record Screen
+                                </a>
+                            </div>
+
+                            <button class="btnMessage" ng-click="sendMessage($event)"
+                                ng-disabled="inputMessage.trim().length==0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 43 43">
+                                    <circle id="Ellipse_2" data-name="Ellipse 2" cx="21.5" cy="21.5" r="21.5"
+                                        fill="#8bd670" />
+                                    <g id="Sent" transform="translate(15.052 14.167)">
+                                        <path id="Vector"
+                                            d="M1.771,2.18V4.329A.885.885,0,1,1,0,4.329V.885A.885.885,0,0,1,1.206.06l15.937,6.2a.885.885,0,0,1,0,1.65l-15.937,6.2A.885.885,0,0,1,0,13.281V8.854A2.656,2.656,0,0,1,2.656,6.2H7.083a.886.886,0,0,1,0,1.771H2.656a.885.885,0,0,0-.885.885v3.133l12.609-4.9Z"
+                                            transform="translate(0 0)" fill="#fff" />
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="ModalHistoryMessages" ng-if="ModalHistory">
+    <div>
+        <label>Subject :</label>
+        <input id="modalSubject" placeholder="Subject">
+        <button class="btnMessage" ng-click="CreateMessageTemplete()"
+            style="height: 43px;  border: 1px solid #6868ac69;   width: 43px; border-radius: 50%;margin-left: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-save">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+        </button>
+        <button class="btnMessage" ng-click="CloseModalHostory()"
+            style="height: 43px;  border: 1px solid #6868ac69;   width: 43px; border-radius: 50%;margin-left: 10px;">
+            <a>X</a>
+        </button>
+    </div>
+</div>

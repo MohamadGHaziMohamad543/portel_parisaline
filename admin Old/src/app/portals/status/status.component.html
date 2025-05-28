@@ -1,0 +1,1912 @@
+<div class="container-fluid">
+
+  <app-page-title title="PATIENT INFORMATION" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+
+  <div class="col-lg-12 col-xl-12">
+    <app-ui-preloader [display]="loadAll"></app-ui-preloader>
+    <div>
+      <ngb-tabset class="nav-bordered" #tabCreate="ngbTabset" type="tabs" justify="justified">
+        <ngb-tab class="nav-item d-none d-sm-inline-block" id="tab1">
+          <ng-template ngbTabTitle>
+            <div>
+              <span style="    background: #6c757d;
+              border-radius: 6%;
+              padding: 3px;
+              color: #fff;">1</span> PATIENT INFORMATION
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="TabPatientInformation"></ng-template>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab class="nav-item" [disabled]="pattientTabD" id="tab2">
+          <ng-template ngbTabTitle>
+            <div > <span style="    background: #6c757d;
+              border-radius: 6%;
+              padding: 3px;
+              color: #fff;">2</span> PATIENT'S IMAGES</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="TabContent1"></ng-template>
+          </ng-template>
+        </ngb-tab>
+
+
+        <ngb-tab class="nav-item" id="tab3" [disabled]="createOrderD">
+          <ng-template ngbTabTitle>
+            <div> <span style="    background: #6c757d;
+              border-radius: 6%;
+              padding: 3px;
+              color: #fff;">3</span> ORDER INFORMATION </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="TabContent2"></ng-template>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab class="nav-item" id="tab4" [disabled]="submitCaseD">
+          <ng-template ngbTabTitle>
+            <div style="text-transform: uppercase;"> <span style="    background: #6c757d;
+              border-radius: 6%;
+              padding: 3px;
+              color: #fff;">4</span> Additional Instructions </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="tabChat"></ng-template>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab class="nav-item" id="tab5" [disabled]="submitCaseD" *ngIf="casesStatus==1">
+          <ng-template ngbTabTitle>
+            <div><span style="    background: #6c757d; border-radius: 6%;padding: 3px;color: #fff;">5</span> SEND TO LAB
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="TabContent3"></ng-template>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab class="nav-item" id="tab6" [disabled]="submitCaseD" *ngIf="casesStatus >= 3">
+          <ng-template ngbTabTitle>
+            <div> Tretment Plan </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="tbFiletretmentinformation"></ng-template>
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+
+<ng-template #TabPatientInformation>
+  <div class="row">
+    <div class="col-md-12">
+      <img src="{{croppedImageSRC}}" style="box-shadow:1px 1px 8px rgb(165, 164, 164);cursor: pointer;width: 200px;">
+      <input type="file" style="display: none;" id="fileImageIput">
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group mb-6">
+            <label>First Name</label>
+            <div class="input-group">
+              <input type="text" class="form-control inputForm" [(ngModel)]="FirstName" placeholder="First Name"
+                aria-label="First Name" aria-describedby="basic-addon1" readonly>
+              <div class="input-group-prepend">
+                <span class="input-group-text spanInput" id="basic-addon1"><i class="fe-user"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-6">
+            <label>Last Name</label>
+            <div class="input-group">
+              <input type="text" class="form-control inputForm" [(ngModel)]="LastName" placeholder="Last Name"
+                aria-label="Last Name" readonly aria-describedby="basic-addon1">
+              <div class="input-group-prepend">
+                <span class="input-group-text spanInput" id="basic-addon1"><i class="fe-user"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-3">
+            <label>Birth Date (MONTH/DAY/YEAR)</label>
+            <div class="input-group clockpicker">
+              <input ngbDatepicker class="form-control inputForm" readonly [(ngModel)]="BirthDate" autoClose="false"
+                placeholder="yyyy-mm-dd">
+              <div class="input-group-append">
+                <span class="input-group-text spanInputData"><i class="mdi mdi-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-12">
+          <label>Reference Number</label>
+          <div class="input-group">
+            <input type="text" class="form-control inputForm" readonly [(ngModel)]="idNumberPatient"
+              placeholder="Reference Number">
+            <div class="input-group-prepend">
+              <span class="input-group-text spanInput" id="basic-addon1"><i class="fe-user"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group mb-6">
+            <label>Dental Center </label>
+            <div class="input-group" style="text-align: center;
+            display: block;" *ngIf="OfficeItems[0]">
+              <img src="{{imagePathServer+'/'+OfficeItems[0].logo}}" style="width: 75px;
+              height: 75px;
+              border-radius: 51%;
+              border: 1px solid #e9ecef;
+              padding: 10px;margin-right: 17px;">
+              <a href="{{getLink(OfficeItems[0].dentalCenterId)}}">{{OfficeItems[0].dentalCenterName}}</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" style="display: none;">
+          <div class="form-group mb-6">
+            <label>Lab</label>
+            <div class="input-group">
+              <select class="form-control inputForm" disabled id="example-select">
+                <option>Lab</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-6">
+            <label>Gender</label>
+            <div class="input-group">
+              <select class="form-control inputForm" disabled [(ngModel)]="gender" id="example-select">
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #TabContent1>
+  <div class="row">
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageFrontSmiling!=null" src="{{imagePathServer+'/'+imageFrontSmiling}}"
+            style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/1.png" *ngIf="imageFrontSmiling==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageFrontSmiling!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageFrontSmiling)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageFrontPose!=null" src="{{imagePathServer+'/'+imageFrontPose}}"
+            style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/2.png" *ngIf="imageFrontPose==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageFrontPose!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageFrontPose)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageProfile!=null" src="{{imagePathServer+'/'+imageProfile}}" style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/3.png" *ngIf="imageProfile==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageProfile!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageProfile)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageUpperOcclusal!=null" src="{{imagePathServer+'/'+imageUpperOcclusal}}"
+            style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/4.png" *ngIf="imageUpperOcclusal==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageUpperOcclusal!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageUpperOcclusal)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageLowerOcclusal!=null" src="{{imagePathServer+'/'+imageLowerOcclusal}}"
+            style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/5.png" *ngIf="imageLowerOcclusal==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageLowerOcclusal!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageLowerOcclusal)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageLeftBuccal!=null" src="{{imagePathServer+'/'+imageLeftBuccal}}"
+            style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/6.png" *ngIf="imageLeftBuccal==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageLeftBuccal!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageLeftBuccal)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageFrontal!=null" src="{{imagePathServer+'/'+imageFrontal}}" style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/7.png" *ngIf="imageFrontal==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageFrontal!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageFrontal)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="min-width: 210px;">
+      <div class="card" style="margin-top: 5px;box-shadow: none;">
+        <div class="imageContainer" style="width:100%;height: 173px;">
+          <img *ngIf="imageRightBuccal!=null" src="{{imagePathServer+'/'+imageRightBuccal}}"
+            style="width: 100%;height: 100%;">
+          <img src="assets/imagePatient/8.png" *ngIf="imageRightBuccal==null" style="width: 100%;height: 100%;">
+          <div class="imageButton" *ngIf="imageRightBuccal!=null">
+            <div style="    width: 47px;">
+              <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+imageRightBuccal)"
+                class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" style="border: 1px solid #dadada;text-align: center;">
+      <label>X Rays</label>
+      <div class="row">
+        <div class="col-md-2" style="min-width: 210px;">
+          <div class="card" style="margin-top: 5px;box-shadow: none;">
+            <div class="imageContainer" style="width:100%;height: 173px;">
+              <img *ngIf="PANAROMIC!=null" src="{{imagePathServer+'/'+PANAROMIC}}" style="width: 100%;height: 100%;">
+              <img src="assets/imagePatient/9.jpg" *ngIf="PANAROMIC==null" style="width: 100%;height: 100%;">
+              <div class="imageButton" *ngIf="PANAROMIC!=null">
+                <div style="    width: 47px;">
+                  <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+PANAROMIC)"
+                    class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2" style="min-width: 210px;">
+          <div class="card" style="margin-top: 5px;box-shadow: none;">
+            <div class="imageContainer" style="width:100%;height: 173px;">
+              <img *ngIf="CEPHALOMETRIC!=null" src="{{imagePathServer+'/'+CEPHALOMETRIC}}"
+                style="width: 100%;height: 100%;">
+              <img src="assets/imagePatient/10.jpg" *ngIf="CEPHALOMETRIC==null" style="width: 100%;height: 100%;">
+              <div class="imageButton" *ngIf="CEPHALOMETRIC!=null">
+                <div style="    width: 47px;">
+                  <button (click)="imageViewer(fullWidthData,imagePathServer+'/'+CEPHALOMETRIC)"
+                    class="btn btn-icon btn-success"><i class="fe-eye"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #TabContent2>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <label>Treatment Type</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="treatmentType" bindLabel="label" bindValue="id"
+            [items]="treatmentTypeItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">Incisors</h5>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-6">
+        <label>Midline</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="incisorsMidline" bindLabel="label" bindValue="id"
+            [items]="incisorsMidlineItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-6">
+        <label>Overbite</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="incisorsOverbite" bindLabel="label" bindValue="id"
+            [items]="incisorsOverbiteItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-6">
+        <label>Overjet</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="incisorsOverjet" bindLabel="label" bindValue="id"
+            [items]="incisorsOverjetItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">Posterior</h5>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-6">
+        <label>Spacing</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="posteriorSpacing" bindLabel="label" bindValue="id"
+            [items]="posteriorSpacingItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-6">
+        <label>Arch Wdith</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="posteriorArchWdith" bindLabel="label" bindValue="id"
+            [items]="posteriorArchWdithItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-6">
+        <label>Posterior Cross-Bite</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="posteriorPosteriorCrossBite" bindLabel="label" bindValue="id"
+            [items]="posteriorPosteriorCrossBiteItems" style="width: 100%;"></ng-select>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">Crowding</h5>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" [disabled]="true" [(ngModel)]="crowdingProclineMaxillar">
+            <label for="inlineCheckbox1">Procline Maxillar</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" [disabled]="true" [(ngModel)]="crowdingExpandMaxillar">
+            <label for="inlineCheckbox1">Expand Maxillar</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" [disabled]="true" [(ngModel)]="crowdingProclineMandibular">
+            <label for="inlineCheckbox1">Procline Mandibular</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" [disabled]="true" [(ngModel)]="crowdingExpandMandibular">
+            <label for="inlineCheckbox1">Expand Mandibular</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">Class Desired</h5>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <label>Molar Relationship Rigth</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="classDesiredMRigth" bindLabel="label" bindValue="id"
+            [items]="classDesiredMRigthItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+      <div class="form-group mb-6">
+        <label>Molar Relationship Left</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="classDesiredMLeft" bindLabel="label" bindValue="id"
+            [items]="classDesiredMLeftItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <label>Canine Relationship Rigth</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="classDesiredRRigth" bindLabel="label" bindValue="id"
+            [items]="classDesiredRRigthItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+      <div class="form-group mb-6">
+        <label>Canine Relationship Left</label>
+        <div class="input-group">
+          <ng-select [disabled]="true" [(ngModel)]="classDesiredRLeft" bindLabel="label" bindValue="id"
+            [items]="classDesiredRLeftItems" style="width: 100%;"></ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">Attachment</h5>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" [disabled]="true" [(ngModel)]="noAttachment">
+            <label for="inlineCheckbox1">No Attachment</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" [disabled]="true" [(ngModel)]="removeAttachmentonlaststage">
+            <label for="inlineCheckbox1">Remove Attachment On Last Stage</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <div class="checkbox form-check-inline">
+
+            <input type="checkbox" [disabled]="true" [(ngModel)]="removeAttachmentonstage" #numberattachment>
+            <label for="inlineCheckbox1">Remove Attachment on Stage</label>
+            <input type="number" [disabled]="true" [(ngModel)]="removeAttachmentonstageNumber"
+              [disabled]="!numberattachment.checked"
+              style="background: #fff; border: none;border-radius: 0px;border-bottom: 1px solid #e9e8e8;width: 63px;outline: none;text-align: center;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">IPR Instructions</h5>
+    </div>
+    <div class="col-md-12">
+      <div>
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" [disabled]="true" id="inlineRadio1" (click)="changeiPRInstructions(1)"
+            [checked]="iPRInstructions==1" value="option1" name="radioInline" checked>
+          <label for="inlineRadio1"> No IPR Required
+          </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" [disabled]="true" id="inlineRadio2" (click)="changeiPRInstructions(2)"
+            [checked]="iPRInstructions==2" value="option2" name="radioInline">
+          <label for="inlineRadio2">IPR Required (Indicate in the diagram)
+          </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" [disabled]="true" id="inlineRadio3" value="option2" (click)="changeiPRInstructions(3)"
+            [checked]="iPRInstructions==3" name="radioInline">
+          <label for="inlineRadio3">IPR as per software automation
+          </label>
+        </div>
+        <div class="row" style="width: 100%;margin-top: 67px;" *ngIf="iPRInstructions==2">
+          <div class="col-md-12" style="margin-top: 40px;">
+            <div style="width: 100%;padding: 20px;text-align: center;margin-top: 20px;">
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR8.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR8.I" value="0">
+                <div #MUR8="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR8.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR8.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR8.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR8.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR8="ngbPopover" *ngIf="IPRArray.UR8.I!=4 && IPRArray.UR7.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR8.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR8.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;    position: absolute;" *ngIf="IPRArray.UR8.T != 0">
+                    {{IPRArray.UR8.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR8.I==4 || IPRArray.UR7.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR7.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR7.I" value="0">
+                <div #MUR7="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR7.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR7.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR7.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR7.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR7="ngbPopover" *ngIf="IPRArray.UR7.I!=4 && IPRArray.UR6.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR7.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR7.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR7.T != 0">
+                    {{IPRArray.UR7.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR6.I==4 || IPRArray.UR7.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR6.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR6.I" value="0">
+                <div #MUR6="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR6.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR6.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR6.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR6.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR6="ngbPopover" *ngIf="IPRArray.UR6.I!=4 && IPRArray.UR5.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR6.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR6.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR6.T != 0">
+                    {{IPRArray.UR6.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR6.I==4 || IPRArray.UR5.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR5.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR5.I" value="0">
+                <div #MUR5="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR5.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR5.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR5.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR5.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR5="ngbPopover" *ngIf="IPRArray.UR4.I!=4 && IPRArray.UR5.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR5.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR5.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR5.T != 0">
+                    {{IPRArray.UR5.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR4.I==4 || IPRArray.UR5.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR4.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR4.I" value="0">
+                <div #MUR4="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR4.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR4.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR4.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR4.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR4="ngbPopover" *ngIf="IPRArray.UR3.I!=4 && IPRArray.UR4.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR4.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR4.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR4.T != 0">
+                    {{IPRArray.UR4.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR4.I==4 || IPRArray.UR3.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR3.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR3.I" value="0">
+                <div #MUR3="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR3.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR3.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR3.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR3.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR3="ngbPopover" *ngIf="IPRArray.UR3.I!=4 && IPRArray.UR2.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR3.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR3.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR3.T != 0">
+                    {{IPRArray.UR3.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR2.I==4 || IPRArray.UR3.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR2.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR2.I" value="0">
+                <div #MUR2="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR2.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR2.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR2.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR2.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR2="ngbPopover" *ngIf="IPRArray.UR1.I!=4 && IPRArray.UR2.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR2.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR2.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR2.T != 0">
+                    {{IPRArray.UR2.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UR2.I==4 || IPRArray.UR1.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UR1.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UR1.I" value="0">
+                <div #MUR1="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UR1.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UR1.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UR1.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UR1.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UR1="ngbPopover" *ngIf="IPRArray.UR1.I!=4 && IPRArray.UL1.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UR1.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UR1.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UR1.T != 0">
+                    {{IPRArray.UR1.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL1.I==4 || IPRArray.UR1.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL1.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL1.I" value="0">
+                <div #MUL1="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL1.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL1.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL1.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL1.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL1="ngbPopover" *ngIf="IPRArray.UL1.I!=4 && IPRArray.UL2.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL1.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL1.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL1.T != 0">
+                    {{IPRArray.UL1.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL1.I==4 || IPRArray.UL2.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL2.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL2.I" value="0">
+                <div #MUL2="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL2.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL2.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL2.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL2.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL2="ngbPopover" *ngIf="IPRArray.UL3.I!=4 && IPRArray.UL2.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL2.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL2.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL2.T != 0">
+                    {{IPRArray.UL2.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL3.I==4 || IPRArray.UL2.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL3.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL3.I" value="0">
+                <div #MUL3="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL3.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL3.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL3.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL3.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL3="ngbPopover" *ngIf="IPRArray.UL3.I!=4 && IPRArray.UL4.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL3.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL3.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL3.T != 0">
+                    {{IPRArray.UL3.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL3.I==4 || IPRArray.UL4.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL4.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL4.I" value="0">
+                <div #MUL4="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL4.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL4.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL4.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL4.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL4="ngbPopover" *ngIf="IPRArray.UL5.I!=4 && IPRArray.UL4.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL4.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL4.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL4.T != 0">
+                    {{IPRArray.UL4.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL5.I==4 || IPRArray.UL4.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL5.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL5.I" value="0">
+                <div #MUL5="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL5.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL5.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL5.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL5.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL5="ngbPopover" *ngIf="IPRArray.UL5.I!=4 && IPRArray.UL6.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL5.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL5.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL5.T != 0">
+                    {{IPRArray.UL5.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL5.I==4 || IPRArray.UL6.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL6.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL6.I" value="0">
+                <div #MUL6="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL6.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL6.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL6.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL6.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL6="ngbPopover" *ngIf="IPRArray.UL7.I!=4 && IPRArray.UL6.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL6.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL6.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL6.T != 0">
+                    {{IPRArray.UL6.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL7.I==4 || IPRArray.UL6.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL7.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL7.I" value="0">
+                <div #MUL7="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL7.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL7.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL7.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL7.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #UL7="ngbPopover" *ngIf="IPRArray.UL7.I!=4 && IPRArray.UL8.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorupper_red.png" *ngIf="IPRArray.UL7.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/plusupper.png" *ngIf="IPRArray.UL7.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.UL7.T != 0">
+                    {{IPRArray.UL7.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.UL7.I==4 || IPRArray.UL8.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.UL8.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.UL8.I" value="0">
+                <div #MUL8="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/UL8.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.UL8.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.UL8.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.UL8.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+              </div>
+            </div>
+            <div style="width: 100%;padding: 20px;text-align: center;margin-top: 20px;">
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR8.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR8.I" value="0">
+                <div #MLR8="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR8.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR8.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR8.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR8.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR8="ngbPopover" *ngIf="IPRArray.LR7.I!=4 && IPRArray.LR8.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR8.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR8.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR8.T != 0">
+                    {{IPRArray.LR8.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR7.I==4 || IPRArray.LR8.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR7.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR7.I" value="0">
+                <div #MLR7="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR7.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR7.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR7.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR7.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR7="ngbPopover" *ngIf="IPRArray.LR7.I!=4 && IPRArray.LR6.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR7.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR7.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR7.T != 0">
+                    {{IPRArray.LR7.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR7.I==4 || IPRArray.LR6.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR6.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR6.I" value="0">
+                <div #MLR6="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR6.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR6.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR6.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR6.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR6="ngbPopover" *ngIf="IPRArray.LR5.I!=4 && IPRArray.LR6.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR6.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR6.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR6.T != 0">
+                    {{IPRArray.LR6.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR5.I==4 || IPRArray.LR6.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR5.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR5.I" value="0">
+                <div #MLR5="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR5.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR5.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR5.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR5.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR5="ngbPopover" *ngIf="IPRArray.LR5.I!=4 && IPRArray.LR4.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR5.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR5.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR5.T != 0">
+                    {{IPRArray.LR5.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR5.I==4 || IPRArray.LR4.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR4.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR4.I" value="0">
+                <div #MLR4="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR4.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR4.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR4.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR4.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR4="ngbPopover" *ngIf="IPRArray.LR3.I!=4 && IPRArray.LR4.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR4.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR4.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR4.T != 0">
+                    {{IPRArray.LR4.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR3.I==4 || IPRArray.LR4.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR3.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR3.I" value="0">
+                <div #MLR3="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR3.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR3.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR3.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR3.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR3="ngbPopover" *ngIf="IPRArray.LR3.I!=4 && IPRArray.LR2.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR3.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR3.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR3.T != 0">
+                    {{IPRArray.LR3.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR3.I==4 || IPRArray.LR2.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR2.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR2.I" value="0">
+                <div #MLR2="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR2.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR2.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR2.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR2.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR2="ngbPopover" *ngIf="IPRArray.LR1.I!=4 && IPRArray.LR2.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR2.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR2.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR2.T != 0">
+                    {{IPRArray.LR2.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR1.I==4 || IPRArray.LR2.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LR1.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LR1.I" value="0">
+                <div #MLR1="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LR1.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LR1.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LR1.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LR1.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LR1="ngbPopover" *ngIf="IPRArray.LR1.I!=4 && IPRArray.LL1.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LR1.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LR1.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LR1.T != 0">
+                    {{IPRArray.LR1.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LR1.I==4 || IPRArray.LL1.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL1.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL1.I" value="0">
+                <div #MLL1="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL1.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL1.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL1.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL1.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL1="ngbPopover" *ngIf="IPRArray.LL2.I!=4 && IPRArray.LL1.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL1.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL1.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL1.T != 0">
+                    {{IPRArray.LL1.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL2.I==4 || IPRArray.LL1.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL2.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL2.I" value="0">
+                <div #MLL2="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL2.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL2.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL2.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL2.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL2="ngbPopover" *ngIf="IPRArray.LL2.I!=4 && IPRArray.LL3.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL2.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL2.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL2.T != 0">
+                    {{IPRArray.LL2.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL2.I==4 || IPRArray.LL3.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL3.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL3.I" value="0">
+                <div #MLL3="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL3.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL3.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL3.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL3.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL3="ngbPopover" *ngIf="IPRArray.LL4.I!=4 && IPRArray.LL3.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL3.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL3.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL3.T != 0">
+                    {{IPRArray.LL3.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL4.I==4 || IPRArray.LL3.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL4.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL4.I" value="0">
+                <div #MLL4="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL4.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL4.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL4.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL4.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL4="ngbPopover" *ngIf="IPRArray.LL4.I!=4 && IPRArray.LL5.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL4.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL4.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL4.T != 0">
+                    {{IPRArray.LL4.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL4.I==4 || IPRArray.LL5.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL5.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL5.I" value="0">
+                <div #MLL5="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL5.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL5.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL5.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL5.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL5="ngbPopover" *ngIf="IPRArray.LL6.I!=4 && IPRArray.LL5.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL5.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL5.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL5.T != 0">
+                    {{IPRArray.LL5.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL6.I==4 || IPRArray.LL5.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL6.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL6.I" value="0">
+                <div #MLL6="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL6.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL6.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL6.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL6.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL6="ngbPopover" *ngIf="IPRArray.LL6.I!=4 && IPRArray.LL7.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL6.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL6.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL6.T != 0">
+                    {{IPRArray.LL6.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL6.I==4 || IPRArray.LL7.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL7.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL7.I" value="0">
+                <div #MLL7="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL7.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL7.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL7.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL7.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+                <div #LL7="ngbPopover" *ngIf="IPRArray.LL8.I!=4 && IPRArray.LL7.I!=4" [ngbPopover]="popsContent"
+                  [popoverTitle]="popsTitle" [autoClose]="'outside'" triggers="manual" style="float: left;">
+                  <img src="assets/dentel/plusseparatorlower_red.png" *ngIf="IPRArray.LL7.T != 0"
+                    style="height: 100px;">
+                  <img src="assets/dentel/pluslower.png" *ngIf="IPRArray.LL7.T == 0" style="height: 100px;">
+                  <p style="text-align: right;font-size: 14px;position: absolute;" *ngIf="IPRArray.LL7.T != 0">
+                    {{IPRArray.LL7.T}}</p>
+                </div>
+                <div style="float: left;width: 18px;height: 100px;" *ngIf="IPRArray.LL8.I==4 || IPRArray.LL7.I==4">
+                </div>
+              </div>
+              <div style="display: inline-block;margin: 3px;">
+                <input type="hidden" [(ngModel)]="IPRArray.LL8.T" value="0">
+                <input type="hidden" [(ngModel)]="IPRArray.LL8.I" value="0">
+                <div #MLL8="ngbPopover" [ngbPopover]="popsContentImage" [popoverTitle]="popsTitleImage"
+                  triggers="manual" [autoClose]="'outside'" style="float: left;position: relative;cursor: pointer;">
+                  <img src="assets/dentel/LL8.png" style="float: left;height: 100px"
+                    [ngClass]="{'imageHideoptical' : IPRArray.LL8.I==4}">
+                  <img src="assets/dentel/action-extracted.png" *ngIf="IPRArray.LL8.I == 1"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                  <img src="assets/dentel/action-attachment.gif" *ngIf="IPRArray.LL8.I == 2"
+                    style="position: absolute;left: 21%;bottom: 6%;">
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="m-0">Arches</h5>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group mb-6">
+        <label>Arches *</label>
+        <div class="input-group">
+          <select class="form-control inputForm" disabled [(ngModel)]="Arches" id="example-select">
+            <option value="1">Both Upper/Lower</option>
+            <option value="2">Single Arch-Upper</option>
+            <option value="1">Single Arch-Lower</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group mb-6">
+        <label>Impressions</label>
+        <div class="input-group" style="display: none;">
+          <div class="checkbox form-check-inline">
+            <input type="checkbox" id="inlineCheckbox1" value="option1" #modelCeheckBox>
+            <label for="inlineCheckbox1">Sending Direct from Scanner</label>
+          </div>
+        </div>
+        <div *ngIf="modelCeheckBox.checked">
+          <div class="radio radio-info form-check-inline">
+            <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked>
+            <label for="inlineRadio1"> 3Shape Trios
+            </label>
+          </div>
+          <div class="radio form-check-inline">
+            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
+            <label for="inlineRadio2">iTero Element
+            </label>
+          </div>
+          <div class="radio form-check-inline">
+            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
+            <label for="inlineRadio2">Carestream CS3600 (CS Connect)
+            </label>
+          </div>
+          <div class="radio form-check-inline">
+            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
+            <label for="inlineRadio2">Cerec(In-Lab)</label>
+          </div>
+        </div>
+
+        <div *ngIf="!modelCeheckBox.checked">
+          <div class="radio radio-info form-check-inline">
+            <input type="radio" disabled [checked]="Impressions === 1">
+            <label for="inlineRadio1"> Physical
+            </label>
+          </div>
+          <div class="radio form-check-inline">
+            <input type="radio" disabled [checked]="Impressions === 2" #degtalRadio12>
+            <label for="inlineRadio2">Digital
+            </label>
+          </div>
+          <div>
+            3D Files:
+            <div class="row">
+              <div class="col-md-4" style="border: 1px dotted #c4bcbc;text-align: center;">
+                <label style="color: #a30000;">Upper STL</label>
+                <div *ngIf="UpperStl!=null">
+                  <a (click)="LoadFile(imagePathServer+'/'+UpperStl)" class="btn btn-icon btn-success"
+                    style="margin-right: 10px;color: #fff;cursor: pointer;"><i class="fe-eye"></i></a>
+                  <a href="{{imagePathServer+'/'+UpperStl}}" target="_blank" class="btn btn-icon btn-light"><i
+                      class="fe-download-cloud"></i></a>
+                  <img src="assets/iconStl.png" style="width: 64px;">
+                </div>
+              </div>
+              <div class="col-md-4" style="border: 1px dotted #c4bcbc;text-align: center;">
+                <label style="color: #a30000;">Lower STL</label>
+                <div *ngIf="LowerStl!=null">
+                  <a (click)="LoadFile(imagePathServer+'/'+LowerStl)" class="btn btn-icon btn-success"
+                    style="margin-right: 10px;color: #fff;cursor: pointer;"><i class="fe-eye"></i></a>
+                  <a href="{{imagePathServer+'/'+LowerStl}}" target="_blank" class="btn btn-icon btn-light"><i
+                      class="fe-download-cloud"></i></a>
+                  <img src="assets/iconStl.png" style="width: 64px;">
+                </div>
+              </div>
+              <div class="col-md-4" style="border: 1px dotted #c4bcbc;text-align: center;">
+                <app-ui-preloader [display]="OcclusionLoading"></app-ui-preloader>
+                <label style="color: #a30000;">Occlusion STL</label>
+                <div *ngIf="OcclusionStl!=null">
+                  <a (click)="LoadFile(imagePathServer+'/'+OcclusionStl)" class="btn btn-icon btn-success"
+                    style="margin-right: 10px;color: #fff;cursor: pointer;"><i class="fe-eye"></i></a>
+                  <a href="{{imagePathServer+'/'+OcclusionStl}}" target="_blank" class="btn btn-icon btn-light"><i
+                      class="fe-download-cloud"></i></a>
+                  <img src="assets/iconStl.png" style="width: 64px;">
+                </div>
+              </div>
+            </div>
+            <input type="file" id="inputFileStl" (change)="addFile($event,4)" typeStl="1" style="display: none;"
+              accept="application/STL">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <label>STL File for 3d Printing</label>
+    <div class="col-md-12"
+      style="border: 1px dotted;height: 200px;    width: 100%;overflow-y: hidden;overflow-x: auto;">
+      <app-ui-preloader [display]="loadingFile3d"></app-ui-preloader>
+      <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="fileDrop" contentClassName="contentDrop"
+        (onFileDrop)="dropped($event,18)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+        style="position: absolute;left: 0;top: 0; width: 100%;height: 100%;cursor: pointer;" (click)="clickFileStl(18)">
+        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+          <div *ngFor="let file3d of fileSTLfOR3DPrinting" style="float: left;">
+            <button (click)="deleteFile(file3d.path,18)" class="btn btn-icon btn-danger" style="margin-left: 2px;"><i
+                class="fe-trash-2"></i></button>
+            <a href="{{imagePathServer+'/'+file3d.path}}" target="_blank" class="btn btn-icon btn-light"><i
+                class="fe-download-cloud"></i></a>
+            <img src="assets/iconStl.png" style="width: 64px;">
+          </div>
+        </ng-template>
+      </ngx-file-drop>
+
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <label>OPN Files</label>
+    </div>
+    <br>
+    <div>
+      <input type="file" class="btn btn-premery" id="fileTretment" (change)="addFile($event,19)" typeStl="1" accept="application/STL">
+    </div>
+    <div class="col-md-12" style="border: 1px dotted;height: 200px;    width: 100%;overflow-y: hidden;overflow-x: auto;">
+      <app-ui-preloader [display]="loadingFileOpn"></app-ui-preloader>
+      <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="fileDrop" contentClassName="contentDrop" (onFileDrop)="dropped($event,19)" 
+      (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" style="position: absolute;left: 0;top: 0; width: 100%;height: 100%;cursor: pointer;" (click)="clickFileStl(19)">
+          <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <div *ngFor="let file3d of fileOpen" style="float: left;">
+              <button (click)="deleteFile(file3d.path,19)"  class="btn btn-icon btn-danger" style="margin-left: 2px;"><i class="fe-trash-2"></i></button>
+              <a  href="{{imagePathServer+'/'+file3d.path}}" target="_blank" class="btn btn-icon btn-light"><i class="fe-download-cloud"></i></a>
+              <a>{{file3d.name}}</a>
+            </div>
+          </ng-template>
+      </ngx-file-drop>
+    </div>
+  </div>
+  <hr>
+  <div style="overflow-x: auto;overflow-y: hidden;">
+    <h5 class="m-0">Treatment goals</h5>
+
+  </div>
+
+</ng-template>
+
+
+
+<ng-template #tabChat>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card-box">
+        <h4 class="header-title mb-3">Additional Instructions of Doctor</h4>
+        <div class="chat-conversation">
+          <ul class="conversation-list" id="messagesDoctor" style="max-height: 350px;overflow-y: auto;">
+            <li class="clearfix" *ngFor="let chat of chatData" [ngClass]="
+            {
+              'odd': chat.typeSend === 2
+            }">
+              <div class="chat-avatar">
+                <img src="{{chat.image}}" alt="male">
+                <i>{{chat.time}}</i>
+              </div>
+              <div class="conversation-text">
+                <div class="ctext-wrap">
+                  <i>{{chat.name}}</i>
+                  <p>{{chat.message}}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="input-group">
+            <input type="text" class="form-control inputForm" [(ngModel)]="commentInput"
+              placeholder="Additional Instructions" aria-label="Last Name" aria-describedby="basic-addon1">
+            <div class="input-group-prepend">
+              <button _ngcontent-lqb-c18="" (click)="sendComment()" class="btn btn-success" type="button"><span
+                  _ngcontent-lqb-c18="" class="btn-label"><i _ngcontent-lqb-c18="" class="fe-send"></i></span>Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card-box">
+        <h4 class="header-title mb-3">Additional Instructions of lab </h4>
+        <div class="chat-conversation">
+          <ul class="conversation-list" id="messagesLab"  style="max-height: 350px;overflow-y: auto;">
+            <li class="clearfix" *ngFor="let chat of chatDatalab" [ngClass]="
+            {
+              'odd': chat.typeSend === 2
+            }">
+              <div class="chat-avatar">
+                <img src="{{chat.image}}" alt="male">
+                <i>{{chat.time}}</i>
+              </div>
+              <div class="conversation-text">
+                <div class="ctext-wrap">
+                  <i>{{chat.name}}</i>
+                  <p>{{chat.message}}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="input-group">
+            <input type="text" class="form-control inputForm" [(ngModel)]="commentInputLab"
+              placeholder="Additional Instructions" aria-label="Last Name" aria-describedby="basic-addon1">
+            <div class="input-group-prepend">
+              <button _ngcontent-lqb-c18="" (click)="sendCommentLab()" class="btn btn-success" type="button"><span
+                  _ngcontent-lqb-c18="" class="btn-label"><i _ngcontent-lqb-c18="" class="fe-send"></i></span>Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #TabContent3>
+  <div *ngIf="casesStatus == 1">
+    <div style="text-align: center;">
+      <button _ngcontent-qub-c24="" type="button" class="btn btn-secondary btn-rounded" (click)="approveCasesAdmin()">
+        Accept and Send</button>
+    </div>
+  </div>
+  <div *ngIf="casesStatus > 1">
+    <p>
+      تم قبول الحالة
+    </p>
+
+  </div>
+</ng-template>
+
+
+<ng-template #tbFiletretment>
+
+  <div class="row">
+    <div class="col-md-12">
+      <ngb-tabset class="nav-bordered" #tabCreatee="ngbTabset" type="tabs" justify="justified">
+        <ngb-tab class="nav-item d-none d-sm-inline-block" id="tab1">
+          <ng-template ngbTabTitle>
+            <div style="min-width: 200px;">
+              <span style="    background: #6c757d;
+              border-radius: 6%;
+              padding: 3px;
+              color: #fff;">1</span> معلومات الخطة
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="tbFiletretmentinformation"></ng-template>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab class="nav-item" [disabled]="pattientTabD" id="tab2">
+          <ng-template ngbTabTitle>
+            <div style="min-width: 200px;"> القوالب </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="tbFiletretmentLib"></ng-template>
+          </ng-template>
+        </ngb-tab>
+
+
+        <ngb-tab class="nav-item" id="tab3" [disabled]="createOrderD">
+          <ng-template ngbTabTitle>
+            <div style="min-width: 200px;"> الفديو</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <ng-template [ngTemplateOutlet]="tbFiletretmentVideo"></ng-template>
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
+    </div>
+    <div class="col-md-12">
+      <button type="button" class="btn btn-secondary btn-rounded" (click)="sendDoctorrr()" *ngIf="casesStatus == 3">
+        Send </button>
+    </div>
+  </div>
+  <input type="file" id="fileTretment" (change)="addFile($event,4)" typeStl="4" style="display: none;"
+    accept="application/pdf">
+</ng-template>
+<!--Tab Acrduoin-->
+<ng-template #tbFiletretmentinformation>
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-outline-info" (click)="addLevelTretmentPaln()">Add Level</button>
+    </div>
+    <div class="col-md-12">
+      <ngb-tabset class="nav-bordered" #tabCreate="ngbTabset" type="tabs" justify="justified">
+        <ngb-tab class="nav-item d-none d-sm-inline-block" *ngFor="let tret of tretment;let i=index;" id="{{tret.id}}">
+          <ng-template ngbTabTitle>
+            <div>
+              Option {{tret.nLevel}}
+            </div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="row">
+              <div class="col-md-12" style="text-align: center;">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label style="color: #a30000;">Setup PDF</label>
+                    <div style="border: 1px dotted hsl(0, 6%, 75%);">
+                      <input type="file" #inputSetup (change)="addFile($event,30,tret.nLevel)" typeStl="1" style="display: none;" accept="pdf">
+                      <ngx-file-drop *ngIf="tret.Setup==null" dropZoneLabel="Drop files here" dropZoneClassName="fileDrop"
+                        contentClassName="contentDrop" (onFileDrop)="dropped($event,30,tret.nLevel)">
+                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                          <button _ngcontent-kst-c12="" (click)="inputSetup.click()" type="button" class="btn btn-outline-secondary" style="border: none;font-size: 13px;margin-top: 2%;"><i class="fe-upload-cloud"></i> Click Or Drop
+                          </button>
+                        </ng-template>
+                      </ngx-file-drop>
+                      <div *ngIf="tret.Setup!=null" style=" padding: 21px;">
+                        <button *ngIf="casesStatus<5" (click)="deleteFile(tret.pdf,30)" class="btn btn-icon btn-danger"
+                          style="margin-left: 2px;"><i class="fe-trash-2"></i></button>
+                        <a href="{{imagePathServer+'/'+tret.Setup}}" target="_blank" class="btn btn-icon btn-light"><i
+                            class="fe-download-cloud"></i></a>
+                        <img src="assets/pdfFile.png" style="width: 64px;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label style="color: #a30000;">Simulation PDF</label>
+                    <div style="border: 1px dotted #c4bcbc;">
+                      <input type="file" #inputSimulation (change)="addFile($event,31,tret.nLevel)" typeStl="1" style="display: none;" accept="pdf">
+                      <ngx-file-drop *ngIf="tret.Simulation==null" dropZoneLabel="Drop files here" dropZoneClassName="fileDrop"
+                        contentClassName="contentDrop" (onFileDrop)="dropped($event,31,tret.nLevel)">
+                        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                          <button _ngcontent-kst-c12="" (click)="inputSimulation.click()" type="button" class="btn btn-outline-secondary" style="border: none;font-size: 13px;margin-top: 2%;"><i class="fe-upload-cloud"></i> Click Or Drop
+                          </button>
+                        </ng-template>
+                      </ngx-file-drop>
+                      <div *ngIf="tret.Simulation!=null" style=" padding: 21px;">
+                        <button *ngIf="casesStatus<5" (click)="deleteFile(tret.Simulation,30)" class="btn btn-icon btn-danger"
+                          style="margin-left: 2px;"><i class="fe-trash-2"></i></button>
+                        <a href="{{imagePathServer+'/'+tret.Simulation}}" target="_blank" class="btn btn-icon btn-light"><i
+                            class="fe-download-cloud"></i></a>
+                        <img src="assets/pdfFile.png" style="width: 64px;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label style="color: #a30000;">Price</label>
+                    <div class="form-group mb-6">
+                      <div class="input-group">
+                        <input type="number" class="form-control inputForm" value="{{tret.salary}}" #priceTretment  [readonly]="casesStatus==5 || casesStatus==6" placeholder="Price" aria-describedby="basic-addon1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text spanInput" id="basic-addon1"><i class="fe-dollar-sign"></i></span>
+                          <button class="btn btn-outline-info" *ngIf="tret.salary!=priceTretment.value" (click)="updatePrice(priceTretment.value,tret.id)">Save</button>
+                        </div>
+
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12" >
+                    <app-ui-preloader [display]="loadVideoUpload"></app-ui-preloader>
+                    <label style="color: #a30000;">Right Video</label>
+                    <div>
+                      
+                      <button *ngIf="tret.Right==null" class="btn btn-outline-info" (click)="inputRight.click()"><i class="fe-upload-cloud"></i> Upload Video</button>
+                      <button *ngIf="tret.Right!=null" class="btn btn-outline-danger" (click)="deleteFile(tret.Right,30)"><i class="fe-trash"></i> Delete Video</button>
+                      <input type="file"  (change)="addFile($event,32,tret.nLevel)" accept=".mp4,.wmv" #inputRight style="display: none;">
+                    </div>
+                    <app-video-trement *ngIf="tret.Right!=null" srcVideo="{{imagePathServer+'/'+tret.Right}}"></app-video-trement>
+                  </div>
+
+                  <div class="col-md-12" >
+                    <app-ui-preloader [display]="loadVideoUpload"></app-ui-preloader>
+                    <label style="color: #a30000;">Left Video</label>
+                    <div>
+                      
+                      <button *ngIf="tret.Left==null" class="btn btn-outline-info" (click)="inputLeft.click()"><i class="fe-upload-cloud"></i> Upload Video</button>
+                      <button *ngIf="tret.Left!=null" class="btn btn-outline-danger" (click)="deleteFile(tret.Left,30)"><i class="fe-trash"></i> Delete Video</button>
+                      <input type="file"  (change)="addFile($event,33,tret.nLevel)" accept=".mp4,.wmv" #inputLeft style="display: none;">
+                    </div>
+                    <app-video-trement *ngIf="tret.Left!=null" srcVideo="{{imagePathServer+'/'+tret.Left}}"></app-video-trement>
+                  </div>
+
+                  <div class="col-md-12" >
+                    <app-ui-preloader [display]="loadVideoUpload"></app-ui-preloader>
+                    <label style="color: #a30000;">Frontal and Occlusal Views</label>
+                    <div>
+                      
+                      <button *ngIf="tret.Frontal==null" class="btn btn-outline-info" (click)="inputFrontal.click()"><i class="fe-upload-cloud"></i> Upload Video</button>
+                      <button *ngIf="tret.Frontal!=null" class="btn btn-outline-danger" (click)="deleteFile(tret.Frontal,30)"><i class="fe-trash"></i> Delete Video</button>
+                      <input type="file"  (change)="addFile($event,34,tret.nLevel)" accept=".mp4,.wmv" #inputFrontal style="display: none;">
+                    </div>
+                    <app-video-trement *ngIf="tret.Frontal!=null" srcVideo="{{imagePathServer+'/'+tret.Frontal}}"></app-video-trement>
+                  </div>
+                  <div class="col-md-12" *ngIf="gnarateVideoStatus!=0">
+                    <ngb-progressbar class="primary" [value]="gnarateVideoStatus" [striped]="true" [animated]="true">
+                      {{gnarateVideoStatus}}</ngb-progressbar>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+
+  <div class="col-md-12" style="text-align: center;">
+    <hr>
+    <button type="button" class="btn btn-secondary btn-rounded" (click)="sendDoctorrr()" *ngIf="casesStatus == 4"> save
+    </button>
+    <button type="button" class="btn btn-secondary btn-rounded" (click)="sendDoctorrr()" *ngIf="casesStatus == 3"> Send
+    </button>
+  </div>
+</ng-template>
+<ng-template #tbFiletretmentLib>
+  <div class="row">
+    <div class="col-md-12">
+      <label style="color: #a30000;">القوالب</label>
+    </div>
+  </div>
+</ng-template>
+<ng-template #tbFiletretmentVideo>
+  <div class="row">
+    <div class="col-md-6">
+      <label style="color: #a30000;">Create video Tretment</label>
+      <div class="form-group mb-6">
+        <div class="input-group">
+          <input type="text" class="form-control inputForm" [(ngModel)]="treatmentLink" placeholder="Id Patient"
+            aria-label="https://xxxxxx.com" aria-describedby="basic-addon1">
+          <div class="input-group-prepend">
+            <button _ngcontent-qub-c24="" type="button" class="btn btn-secondary btn-rounded"
+              (click)="gnrateVide()">create </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="gnarateVideoStatus!=0">
+      <ngb-progressbar class="primary" [value]="gnarateVideoStatus" [striped]="true" [animated]="true">
+        {{gnarateVideoStatus}}</ngb-progressbar>
+    </div>
+    <div class="col-md-12" *ngIf="numberImageStop !=-1">
+      <div class="container">
+        <div class="canvas-container"
+          style="min-width: 460px;    background-color: #f6fcfc; padding: 19px; border: 1px solid #afafaf;text-align: center;">
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-2">
+              <button _ngcontent-okc-c10="" type="button" [disabled]="typeDentelVideo == 'Upper'"
+                class="btn btn-outline-secondary" (click)="changeUpperVideo()"><img class="imageClick"
+                  src="assets/imageSmail/aligner-upper-active.svg"></button>
+            </div>
+            <div class="col-md-2">
+              <button _ngcontent-okc-c10="" type="button" class="btn btn-outline-secondary"
+                [disabled]="typeDentelVideo == 'Left'" (click)="changeLeftVideo()"><img class="imageClick"
+                  src="assets/imageSmail/aligner-left-active.svg"></button>
+            </div>
+            <div class="col-md-2">
+              <button _ngcontent-okc-c10="" type="button" class="btn btn-outline-secondary"
+                [disabled]="typeDentelVideo == 'Front'" (click)="changeFrontVideo()"><img class="imageClick"
+                  src="assets/imageSmail/aligner-front-active.svg"></button>
+            </div>
+            <div class="col-md-2">
+              <button _ngcontent-okc-c10="" type="button" class="btn btn-outline-secondary"
+                [disabled]="typeDentelVideo == 'Right'" (click)="changeRightVideo()"><img class="imageClick"
+                  src="assets/imageSmail/aligner-right-active.svg"></button>
+            </div>
+            <div class="col-md-2">
+              <button _ngcontent-okc-c10="" type="button" class="btn btn-outline-secondary"
+                [disabled]="typeDentelVideo == 'Lower'" (click)="changeLowerVideo()"> <img class="imageClick"
+                  src="assets/imageSmail/aligner-lower-active.svg"></button>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-5">
+              <ng5-slider [(value)]="value" [options]="options"></ng5-slider>
+            </div>
+            <div class="col-md-7" style="text-align: left;">
+              <label style=" margin-top: 3%;color: #6658dd;font-weight: 700;font-size: 24px;margin-left: 8%;">
+                {{typeDentelVideo}}</label>
+            </div>
+            <div class="col-md-12" style="text-align: center;">
+              <div style="width: 100%;">
+                <zoomable-canvas [image]="image" (topChange)="top = $event" (bottomChange)="bottom = $event"
+                  (leftChange)="left = $event" (rightChange)="right = $event" [(centerX)]="centerX"
+                  [(centerY)]="centerY" [(zoomLevel)]="value" [maxZoom]="options.ceil" [minZoom]="0"
+                  (canvasWidthChange)="canvasWidth = $event" (canvasHeightChange)="canvasHeight = $event">
+                </zoomable-canvas>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label>{{numberImage}} -Of </label>
+              <label> -{{numberImageStop}}</label>
+            </div>
+            <div class="col-md-12">
+
+              <button type="button" class="btn btn-outline-secondary"
+                *ngIf="typeDentelVideo !='Lower' && typeDentelVideo !='Upper'" (click)="change_LowerVideo()"
+                style="float: right;"> <img class="imageClick" [ngClass]="typeLeftOrRigth=='_Lower'?'hideClassBtn':''"
+                  style="width: 30px;height: 30px;" src="assets/imageSmail/aligner-info-upper.svg"></button>
+              <button type="button" class="btn btn-outline-secondary"
+                *ngIf="typeDentelVideo !='Lower' && typeDentelVideo !='Upper'" (click)="change_UpperVideo()"
+                style="float: left;"> <img [ngClass]="typeLeftOrRigth=='_Upper'?'hideClassBtn':''" class="imageClick"
+                  style="width: 30px;height: 30px;" src="assets/imageSmail/aligner-info-lower.svg"></button>
+              <div>
+                <button type="button" class="btn btn-outline-secondary" [disabled]="numberImage==0"
+                  (click)="nextPriveosVideo('')"> <i class="fe-rewind"></i></button>
+                <button type="button" class="btn btn-outline-secondary" (click)="startVideo()" *ngIf="!typeRunVideo"> <i
+                    class="fe-play-circle"></i></button>
+                <button type="button" class="btn btn-outline-secondary" (click)="startVideo()" *ngIf="typeRunVideo"> <i
+                    class="fe-pause-circle"></i></button>
+                <button type="button" class="btn btn-outline-secondary" [disabled]="numberImage==numberImageStop"
+                  (click)="nextPriveosVideo('next')"> <i class="fe-fast-forward"></i></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #imageModal role="document" let-modal="close">
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+    <h4 class="modal-title">{{titelForm}}</h4>
+    <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="col-lg-12">
+      <div class="img-container">
+        <image-cropper [imageBase64]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="20 / 20"
+          [resizeToWidth]="256" [cropperMinWidth]="300" [cropperMinHeight]="300" format="png"
+          (imageCropped)="imageCropped($event)" style="height: 250px;"></image-cropper>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')">OK</button>
+  </div>
+</ng-template>
+<input type="file" id="inputImage" class="custom-file-input" accept="image/x-png,image/gif,image/jpeg"
+  style="display: none;" (change)="onFileSelect($event,imageModal)">
+<ng-template #popsContentImage let-numberIRP="numberIRP">
+  <div class="">
+    <div class="checkbox checkbox-blue mb-2">
+      <input id="checkbox6a" [checked]="getNumber(numberIRP) == 1"
+        (click)="getNumber(numberIRP) == 1?changeNumber(0,numberIRP):changeNumber(1,numberIRP)" type="checkbox">
+      <label for="checkbox6a">
+        Extraction/Not Exist
+      </label>
+    </div>
+
+    <div class="checkbox checkbox-pink mb-2">
+      <input id="checkbox6b" [checked]="getNumber(numberIRP) == 4"
+        (click)="getNumber(numberIRP)  == 4?changeNumber(0,numberIRP):changeNumber(4,numberIRP)" type="checkbox"
+        checked>
+      <label for="checkbox6b">
+        Exclude From Treatment
+      </label>
+    </div>
+
+    <div class="checkbox checkbox-dark mb-2">
+      <input id="checkbox6c" type="checkbox" [checked]="getNumber(numberIRP) == 2"
+        (click)="getNumber(numberIRP) == 2?changeNumber(0,numberIRP):changeNumber(2,numberIRP)">
+      <label for="checkbox6c">
+        Place attachment
+      </label>
+    </div>
+  </div>
+</ng-template>
+<ng-template #popsTitleImage let-namePr="namePr" let-pro="pro">
+  <div style="display: flow-root;min-width: 247px;height: 19px;">
+    <p style="float: left;">IPR: {{namePr}}</p>
+    <button class="btn btn-link p-0" (click)="toggleWithGreeting(pro, '', '')" style="width: auto;float: right;"><i
+        class="mdi mdi-close"></i></button>
+  </div>
+</ng-template>
+<ng-template #popsContent let-numberIRP="numberIRP" let-val="val">
+  <label>IPR value</label>
+  <input type="number" #numberStatic value="{{val}}" min="0" step="0.1"
+    (change)="changeNumber(numberStatic.value,numberIRP)"
+    style="width: 100%;text-align: center;border: none;outline: none;border-bottom: 1px solid;">
+</ng-template>
+<ng-template #popsTitle let-namePr="namePr" let-pro="pro">
+  <div style="display: flow-root;min-width: 247px;height: 19px;">
+    <p style="float: left;">IPR: {{namePr}}</p>
+    <button class="btn btn-link p-0" (click)="toggleWithGreeting(pro, '', '')" style="width: auto;float: right;"><i
+        class="mdi mdi-close"></i></button>
+  </div>
+</ng-template>
+
+<ng-template #fullWidthData let-modal="close">
+
+  <div id="full-width-modal" aria-hidden="true">
+    <app-image-viewer [images]="imageViewrElement" [openInNewTabTooltipLabel]="false" [download]="false"
+      [idContainer]="'idOnHTML'" [showPDFOnlyOption]="false" [primaryColor]="'rgb(28, 33, 37)'" [loadOnInit]="true">
+    </app-image-viewer>
+  </div>
+</ng-template>
+
+
+<ng-template #sendDoctor>
+
+
+</ng-template>

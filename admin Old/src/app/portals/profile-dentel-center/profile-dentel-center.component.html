@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <app-page-title title="Profile" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-lg-4 col-xl-4">
+            <div class="card-box text-center">
+                <img src="{{getImg(dentelCenterItem.logo)}}" class="rounded-circle avatar-xl img-thumbnail"
+                    alt="profile-image">
+
+                <h4 class="mb-0">{{dentelCenterItem.dentalCenterName}}</h4>
+                <div class="text-left mt-3">
+                    <h4 class="font-13 ">Center Number : {{dentelCenterItem.id}}</h4>
+                    <p class="text-muted mb-2 font-13"><strong>Center Name :</strong> <span class="ml-2">
+                            {{dentelCenterItem.dentalCenterName}}</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Admin Name :</strong> <span class="ml-2">
+                            {{dentelCenterItem.nameDoctor}}</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Phone :</strong><span
+                            class="ml-2">{{dentelCenterItem.phoneNumber}}</span></p>
+
+                    <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span
+                            class="ml-2 ">{{dentelCenterItem.email}}</span></p>
+
+                    <p class="text-muted mb-1 font-13"><strong>Country :</strong> <span class="ml-2">{{countryName}} :
+                            <flag-icon country="{{countryCode}}"></flag-icon></span></p>
+                    <p class="text-muted mb-1 font-13"><strong>City :</strong> <span class="ml-2">{{cityName}} </span>
+                    </p>
+                </div>
+
+                <ul class="social-list list-inline mt-3 mb-0">
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);" class="social-list-item border-purple text-purple"><i
+                                class="mdi mdi-facebook"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
+                                class="mdi mdi-google"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
+                                class="mdi mdi-twitter"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i
+                                class="mdi mdi-github-circle"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-box">
+                <h4 class="mb-3 header-title">Map</h4>
+                <agm-map [latitude]="41.031564" [longitude]="28.839888" style="height: 300px"></agm-map>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-xl-8" *ngIf="dentelCenterItem.id">
+            <div class="card-box">
+                <ngb-tabset justify="justified" type="pills">
+                    <ngb-tab title="Shipping Address" style="font-size: 14px;">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+
+                                <div class="tab-pane show active" id="Shipping Address">
+                                    <app-shipping-address USERTYPE="2" ID="{{dentelCenterItem.doctorId}}">
+                                    </app-shipping-address>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Payments">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="shipping Address">
+                                    <app-listbalace ID="{{dentelCenterItem.id}}"></app-listbalace>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Pricing Strategy">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Pricing Strategy">
+                                    <app-pricing-strategy></app-pricing-strategy>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Doctors">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Responsible">
+                                    <app-list-doctors USERTYPE="4" ID="{{dentelCenterItem.id}}"></app-list-doctors>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Patients">
+                        <ng-template ngbTabContent>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="Requests">
+                                    <div style="text-align: center;">
+                                        <app-cases-doctor USERTYPE="1" ID="{{dentelCenterItem.id}}"></app-cases-doctor>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+    </div>
+</div>

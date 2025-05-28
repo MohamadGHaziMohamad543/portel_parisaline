@@ -1,0 +1,30 @@
+.boxUpploader {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    border: 1px dashed #373b94;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxUpploader:hover {
+    background-color: #d7d7d7;
+}
+
+.boxViewer{
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #00000069;
+    border-radius: 12px;
+    opacity:0;
+}
+
+.boxViewer:hover{
+    opacity:1;
+}

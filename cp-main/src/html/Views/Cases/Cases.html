@@ -1,0 +1,90 @@
+
+
+<img class="imageCoverCases" ng-if="idPatient==-1" src="assets/images/attached-files/background.png">
+<img class="imageCoverCases" ng-if="hideNavbar"  src="assets/images/attached-files/submited.png">
+<input type="file" style="display: none;" id="uploadFiles">
+<div class="" id="cases">
+    <h1 class="text-center" style="color: #000;margin: 5px;" ng-if="!hideNavbar">{{idPatient==-1?'Create a new case':'Case Number '+idPatient}}</h1>
+    <div style="text-align: center;    margin-bottom: 15px;">Pateint Name :<strong style="margin-right: 20px;">{{PatientName}}</strong>   Doctor Name :<strong style="margin-right: 20px;">{{DoctorName}}</strong></div>
+    <div class="navTabs text-center" ng-if="!hideNavbar && !DeleteCases">
+        <div id="PatientInformation" ng-if="TAB.patientInformation.display" ng-click="nextTab('patientInformation',false,true)" class="boxTabNavTitle" ng-class="{navActive:TAB.patientInformation.set || TAB.patientInformation.active||Status >= 1}">
+            <div class="tabNavTitleL"></div>
+            <a class="">Patient's Information</a>
+        </div>
+        <div id="PatientRecords" ng-if="TAB.patientRecords.display" class="boxTabNavTitle" ng-click="nextTab('patientRecords',false,true)" ng-class="{navActive:TAB.patientRecords.set||TAB.patientRecords.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">Patient's Records</a>
+        </div>
+        <div id="selectPakge" ng-if="TAB.selectPakge.display" class="boxTabNavTitle" ng-click="nextTab('selectPakge',false,true)" ng-class="{navActive:TAB.selectPakge.set||TAB.selectPakge.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">Select Package</a>
+        </div>
+        <div id="CreateOrder" ng-if="TAB.createOrder.display" class="boxTabNavTitle" ng-click="nextTab('createOrder',false,true)" ng-class="{navActive:TAB.createOrder.set||TAB.createOrder.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">Create Order</a>
+        </div>
+        <div id="printStl" ng-if="TAB.printStl.display" class="boxTabNavTitle" ng-click="nextTab('printStl',false,true)" ng-class="{navActive:TAB.printStl.set||TAB.printStl.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a class="">File STL For Print</a>
+        </div>
+        <div id="FileSTL" ng-if="TAB.fileStl.display" class="boxTabNavTitle" ng-click="nextTab('fileStl',false,true)" ng-class="{navActive:TAB.fileStl.set||TAB.fileStl.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a class="">File STL</a>
+        </div>
+        <div id="attachments" ng-if="TAB.attachments.display" class="boxTabNavTitle" ng-click="nextTab('attachments',false,true)" ng-class="{navActive:TAB.attachments.set||TAB.attachments.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a class="">Attachments</a>
+        </div>
+        <div id="AdditionalInstructions" ng-if="TAB.AdditionalInstructions.display" class="boxTabNavTitle" ng-click="nextTab('AdditionalInstructions',false,true)" ng-class="{navActive:TAB.AdditionalInstructions.set||TAB.AdditionalInstructions.active||Status>=1}">
+            <div class="{{(Status !=0 && Status !=null)?'tabNavTitle':'tabNavTitleR'}}"></div>
+            <a>Additional Instructions</a>
+        </div>
+        <div id="tretmentPlan" ng-if="TAB.tretmentPlan.display" class="boxTabNavTitle" ng-click="nextTab('tretmentPlan',false,true)" ng-class="{navActive:TAB.tretmentPlan.set||TAB.tretmentPlan.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a>Tretment Plan</a>
+        </div>
+        <div id="SubmitCase" ng-if="Status !=0 && Status !=null" ng-click="nextTab('submitCase',false,true)" class="boxTabNavTitle " ng-class="{navActive:TAB.submitCase.set||TAB.submitCase.active||Status>=1}">
+            <div class="tabNavTitleR"></div>
+            <a>Time line</a>
+        </div>
+    </div>
+    <div class="tabPanels">
+        <div id="PatientInformation" ng-if="TAB.patientInformation.display && TAB.patientInformation.set" class="boxTabsn active bounceInRight animated">
+            <patient-Information  id-Patient="idPatient" filters="tst test tes" delete-Cases="DeleteCases" button-Next="nextTab('patientRecords')"></patient-Information>
+        </div>
+        <div id="PatientRecords" ng-if="TAB.patientRecords.display && TAB.patientRecords.set" class="boxTabsn active bounceInRight animated">
+            <patient-Records id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('createOrder')" button-Back="nextTab('patientInformation')"></patient-Records>
+        </div>
+        <div id="selectPakge" ng-if="TAB.selectPakge.display && TAB.selectPakge.set" class="boxTabsn active bounceInRight animated">
+            <select-Pakge show-Model-Shipping-Create="showModelShippingCreate()" button-Back="nextTab('patientRecords')" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('createOrder')"></select-Pakge>
+        </div>
+        <div id="CreateOrder" ng-if="TAB.createOrder.display && TAB.createOrder.set" class="boxTabsn active bounceInRight animated">
+            <create-Order show-Model-Shipping-Create="showModelShippingCreate()" button-Back="nextTab('patientRecords')" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></create-Order>
+        </div>
+        <div id="FileSTL" ng-if="TAB.fileStl.display && TAB.fileStl.set" class="boxTabsn active bounceInRight animated">
+            <file-Stl  button-Back="nextTab('fileStl')" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></file-Stl>
+        </div>
+        <div id="printStl" ng-if="TAB.printStl.display && TAB.printStl.set" class="boxTabsn active bounceInRight animated">
+            <print-Stl button-Back="nextTab('patientRecords')" just-Print-File="JustprintFile" show-Model-Barcode="showModelBarcode(data)" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></print-Stl>
+        </div>
+        <div id="attachments" ng-if="TAB.attachments.display && TAB.attachments.set && (Status!==0 || !Status)" class="boxTabsn active">
+            <attachments filters="tst test tes" btn-Hide-Nav="hideNav()" button-Next="nextTab('AdditionalInstructions',true)" id-Patient="idPatient"></attachments>
+        </div>
+        <div id="AdditionalInstructions " ng-if="TAB.AdditionalInstructions.display && TAB.AdditionalInstructions.set" class="boxTabsn active bounceInRight animated">
+            <h6 style="text-align: center; margin: 0; background: #6868ac; color: #fff;">The doctor's language of communication is <min>{{langName}}</min></h6>
+            <additional-Instructions id-Patient="idPatient" type-User="2" filters="tst test tes" button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+            <additional-Instructions id-Patient="idPatient" type-User="5" filters="tst test tes" button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+            <additional-Instructions id-Patient="idPatient" type-User="7" filters="tst test tes" button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+            <additional-Instructions id-Patient="idPatient" type-User="3" filters="tst test tes" button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+            <additional-Instructions id-Patient="idPatient" type-User="4" filters="tst test tes" button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+
+        </div>
+        <div id="tretmentPlan" ng-if="TAB.tretmentPlan.display && TAB.tretmentPlan.set" class="boxTabsn active bounceInRight animated">
+            <tretment-Plan id-Patient="idPatient" status="Status" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></tretment-Plan>
+        </div>
+        <div id="SubmitCase" ng-if="TAB.submitCase.display && TAB.submitCase.set && (Status!==0 || !Status)" class="boxTabsn active">
+            <submit-Case filters="tst test tes" btn-Hide-Nav="hideNav()" button-Next="nextTab('AdditionalInstructions',true)" id-Patient="idPatient"></submit-Case>
+        </div>
+    </div>
+</div>
+

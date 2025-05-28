@@ -1,0 +1,77 @@
+<button _ngcontent-eot-c23="" type="button" class="btn btn-outline-warning" (click)="Add(responsibleModal)" style="float: right;margin-top: 10px;margin-bottom: 10px;">Add <i class="fas fa-minus-circle"></i> </button>
+<h5 style="float: left;margin-top: 10px;">Assistants</h5>
+<hr>
+<div class="table-responsive">
+    <table class="table table-borderless mb-0">
+        <thead class="thead-light">
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Job Title</th>
+                <th>Phone Number</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let res of responsible">
+                <td>{{res.fullName}}</td>
+                <td>{{res.email}}</td>
+                <td>{{res.jobTitle}}</td>
+                <td>{{res.phone}}</td>
+                <td>
+                    <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-warning" (click)="Edit(responsibleModal,res.id)">Edit <i class="fas fa-minus-circle"></i> </button>
+                    <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-danger" (click)="Delete(responsibleModal,res.id)">Delete <i class="fe-trash-2"></i>  </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #responsibleModal role="document" let-modal="close">
+    <form class="needs-validation" name="formResponsible" [formGroup]="formResponsible" (ngSubmit)="onSubmit()"
+    novalidate>
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div class="modal-header">
+        <h4 class="modal-title">{{titelForm}}</h4>
+        <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+     
+      <ngb-alert type="danger" *ngIf="errors" [dismissible]="false">{{ errors }}</ngb-alert>
+      <div class="form-group mb-3">
+        <label for="name">Full Name</label>
+        <input type="fullName" formControlName="fullName"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.fullName.errors }" id="fullName"  />
+        <div *ngIf="submitted && fn.fullName.errors" class="invalid-feedback">
+          <div *ngIf="fn.fullName.errors.required">Full Name</div>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="name">Email</label>
+        <input type="email" formControlName="email"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.email.errors }" id="email"  />
+        <div *ngIf="submitted && fn.email.errors" class="invalid-feedback">
+          <div *ngIf="fn.email.errors.required">Email</div>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+          <label for="name">Job Title</label>
+    
+          <input type="jobTitle" formControlName="jobTitle"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.jobTitle.errors }" id="jobTitle"  />
+          <div *ngIf="submitted && fn.jobTitle.errors" class="invalid-feedback">
+            <div *ngIf="fn.jobTitle.errors.required">Job Title</div>
+          </div>  
+        </div>
+      <div class="form-group mb-3">
+        <label for="name">Phone Number</label>
+  
+        <input type="phone" formControlName="phone"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.phone.errors }" id="phone"  />
+        <div *ngIf="submitted && fn.phone.errors" class="invalid-feedback">
+          <div *ngIf="fn.phone.errors.required">Phone Number</div>
+        </div> 
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >Close</button>
+        <button type="button" class="btn btn-primary" type="submit">Save</button>
+    </div>
+  </form>
+  </ng-template>

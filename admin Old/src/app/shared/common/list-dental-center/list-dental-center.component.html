@@ -1,0 +1,22 @@
+<div class="table-responsive">
+  <table class="table table-borderless mb-0">
+      <thead class="thead-light">
+          <tr>
+              <th>Logo</th>
+              <th>Serial Number</th>
+              <th>Center Name</th>
+              <th>Admin Name</th>
+              <th>Phone</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let dtc of dentalCenter">
+              <td><img src="{{url+'/'+dtc.logo}}" style="width: 39px" class="img-fluid rounded-circle"></td>
+              <td>{{dtc.id}}</td>
+              <td><a href="javascript: void(0);" (click)="getLink(dtc.id,1)">{{dtc.dentalCenterName}}</a></td>
+              <td><a href="javascript: void(0);" (click)="getLink(dtc.doctorId)">{{dtc.nameDoctor}}</a></td>
+              <td>{{dtc.phoneNumber}}</td>
+          </tr>
+      </tbody>
+  </table>
+</div>

@@ -1,0 +1,188 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases" style="display:{{optionId == '-1'?'':'none'}};">
+                Additional Instructions
+            </div>
+            <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+                <div class="row">
+                    <div class="boxChat">
+                        <div class="boxItems">
+                            <div class="box">
+                                <div ng-repeat="(key, value) in dataChat"
+                                    class="itemChat {{value.typeSend!=2?'other':''}}">
+                                    <div class="imageAvatar">
+                                        <img src="https://www.w3schools.com/howto/img_avatar.png"
+                                            ng-if="value.typeSend==1">
+                                    </div>
+                                    <div class="Message" style="text-align: left;">
+                                        <span style="background: green;color: #fff;padding: 6px; border-radius: 8px;"
+                                            ng-if="value.optionId && value.optionId!==-1">OPTION -
+                                            {{value.optionId}} </span>
+                                        <p style="direction: ltr;" ng-bind-html="value.message | nl2p"
+                                            ng-if="value.typeText==null"></p>
+                                        <div audio-render style="width: 200px;height: 100px;"
+                                            srcadata="{{serverLink+value.link}}" ng-if="value.typeText==1"></div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==2">
+                                            <img src="{{serverLink+value.link}}" style="width: 100%;cursor: pointer;"
+                                                ng-click="showImage(serverLink+value.link)">
+                                        </div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==3">
+                                            <img src="https://www.file-extension.info/images/resource/formats/stl.png"
+                                                style="width: 100%;cursor: pointer;" ng-click="showSTL(value.link)">
+                                        </div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==4">
+                                            <video style="width: 100%;" controls
+                                                src="{{serverLink+value.link}}"></video>
+                                        </div>
+                                        <div class="dateMessage">
+                                            <!-- <span style="float: left;">true</span> -->
+                                            <span class="mr-1"> {{value.createdAt | date}}</span><span>{{value.createdAt
+                                                | time}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: none;">
+                            <audio id="player" controls></audio>
+                            <audio id="recorder" muted hidden>
+                        </div>
+                        <div id="chartAudio" style="width: 85px;right: 57px;position: absolute;bottom:62px;"></div>
+                        <div class="boxInput">
+                            <div class="inputMessage" ng-show="!isRecord && !IsRecordSCreen"
+                                style="    margin-bottom: 12px;margin-left: 0px !important;">
+                                <textarea placeholder="Type here..." ng-model="inputMessage"></textarea>
+                                <div class="kivenBtn"
+                                    ng-if="!isRecord && !IsRecordSCreen"
+                                    style="display: {{uploadAudio?'none':'block'}}; position: absolute; bottom: 3px;width: 110px;    left: 35px;">
+                                    <nav class="float-action-button">
+                                        <a href="#" class="buttons" id="btnImage" ng-click="btnSendImage('stl')"
+                                            title="" data-toggle="tooltip" data-placement="right"
+                                            style="color: #fff;background: #000;border-radius: 9px;width: 100%;height: auto;font-size: 15px;padding: 7px;"
+                                            data-original-title="send Stl File">STL file</a>
+                                        <a href="#" class="buttons" ng-click="btnSendImage('image')" title=""
+                                            data-toggle="tooltip" data-placement="right"
+                                            data-original-title="Send photo " style="
+    color: #fff;
+    border-radius: 9px;
+    width: 100%;
+    height: auto;
+    font-size: 15px;
+    padding: 7px;
+">
+                                            <i class="fe-image" style="color: #fff;margin-right: 8px;"></i>Image
+                                        </a>
+
+                                        <a  ng-click="StartRecordAudio()" class="buttons btnRercord"
+                                            id="btnRecord" title="" data-toggle="tooltip" data-placement="right"
+                                            data-original-title="Record" style="
+    color: #fff;
+    border-radius: 9px;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    padding: 7px;
+">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 478 478"
+                                                style="enable-background:new 0 0 478 478;    width: 20px;fill: #fff;"
+                                                xml:space="preserve">
+                                                <g>
+                                                    <g id="XMLID_708_">
+                                                        <path id="XMLID_2131_" d="M394,196.1c0-11.9-9.7-21.6-21.6-21.6s-21.6,9.7-21.6,21.6c0,61.7-50.2,111.8-111.8,111.8
+                                                        s-111.8-50.2-111.8-111.8c0-11.9-9.7-21.6-21.6-21.6S84,184.2,84,196.1c0,78.2,58.1,143,133.4,153.5v85.2h-55.6
+                                                        c-11.9,0-21.6,9.7-21.6,21.6s9.7,21.6,21.6,21.6h154.5c11.9,0,21.6-9.7,21.6-21.6s-9.7-21.6-21.6-21.6h-55.6v-85.2
+                                                        C335.9,339.1,394,274.2,394,196.1z"></path>
+                                                        <g id="XMLID_2124_">
+                                                            <path id="XMLID_2050_"
+                                                                d="M239,0L239,0c-46.4,0-84,37.6-84,84v110.7c0,46.4,37.6,84,84,84l0,0c46.4,0,84-37.6,84-84V84
+                                                            C323,37.6,285.4,0,239,0z M239.1,55.9c-15.1,0-27.4,12.3-27.4,27.4c0,6.9-5.6,12.5-12.5,12.5s-12.5-5.6-12.5-12.5
+                                                            c0-28.9,23.5-52.4,52.4-52.4c6.9,0,12.5,5.6,12.5,12.5S246,55.9,239.1,55.9z">
+                                                            </path>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                            Audio
+                                        </a>
+                                        <a  class="buttons" style="    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    width: auto;
+                                    border-radius: 8px;
+                                    padding: 5px 0px;
+                                    height: auto;
+                                    box-shadow: none;
+                                    border: none;
+                                    background: none;">
+                                            <i class="fa fa-paperclip"
+                                                style="font-size: 20px;     opacity: 1;margin-right: 7px;"></i>
+                                            <span style="font-size: 12px">Attach file</span>
+                                        </a>
+                                    </nav>
+                                </div>
+                                <a  class="buttons" ng-click="StartRecordScreen()" title="" style="
+                                color: #6363a1;
+                                border-radius: 9px;
+                                width: 134px;
+                                height: auto;
+                                font-size: 14px;
+                                opacity: 1;
+                                position: absolute;
+                                bottom: 6px;
+                                left: 153px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            ">
+                                    <i class="fe-video" style="color: #6363a1;font-size: 19px;margin-right: 10px;"></i>
+                                    Record Screen
+                                </a>
+                            </div>
+                            <div class="inputMessage" ng-show="isRecord">
+                                <a style="text-align: center;">The audio is now being recorded</a>
+                            </div>
+                            <div class="inputMessage" ng-show="IsRecordSCreen">
+                                <a style="text-align: center;">The Video is now being recorded</a>
+                            </div>
+
+                            <button ng-if="($ctrl.status!=4 && $ctrl.status!= 4.5) && !isRecord && !IsRecordSCreen"
+                                class="btnMessage" ng-click="sendMessage()" ng-disabled="inputMessage.trim().length==0" style="    margin-bottom: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 43 43">
+                                    <circle id="Ellipse_2" data-name="Ellipse 2" cx="21.5" cy="21.5" r="21.5"
+                                        fill="#8bd670" />
+                                    <g id="Sent" transform="translate(15.052 14.167)">
+                                        <path id="Vector"
+                                            d="M1.771,2.18V4.329A.885.885,0,1,1,0,4.329V.885A.885.885,0,0,1,1.206.06l15.937,6.2a.885.885,0,0,1,0,1.65l-15.937,6.2A.885.885,0,0,1,0,13.281V8.854A2.656,2.656,0,0,1,2.656,6.2H7.083a.886.886,0,0,1,0,1.771H2.656a.885.885,0,0,0-.885.885v3.133l12.609-4.9Z"
+                                            transform="translate(0 0)" fill="#fff" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <button ng-if="($ctrl.status==4 || $ctrl.status== 4.5) && !isRecord && !IsRecordSCreen"
+                                class="btnMessage" ng-click="sendMessageAndModifications()"
+                                ng-disabled="inputMessage.trim().length==0 || $scope.LoadingSendMessages"
+                                style="background: #8bd670;color: #ffff; border-radius: 24px;    margin-bottom: 10px;width: 134px;">
+                                send Modifications
+                            </button>
+                            <button ng-if="isRecord" class="btnMessage" ng-click="StopRecordAudio()"
+                                style="background: #fbfbfb;color: #ffff; border-radius: 24px;">
+                                <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA20lEQVR4nO2ZQQrCQAxF5x66VG+Q2F0h8bJSejMLbUnXSpEirsKM0FT6H2Q9/09+hmEmJQAA2CxTzUdTakxpNOXnukWjCbfD7XouFy/UrS+cv0uom6Q6ZBt473yweF1M8L3EwLghA32BgQ0I10/BgKEDjAhlER0ZwxDrzo7RXGDAAx1wQIQ8ECEHRMgDEXJAhDx2FyH798ucwQCjA19ER8YwAxq/67bvU0hoiBZtPz3uCrfhwnUparINDEoXE36Eixfq+ro6pRLmn5H5cyEkTjKvSU2xeAAASGvwAqphEFia9nxCAAAAAElFTkSuQmCC">
+                            </button>
+                            <input type="file" style="display: none;" id="inputSendFile">
+
+                            <div style="display: {{uploadAudio?'block':'none'}};">
+                                <span class="loading__anim"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <app-page-title title="PATIENTS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <a class="btn btn-outline-info" (click)="logOut()" *ngIf="status===1">LogOut</a>
+  <div class="card">
+    <div class="row" style="text-align:center ;">
+      <div class="col-md-12" id="qrWahtsapp" ></div>
+      <div class="col-md-4" *ngIf="status===1">
+        <div style="max-height: 55vh;
+        overflow: auto;">
+          <div *ngFor="let cotac of Contacts" style="    padding: 10px;
+          border: 1px dashed #cbc4c4;
+          text-align: left;" (click)="getChats(cotac.id._serialized)">
+            <a>{{cotac.name}}</a>
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8" *ngIf="status===1">
+        <div style="max-height: 55vh;overflow: auto;">
+                <p *ngFor="let chat of Chats" [innerHTML]="chat.message" style="padding: 10px;
+                font-size: 13px;
+                background: #f5f5f5;
+                margin-top: 10px;">
+                </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+.boxHeaden{
+    display: none;
+}
+.uploadBox{
+    position: fixed;
+    left: 1px;
+    bottom: 5px;
+    width: 338px;
+    border: 1px solid #373b94;
+    color: #000;
+    background: #373b9496;
+    max-height: 300px;
+    height: 300px;
+    box-shadow: 1px 1px 8px #4c4a4a;
+    .header{
+        background: #373b94;
+        padding: 10px 2px;
+        color: #fff;
+    }
+    .body{
+        height: 245px;
+        overflow: auto;
+        img{
+            width: 32px;
+            margin-right: 5px;
+        }
+        .item{
+            border: 1px dashed #ffffff;
+            padding: 6px;
+            margin: 6px;
+            color: #fff;
+        }
+    }
+    .btnDown{
+    float: right;
+    margin-left: 5px;
+    position: relative;
+    margin-top: -9px;
+    border: none;
+    }
+
+}
+.bodyHeaden{
+    height: 46px !important;
+    overflow: hidden;
+}

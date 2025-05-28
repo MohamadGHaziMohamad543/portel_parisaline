@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Map Case
+            </div>
+            <div class="card-box" ng-init="initTasks()">
+              
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+<div id="FormModal" class="modal-demo">
+  <button type="button" class="close" onclick="Custombox.modal.close();">
+      <span>&times;</span><span class="sr-only">Close</span>
+  </button>
+  <h4 class="custom-modal-title" style="background: #4b4b8f;">{{titleForm}}</h4>
+  <div class="custom-modal-text">
+      <form action="#" id="formLogin">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group divGrop" VFORM >
+                     <select class="form-control inputLogin" id="usertype" EClass="errorInput" SClass="sucssInput">
+                       <option value="3">Lab</option>
+                       <option value="4">Coordinators</option>
+                       <option value="7">Supervisors</option>
+                       <option value="5">TreatmentPlanners</option>
+                     </select>
+                  </div>
+                  <div style="height: 10px;">
+                      <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                      margin-top: -19px;
+                      margin-left: 18px;"></a>
+                    </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group divGrop" VFORM >
+                     <select class="form-control inputLogin" id="UserId" EClass="errorInput" SClass="sucssInput">
+                       <option ng-repeat="user in Users" value="{{user.id}}">
+                         {{user.userName+' '+user.Country+' '+user.City}}
+                        </option>
+                     </select>
+                  </div>
+                  <div style="height: 10px;">
+                      <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                      margin-top: -19px;
+                      margin-left: 18px;"></a>
+                    </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group ">
+                      <input class="form-control inputLogin"  VFORM type="text" id="CommentInput" EClass="errorInput" SClass="sucssInput" required="" placeholder="Comment ..">
+                      <a class="ErrorMessage" titleError="Are you sure you entered your email correctly?"></a>
+                  </div>
+              </div>
+          </div>
+          <div class="form-group mb-0 text-center">
+              <button class="ladda-button btn btn-primary"  data-style="expand-left" ng-click="addTask()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Add </button>
+          </div>
+      </form> 
+  </div>
+</div>  

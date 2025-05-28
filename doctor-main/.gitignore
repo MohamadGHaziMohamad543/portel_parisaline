@@ -1,0 +1,4 @@
+# Ignore the dist directory
+dist/
+logErrorImage/
+node_modules/

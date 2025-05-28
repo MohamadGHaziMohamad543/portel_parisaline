@@ -1,0 +1,160 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="CITIES" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <div class="row">
+      <div class="col-md-8" >
+          <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-blue float-left">
+              <i class="mdi mdi-home-city-outline mr-1"></i> CITIES</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <label>{{trans.city.card1_title1}}</label>
+              <button _ngcontent-ogl-c10="" (click)="add(modalCity)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> ADD</button>
+              <div class="table-responsive" style="text-align: center;">
+                <table class="table table-dark table-borderless mb-0">
+                  <thead>
+                    <tr>
+                     
+                      <th>Flag</th>
+                      <th>{{trans.city.countryId}}</th>
+                      <th>{{trans.city.cityName}}</th>
+                      <th>{{trans.city.status}}</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let count of city">
+                      <th><flag-icon country="{{getCodeCountry(count.countryId)}}" style="font-size: 26px;"></flag-icon></th>
+                      <th>{{getCNameCountry(count.countryId)}}</th>
+                      <th>{{count.cityName}}</th>
+                      <td><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,count.id)"  [checked]="status(count.status)"></ui-switch></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="edit(count.id)"><i _ngcontent-ogl-c10="" class="fas fa-file-export"></i> </button>
+                        <button type="button" class="btn btn-danger" (click)="delete(modalCity,count.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> 
+            </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="cityId!=-1">
+        <div class="card-box ribbon-box">
+          <div class="ribbon ribbon-blue float-left">
+            CITY LANGUAGES</div>
+          <h5 class="text-whaite float-leftmt-0"></h5>
+          <div class="ribbon-content">
+            <button _ngcontent-ogl-c10="" (click)="addName(modalCityName)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> <i class="fas fa-key"></i></button>
+            <label>{{trans.cityName.card1_title1}}</label>
+            <div class="table-responsive" style="text-align: center;">
+              <table class="table table-dark table-borderless mb-0">
+                <thead>
+                  <tr>
+                    <th>{{trans.cityName.langCode}}</th>
+                    <th>{{trans.cityName.cityName}}</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let counName of cityName">
+                    <td>{{getCodeLang(counName.langId)}}</td>
+                    <td>{{counName.cityName}}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="deleteName(modalCityName,counName.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+<ng-template #modalCity role="document" let-modal="close">
+  <form class="needs-validation" name="formCity" [formGroup]="formCity" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">{{trans.city.countryId}}</label>
+      <ng-select   formControlName="countryId"  bindLabel="countryName" bindValue="id" [items]="country" >
+        <ng-template ng-label-tmp let-item="item">
+          <flag-icon country="{{item.code}}" ></flag-icon>
+          <b>{{item.countryName}}</b>
+       </ng-template>
+       <ng-template ng-option-tmp let-item="item" let-index="index">
+        <flag-icon country="{{item.code}}" ></flag-icon>
+        <b>{{item.countryName}}</b>
+    </ng-template>
+      </ng-select>
+      <div *ngIf="submitted && f.countryId.errors" class="invalid-feedback">
+        <div *ngIf="f.countryId.errors.required">{{trans.city.countryId}}</div>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="name">City Name</label>
+      <input type="cityName" formControlName="cityName" (change)="onChange($event)"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.cityName.errors }" id="cityName"  />
+      <div *ngIf="submitted && f.cityName.errors" class="invalid-feedback">
+        <div *ngIf="f.cityName.errors.required">City Name</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+
+<ng-template #modalCityName role="document" let-modal="close">
+  <form class="needs-validation" name="formCityName" [formGroup]="formCityName" (ngSubmit)="onSubmitName()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormName}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="errorName" [dismissible]="false">{{ errorName }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">Language</label>
+
+       <ng-select   formControlName="langId"  bindLabel="langCode" bindValue="id" [items]="Language" ></ng-select>
+      <div *ngIf="submitted && fn.langId.errors" class="invalid-feedback">
+        <div *ngIf="fn.langId.errors.required">Language</div>
+      </div>
+    </div>
+   
+    <div class="form-group mb-3">
+      <label for="name">{{trans.cityName.cityName}}</label>
+
+      <input type="cityName" formControlName="cityName"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.cityName.errors }" id="cityName"  />
+
+      <div *ngIf="submitted && f.cityName.errors" class="invalid-feedback">
+        <div *ngIf="fn.cityName.errors.required">{{trans.cityName.currencyName}}</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>

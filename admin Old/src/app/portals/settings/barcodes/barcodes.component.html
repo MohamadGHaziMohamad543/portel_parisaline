@@ -1,0 +1,152 @@
+<div class="container-fluid">
+  <app-page-title title="Barcodes" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box ribbon-box">
+        <div class="ribbon ribbon-primary float-left">
+          <i class="fe-mail mr-1"></i> Barcodes
+        </div>
+        <h5 class="text-whaite float-leftmt-0"></h5>
+        <div class="ribbon-content">
+          <h4 class="header-title">Barcodes</h4>
+          <div class="byttondiv">
+            <button type="button" class="btn btn-primary" (click)="showModelMemberships(BarcodesModel)"><i class="mdi mdi-plus"></i>ADD</button>
+          </div>
+          <div class="table-responsive mt-3">
+            <table class="table table-dark table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Barcodes Name</th>
+                  <th>Product Type</th>
+                  <th>Product Name</th>
+                  <th>GTIN</th>
+                  <th>Control</th>
+                  <th>PCSUN</th>
+                  <th>SN</th>
+                  <th>DG</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Barcode of Barcodes">
+                  <th>{{Barcode.name}}</th>
+                  <th>{{Barcode.productType}}</th>
+                  <th>{{Barcode.productsName}}</th>
+                  <th>{{Barcode.GTIN}}</th>
+                  <th>{{Barcode.Control}}</th>
+                  <th>{{Barcode.PCSUN}}</th>
+                  <th>{{Barcode.SN}}</th>
+                  <th>{{Barcode.DG}}</th>
+                  <td>
+                    <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="showModelMemberships(BarcodesModel,Barcode.id)"><i class="fas fa-edit"></i> </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #BarcodesModel role="document" let-modal="close">
+    <form class="needs-validation" name="formBarcodes" [formGroup]="formBarcodes" (ngSubmit)="Save()"
+    novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-1" class="control-label">Barcodes Name</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" formControlName="name" placeholder="Barcodes Name">
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-2" class="control-label">productType</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productType.errors }" formControlName="productType" placeholder="Product Type">
+            <div *ngIf="submitted && f.productType.errors" class="invalid-feedback">
+              <div *ngIf="f.productType.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Product Name</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productsName.errors }" formControlName="productsName" placeholder="Product Name">
+            <div *ngIf="submitted && f.productsName.errors" class="invalid-feedback">
+              <div *ngIf="f.productsName.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-2" class="control-label">GTIN</label>
+            <input type="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.GTIN.errors }" formControlName="GTIN" placeholder="GTIN">
+            <div *ngIf="submitted && f.GTIN.errors" class="invalid-feedback">
+              <div *ngIf="f.GTIN.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Control</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Control.errors }" formControlName="Control" placeholder="Control">
+            <div *ngIf="submitted && f.Control.errors" class="invalid-feedback">
+              <div *ngIf="f.Control.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="field-2" class="control-label">PCSUN</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.PCSUN.errors }" formControlName="PCSUN" placeholder="PCS/UN">
+            <div *ngIf="submitted && f.PCSUN.errors" class="invalid-feedback">
+              <div *ngIf="f.PCSUN.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="field-2" class="control-label">SN</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.SN.errors }" formControlName="SN" placeholder="SN">
+            <div *ngIf="submitted && f.SN.errors" class="invalid-feedback">
+              <div *ngIf="f.SN.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="field-2" class="control-label">DG</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.DG.errors }" formControlName="DG" placeholder="DG">
+            <div *ngIf="submitted && f.DG.errors" class="invalid-feedback">
+              <div *ngIf="f.DG.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Page Style</label>
+            <app-keditor formControlName="Contents" (getEditor)="getEditor($event)" IDEDIT="Contents" VALUEEDIT="{{valueNotes}}" id="Contents"></app-keditor>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')">
+        Cancel </button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+
+  </ng-template>
+</div>

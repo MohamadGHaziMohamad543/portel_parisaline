@@ -1,0 +1,190 @@
+<div class="container-fluid">
+  <app-page-title title="Price Strategy" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box ribbon-box">
+        <div class="ribbon ribbon-primary float-left">
+          <i class="fe-mail mr-1"></i> Price Strategy
+        </div>
+        <h5 class="text-whaite float-leftmt-0"></h5>
+        <div class="ribbon-content">
+          <h4 class="header-title">Price Strategy</h4>
+          <div class="byttondiv">
+            <button type="button" class="btn btn-primary" (click)="showPricestrategyModel(PricestrategyModel)"><i
+                _ngcontent-ogl-c10="" class="mdi mdi-plus"></i>ADD</button>
+          </div>
+          <div class="table-responsive mt-3">
+            <table class="table table-dark table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Strategy Name</th>
+                  <th>Type</th>
+                  <th>Country</th>
+                  <th>City</th>
+                  <th>Doctor</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Price of Pricestrategy">
+                  <th>{{Price.nameStrategy}}</th>
+                  <th>{{Price.type==1?'Country And City':'Doctors'}}</th>
+                   <th>
+                    <main *ngIf="!Price.countryName">All</main>
+                    <main *ngIf="Price.countryName">{{Price.countryName}}</main>
+                   </th>
+                  <th>
+                    <main *ngIf="!Price.cityName">All</main>
+                    <main *ngIf="Price.cityName">{{Price.cityName}}</main>
+                    
+                  </th>
+                  <th>
+                   <main *ngIf="Price.logo"> <img src="{{imageUrl+'/'+Price.logo}}" style="width: 30px;height: 30px;border-radius: 50%;margin-right: 11px;">{{Price.nameDoctor}}</main>
+                   <main *ngIf="!Price.logo">All</main>
+                  </th>
+                  <td>
+                    <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="showPricestrategyModel(PricestrategyModel,Price.id)"><i class="fas fa-edit"></i> </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #PricestrategyModel role="document" let-modal="close">
+    <form class="needs-validation" name="formPricestrategy" [formGroup]="formPricestrategy" (ngSubmit)="Save()" novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-1" class="control-label">Strategy Name</label>
+            <input type="nameStrategy" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameStrategy.errors }" formControlName="nameStrategy" placeholder="Strategy Name">
+            <div *ngIf="submitted && f.nameStrategy.errors" class="invalid-feedback">
+              <div *ngIf="f.nameStrategy.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-1" class="control-label">Strategy Title</label>
+            <input type="titleStrategy" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.titleStrategy.errors }" formControlName="titleStrategy" placeholder="Strategy Title">
+            <div *ngIf="submitted && f.titleStrategy.errors" class="invalid-feedback">
+              <div *ngIf="f.titleStrategy.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Type</label>
+            <select class="form-control" (ngModelChange)="onChangeType()"  [ngClass]="{ 'is-invalid': submitted && f.type.errors }" formControlName="type">
+              <option value="1" selected>Country And City</option>
+              <option value="2">Doctor</option>
+            </select>
+            <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+              <div *ngIf="f.type.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-3">
+            <label for="name">COUNTRY</label>
+            <ng-select   formControlName="countryId" (ngModelChange)="onChange()"  bindLabel="countryName" bindValue="id" [items]="country" [ngClass]="{ 'is-invalid': submitted && f.countryId.errors }">
+              <ng-template ng-label-tmp let-item="item">
+                <flag-icon country="{{item.code}}" ></flag-icon>
+                <b>{{item.countryName}}</b>
+             </ng-template>
+             <ng-template ng-option-tmp let-item="item" let-index="index">
+              <flag-icon country="{{item.code}}" ></flag-icon>
+              <b>{{item.countryName}}</b>
+          </ng-template>
+            </ng-select>
+        
+            <div *ngIf="submitted && f.countryId.errors" class="invalid-feedback">
+              <div *ngIf="f.countryId.errors.required">COUNTRY</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-3">
+            <label for="name">CITY</label>
+            <ng-select  formControlName="cityId"  bindLabel="cityName" bindValue="id" [items]="city" [ngClass]="{ 'is-invalid': submitted && f.cityId.errors }"></ng-select>
+            <div *ngIf="submitted && f.cityId.errors" class="invalid-feedback">
+              <div *ngIf="f.cityId.errors.required">CITY</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group mb-3">
+            <label for="name">Doctors</label>
+            <ng-select   formControlName="doctorId"  bindLabel="nameDoctor" bindValue="id" [items]="doctors" [ngClass]="{ 'is-invalid': submitted && f.doctorId.errors }">
+                <ng-template ng-label-tmp let-item="item">
+                  <img src="{{(item.id==-1?'':imageUrl+'/')+item.logo}}" style="width: 20px; height: 20px; border-radius: 50%;margin-right: 10px;">
+                  <b>{{item.nameDoctor}}</b>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index">
+                  <img src="{{(item.id==-1?'':imageUrl+'/')+item.logo}}" style="width: 30px; height: 30px; border-radius: 50%;margin-right: 10px;">
+                  <b>{{item.nameDoctor}}</b>
+              </ng-template>
+            </ng-select>
+        
+            <div *ngIf="submitted && f.countryId.errors" class="invalid-feedback">
+              <div *ngIf="f.countryId.errors.required">COUNTRY</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="field-2" class="control-label">From</label>
+            <input type="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.form.errors }" formControlName="form">
+            <div *ngIf="submitted && f.form.errors" class="invalid-feedback">
+              <div *ngIf="f.form.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="field-2" class="control-label">TO</label>
+            <input type="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.to.errors }" formControlName="to">
+            <div *ngIf="submitted && f.to.errors" class="invalid-feedback">
+              <div *ngIf="f.to.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Price</label>
+            <input type="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Price.errors }" formControlName="Price">
+            <div *ngIf="submitted && f.Price.errors" class="invalid-feedback">
+              <div *ngIf="f.Price.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Currency</label>
+            <ng-select  formControlName="currencyId" [items]="currency" bindValue="id"  bindLabel="currencyName" [ngClass]="{ 'is-invalid': submitted && f.currencyId.errors }"></ng-select>
+            <div *ngIf="submitted && f.currencyId.errors" class="invalid-feedback">
+              <div *ngIf="f.currencyId.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')"> Cancel </button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+
+  </ng-template>
+</div>

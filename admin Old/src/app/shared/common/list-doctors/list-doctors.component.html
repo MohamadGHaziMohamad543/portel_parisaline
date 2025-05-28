@@ -1,0 +1,43 @@
+<div class="row">
+  <!-- Table -->
+  <div class="col-xl-12">
+    <div class="">
+      <h4 class="header-title mb-4">List of Doctors</h4>
+      <div class="row">
+        <!-- Table -->
+        <div class="col-xl-12">
+          <div class="card-body pt-0">
+            <div class="table-responsive">
+              <table class="table table-hover table-centered mb-0" style="text-align: center;">
+                <thead>
+                  <tr>
+                    <th>Photo</th>
+                    <th>Doctor Number</th>
+                    <th>Doctor Name</th>
+                    <th>Join Date</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+    
+                <tbody>
+                  <tr *ngFor="let doctor of dctorClaint">
+                    <td><img src="{{ urlStatic+doctor.logo }}" style="    width: 60px;  height: 60px; border: 1px dashed; border-radius: 50%; padding: 2px; " ></td>
+                    <td>{{ doctor.doctorId }}</td>
+                    <td>{{ doctor.nameDoctor }}</td>
+                    <td>{{ doctor.createdAt | date}}</td>
+                    <td>
+                      <button  class="btn btn-success  " type="button" *ngIf="doctor.status==0"  (click)="Accept(doctor.id)"><span _ngcontent-lyw-c57="" class="btn-label"><i _ngcontent-lyw-c57="" class="mdi mdi-check-all"></i></span>Accept </button>
+                      <button  class="btn btn-danger  " type="button"  (click)="Join(doctor.id)"><span _ngcontent-lyw-c57="" class="btn-label"><i _ngcontent-lyw-c57="" class="mdi mdi-close-circle-outline"></i></span>Reject </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+

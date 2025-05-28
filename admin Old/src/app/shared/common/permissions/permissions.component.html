@@ -1,0 +1,60 @@
+<div class="row">
+
+  <div class="col-lg-12">
+    <div class="">
+      <button _ngcontent-ogl-c10="" (click)="AddPermissions(permissionModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> ADD </button>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Read</th>
+              <th>Insert</th>
+              <th>Update</th>
+              <th>Delete</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let per of permissions">
+              <th>{{per.section}}</th>
+              <td><input type="checkbox" [checked]="per.read" (change)="updateRead(per.read?false:true,per.id)" ></td>
+              <td><input type="checkbox" [checked]="per.insert" (change)="updateInsert(per.insert?false:true,per.id)"></td>
+              <td><input type="checkbox" [checked]="per.update" (change)="updateUpdate(per.update?false:true,per.id)"></td>
+              <td><input type="checkbox" [checked]="per.delete" (change)="updateDelete(per.delete?false:true,per.id)"></td>
+              <td><input type="checkbox" [checked]="per.view" (change)="updateView(per.view?false:true,per.id)"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div> <!-- end table-responsive-->
+
+    </div> <!-- end card-box -->
+  </div> <!-- end col -->
+</div>
+
+<ng-template #permissionModal role="document" let-modal="close">
+  <form class="needs-validation" name="formPermission" [formGroup]="formPermission" (ngSubmit)="createPermissions()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormName}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="errors" [dismissible]="false">{{ errors }}</ngb-alert>
+    <div class="row">
+      <div class="form-group col-lg-12">
+        <label for="name">Section</label>
+        <select class="form-control">
+          <option value="/DentalCenter">DENTAL CENTERS</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >cancel</button>
+      <button type="button" class="btn btn-primary" type="submit">save</button>
+  </div>
+</form>
+</ng-template>

@@ -1,0 +1,81 @@
+<form class="needs-validation" name="formpaymentAddress" [formGroup]="formpaymentAddress" (ngSubmit)="onSubmit()"
+novalidate>
+
+<app-ui-preloader [display]="loading"></app-ui-preloader>
+<div class="modal-body">
+ 
+  <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+  <div class="form-group mb-3">
+    <label for="name">FULL NAME</label>
+
+    <input type="fullName" formControlName="fullName"   class="form-control"  id="fullName"  />
+
+    <div *ngIf="submitted && f.fullName.errors" class="invalid-feedback">
+      <div *ngIf="f.fullName.errors.required">FULL NAME</div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="name">ADDRESS 1</label>
+
+    <input type="address1" formControlName="address1"   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameModel.errors }" id="nameModel"  />
+
+    <div *ngIf="submitted && f.address1.errors" class="invalid-feedback">
+      <div *ngIf="f.address1.errors.required">ADDRESS 1</div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="name">ADDRESS 2</label>
+
+    <input type="address2" formControlName="address2"   class="form-control"  id="address2"  />
+
+    <div *ngIf="submitted && f.address2.errors" class="invalid-feedback">
+      <div *ngIf="f.address2.errors.required">{{trans.paymentAddress.address2}}</div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="name">COUNTRY</label>
+    <ng-select   formControlName="countryId" (ngModelChange)="onChange()"  bindLabel="countryName" bindValue="id" [items]="country" >
+      <ng-template ng-label-tmp let-item="item">
+        <flag-icon country="{{item.code}}" ></flag-icon>
+        <b>{{item.countryName}}</b>
+     </ng-template>
+     <ng-template ng-option-tmp let-item="item" let-index="index">
+      <flag-icon country="{{item.code}}" ></flag-icon>
+      <b>{{item.countryName}}</b>
+  </ng-template>
+    </ng-select>
+
+    <div *ngIf="submitted && f.countryId.errors" class="invalid-feedback">
+      <div *ngIf="f.countryId.errors.required">COUNTRY</div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="name">CITY</label>
+    <ng-select  formControlName="cityId"  bindLabel="cityName" bindValue="id" [items]="city" ></ng-select>
+    <div *ngIf="submitted && f.cityId.errors" class="invalid-feedback">
+      <div *ngIf="f.cityId.errors.required">CITY</div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="name">PHONE</label>
+    <input type="phone" formControlName="phone"   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" id="phone"  />
+
+    <div *ngIf="submitted && f.nameModel.errors" class="invalid-feedback">
+      <div *ngIf="f.phone.errors.required">PHONE</div>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <label for="name">POSTAL CODE</label>
+
+    <input type="postalCode" formControlName="postalCode"   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.postalCode.errors }" id="postalCode"  />
+
+    <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+      <div *ngIf="f.postalCode.errors.required">POSTAL CODE</div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+    <button type="button" *ngIf="btn" class="btn btn-light waves-effect" (click)="edit()" >{{trans.paymentAddress.btnedit}}</button>
+    <button type="submit" *ngIf="!btn" class="btn btn-light waves-effect" >{{trans.paymentAddress.btnsave}}</button>
+</div>
+</form>

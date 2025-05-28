@@ -1,0 +1,222 @@
+
+
+<img class="imageCoverCases" ng-if="idPatient==-1" src="assets/images/attached-files/background.png">
+<img class="imageCoverCases" ng-if="hideNavbar"  src="assets/images/attached-files/submited.png">
+<input type="file" style="display: none;" id="uploadFiles">
+<div id="cases">
+    <h1 class="text-center" style="color: #000;" ng-if="!hideNavbar">{{idPatient==-1?'Create a new case':'Case Number '+idPatient}}</h1>
+    <div class="navTabs text-center" ng-if="!hideNavbar && !DeleteCases">
+        <div id="PatientInformation" ng-if="TAB.patientInformation.display" ng-click="nextTab('patientInformation',false,true)" class="boxTabNavTitle" ng-class="{navActive:TAB.patientInformation.set || TAB.patientInformation.active||Status >= 1}">
+            <div class="tabNavTitleL"></div>
+            <a class="">Patient's Information</a>
+        </div>
+        <div id="PatientRecords" ng-if="TAB.patientRecords.display" class="boxTabNavTitle" ng-click="nextTab('patientRecords',false,true)" ng-class="{navActive:TAB.patientRecords.set||TAB.patientRecords.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">Patient's Records</a>
+        </div>
+        <div id="CreateOrder" ng-if="TAB.createOrder.display" class="boxTabNavTitle" ng-click="nextTab('createOrder',false,true)" ng-class="{navActive:TAB.createOrder.set||TAB.createOrder.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">File STL</a>
+        </div>
+        <div id="printStl" ng-if="TAB.printStl.display" class="boxTabNavTitle" ng-click="nextTab('printStl',false,true)" ng-class="{navActive:TAB.printStl.set||TAB.printStl.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a class="">File STL For Print</a>
+        </div>
+        <div id="attachments" ng-if="TAB.attachments.display" class="boxTabNavTitle" ng-click="nextTab('attachments',false,true)" ng-class="{navActive:TAB.attachments.set||TAB.attachments.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a class="">Attachments</a>
+        </div>
+        <div id="AdditionalInstructions" ng-if="TAB.AdditionalInstructions.display" class="boxTabNavTitle" ng-click="nextTab('AdditionalInstructions',false,true)" ng-class="{navActive:TAB.AdditionalInstructions.set||TAB.AdditionalInstructions.active||Status>=1}">
+            <div class="{{(Status !=0 && Status !=null)?'tabNavTitle':'tabNavTitleR'}}"></div>
+            <a>Additional Instructions</a>
+        </div>
+        <div id="tretmentPlans" ng-if="TAB.tretmentPlans.display" class="boxTabNavTitle" ng-click="nextTab('tretmentPlans',false,true)" ng-class="{navActive:TAB.tretmentPlans.set||TAB.tretmentPlans.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a>Tretment Plan</a>
+        </div>
+    </div>
+    <div class="tabPanels">
+        <div id="PatientInformation" ng-if="TAB.patientInformation.display && TAB.patientInformation.set" class="boxTabsn active bounceInRight animated">
+            <patient-Information  id-Patient="idPatient" filters="tst test tes" delete-Cases="DeleteCases" button-Next="nextTab('patientRecords')"></patient-Information>
+        </div>
+        <div id="PatientRecords" ng-if="TAB.patientRecords.display && TAB.patientRecords.set" class="boxTabsn active bounceInRight animated">
+            <patient-Records id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('createOrder')" button-Back="nextTab('patientInformation')"></patient-Records>
+        </div>
+        <div id="CreateOrder" ng-if="TAB.createOrder.display && TAB.createOrder.set" class="boxTabsn active bounceInRight animated">
+            <create-Order show-Model-Shipping-Create="showModelShippingCreate()" button-Back="nextTab('patientRecords')" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('printStl')"></create-Order>
+        </div>
+        <div id="printStl" ng-if="TAB.printStl.display && TAB.printStl.set" class="boxTabsn active bounceInRight animated">
+            <print-Stl button-Back="nextTab('patientRecords')" just-Print-File="JustprintFile" show-Model-Barcode="showModelBarcode(data)" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></print-Stl>
+        </div>
+        <div id="AdditionalInstructions " ng-if="TAB.AdditionalInstructions.display && TAB.AdditionalInstructions.set" class="boxTabsn active bounceInRight animated">
+            <additional-Instructions id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('tretmentPlans')"></additional-Instructions>
+        </div>
+        <div id="tretmentPlans" ng-if="TAB.tretmentPlans.display && TAB.tretmentPlans.set" class="boxTabsn active bounceInRight animated">
+            <tretment-Plan id-Patient="idPatient" status="Status" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></tretment-Plan>
+        </div>
+        <div id="SubmitCase" ng-if="TAB.submitCase.display && TAB.submitCase.set && (Status!==0 || !Status)" class="boxTabsn active">
+            <submit-Case filters="tst test tes" btn-Hide-Nav="hideNav()" button-Next="nextTab('AdditionalInstructions',true)" id-Patient="idPatient"></submit-Case>
+        </div>
+        <div id="attachments" ng-if="TAB.attachments.display && TAB.attachments.set && (Status!==0 || !Status)" class="boxTabsn active">
+            <attachments filters="tst test tes" btn-Hide-Nav="hideNav()" button-Next="nextTab('AdditionalInstructions',true)" id-Patient="idPatient"></attachments>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 card" ng-if="taskStatus==1" style="padding: 17px;">
+    <label><strong>Comment : </strong> {{taskData.commentAdmin}}</label>
+    <hr>
+    <label ng-if="dataCases.ShowAddressToLap==1"><strong>Address : </strong> {{dataCases.fullName+' - '+dataCases.countryName+' - '+dataCases.cityName+' - '+dataCases.address1+' - '+dataCases.address2}}</label>
+    <hr>
+    <div class="row" ng-if="taskAction==2">
+        <div class="col-md-6">
+            <label>Tracking Number</label>
+            <input type="text" class="form-control"  id="TrackingNumber" value="{{dataCases.TrackingNumber}}"  placeholder="Tracking Number">
+        </div>
+        <div class="col-md-6">
+            <label> Amount of attach template sheets used (Piece)</label>
+            <input type="number"  class="form-control"  id="attachTemplateAmount" value="{{dataCases.attachTemplateAmount}}"  placeholder=" Amount of attach template sheets used (Piece)">
+        </div>
+        <div class="col-md-6">
+            <label>Amount of aligners sheets used in (Piece)</label>
+            <input type="number" class="form-control"  id="alignersAmount" value="{{dataCases.alignersAmount}}"  placeholder=" Amount of attach template sheets used (Piece)">
+        </div>
+        <div class="col-md-6">
+            <label>Amount of risin used in (Gram)</label>
+            <input type="number" class="form-control"  id="risinAmount" value="{{dataCases.risinAmount}}"  placeholder=" Amount of attach template sheets used (Piece)">
+        </div>
+    </div>
+    <hr>
+    <label>Comment For task</label>
+    <input type="text" class="form-control"  ng-model="CommentInnput"  placeholder="Write Your Note">
+    <div class="mt-3">
+        <button class="btn btn-outline-danger" ng-click="RejectTash(CommentInnput)" ng-if="taskStatus==1 && IsYouCanReject" ng-disabled="CommentInnput==''">Refusal of The Task</button>
+        <button class="btn btn-outline-success float-right" ng-click="FinshTask(CommentInnput)" ng-if="taskStatus==1" ng-disabled="CommentInnput==''">Finish the Task</button>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="FormModalBarcode" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Generate Barcode For <strong style="color:#4b569d;">{{numberAliner}} Of {{numberOfAliner}}</strong> </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="formBarcode">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                         <label>Acrylic Resin Name:</label>
+                         <input type="text"  class="form-control" ng-model="FormAcrylicResinName" >
+                        </div>
+                     </div>
+                    <div class="col-md-3">
+                       <div class="form-group">
+                        <label>Acrylic Resin REF:</label>
+                        <input type="text"  class="form-control" ng-model="FormAcrylicResinREF" >
+                       </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Acrylic Resin LOT:</label>
+                            <input type="text" class="form-control" ng-model="FormAcrylicResinLOT"  >
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Acrylic Resin Expire:</label>
+                            <input type="date" class="form-control" ng-model="FormAcrylicResinEX"  >
+                        </div>
+                    </div>
+                </div>
+               <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Thermoforming Foil Name:</label>
+                        <input type="text" class="form-control" ng-model="FormThermoformingFoilName"  >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Thermoforming Foil REF:</label>
+                        <input type="text" class="form-control" ng-model="FormThermoformingFoilREF"  >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Thermoforming Foil LOT:</label>
+                        <input type="text" class="form-control" ng-model="FormThermoformingFoilLOT"  >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Thermoforming Foil Expire:</label>
+                        <input type="date" class="form-control" ng-model="FormThermoformingFoilEX" >
+                    </div>
+                </div>
+               </div>
+               <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Aligner Production Date:</label>
+                            <input type="date" class="form-control" ng-model="FormalignerProductionDate" >
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="justify-content: center;align-items: center;display: flex;">
+                        <!-- <div class="form-group form-check" style="margin: 0;">
+                            <input type="checkbox" class="form-check-input" id="FillAllNextWithTheSameDetails">
+                            <label class="form-check-label" for="FillAllNextWithTheSameDetails">Fill all next with the same details</label>
+                         </div> -->
+                    </div>
+               </div>
+                <div style="width: 100%;" ng-if="barcodeAliner">
+                    <a class="btn btn-outline-info" ng-click="printSVG('printbar')" >print</a>
+                    <a class="btn btn-outline-info" ng-click="downloadImage()">Download</a>
+                    <div id="barcodePrint"></div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <a  class="btn btn-outline-primary" ng-click="GnreateBarcode()" ng-if="!barcodeAliner">Generate</a>
+                    <a  class="btn btn-outline-primary" ng-click="GnreateBarcode()" ng-if="barcodeAliner">Save</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+  <div class="modal fade" id="FormModalBarcodeBOX" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Generate BOX Barcode For <strong style="color:#4b569d;">{{numberAliner}} Of {{numberOfAliner}}</strong> </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="formBarcode">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Aligner Production Date:</label>
+                        <input type="date" class="form-control" ng-model="FormalignerProductionDate" >
+                    </div>
+                </div>
+                <div style="width: 100%;" ng-if="barcodeAliner">
+                    <a class="btn btn-outline-info" ng-click="printSVG('printbar')" >print</a>
+                <a class="btn btn-outline-info" ng-click="downloadImage()">Download</a>
+                </div>
+                <div id="barcodePrintBox" style="width: 100%;" ng-if="barcodeAliner"></div>
+                <div class="col-md-12 text-center">
+                    <a  class="btn btn-outline-primary" ng-click="GnreateBarcode()" ng-if="!barcodeAliner">Generate</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>clinic specialist</title>
+        <base href="/">
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/jquery-contextmenu/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/imageViewer/viewer.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://unpkg.com/wavesurfer.js"></script>
+        <script src="https://unpkg.com/wavesurfer.js@6.2.0/dist/plugin/wavesurfer.microphone.min.js"></script>
+        <!-- <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x72.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x96.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x128.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x128.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x128.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x192.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x384.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x512.png" />
+        <meta name="apple-mobile-web-app-status-bar" content="#6868ab" />
+        <meta name="theme-color" content="#6868ab" /> -->
+        <script>
+            var DomianStatic = 'https://api.setupaligners.com/';
+        </script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M5BRXVSR');</script>
+    </head>
+
+    <body>
+        <!-- Begin page -->
+        <div id="wrapper" ng-app="adminApp">
+            <main ng-controller="Layouts" ng-include="'/Layouts/Layouts.html'"></main>
+            <div class="content-page">
+                <div class="content">
+                    <ng-view class="view"></ng-view>
+                </div>
+            </div>
+        </div>
+        
+        <div id="modelViewerImage" data-animation="slide" class="modal makeway" tabindex="-1" role="dialog"
+            aria-labelledby="full-width-modalLabel" aria-hidden="true" style="display: none;">
+            <img src="" style="width: 400px;height: auto;" id="image">
+        </div><!-- /.modal -->
+        <script src="/STL/stl_viewer.min.js"></script>
+        <script src="/assets/js/vendor.min.js"></script>
+        <script>
+            var RoolCPT=[
+                "aammrpr@gmail.com"
+            ];
+            var VERSTION=01;
+            var Routing = angular.module('adminApp', [
+                'ngRoute', 'ngSanitize', 'ngCookies'
+            ]);
+            Routing.config(['$locationProvider', function ($locationProvider) {
+                $locationProvider.html5Mode(true);
+            }
+            ]);
+
+            var adminApp = angular.module('adminApp');
+        </script>
+        <script src="/assets/js/app.min.js"></script>
+        <script src="/assets/libs/jquery-contextmenu/jquery.contextMenu.min.js"></script>
+        <script src="/assets/libs/imageViewer/viewer.min.js"></script>
+        <script
+            src="https://cdn.staticaly.com/gh/jaridmargolin/formatter.js/master/dist/jquery.formatter.min.js"></script>
+        <script src="https://api.setupaligners.com/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-analytics.js";
+            import { getDatabase,ref, set ,child, push, update,onValue,get,remove } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyBhjfNW7d_aiGhYN0f-vM7ntGnYyxjWwZg",
+              authDomain: "datazoom-b7d43.firebaseapp.com",
+              projectId: "datazoom-b7d43",
+              storageBucket: "datazoom-b7d43.appspot.com",
+              messagingSenderId: "316978532735",
+              appId: "1:316978532735:web:2d4252472d77240fcc8a4a",
+              measurementId: "G-8S0PD89R20"
+            };
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            var AddEditData=(path,Param)=>{
+                const db = getDatabase();
+                set(ref(db, path),Param);
+            }
+            var AddNewData=(path,Param)=> {
+                return new Promise((resulve,resject)=>{
+                    const db = getDatabase();
+                    // Get a key for a new Post.
+                    const newPostKey = push(child(ref(db), path)).key;
+                    // Write the new post's data simultaneously in the posts list and the user's post list.
+                    const updates = {};
+                    updates[path +'/'+ newPostKey] = Param;
+
+                    update(ref(db), updates).then(sucess=>{
+                        resulve(newPostKey);
+                    }).catch(error=>{
+                        resject(error);
+                    })
+                    
+                });
+            }
+            var Update=(Path,value)=>{
+                return new Promise((resulve,reject)=>{
+                    const db = getDatabase();
+                    // Get a key for a new Post.
+                    // Write the new post's data simultaneously in the posts list and the user's post list.
+                    const updates = {};
+                    updates[Path] = value;
+
+                    update(ref(db), updates).then(sucess=>{
+                        resulve(true);
+                    }).catch(error=>{
+                        reject(error);
+                    })
+                });
+            }
+            var ListingData=(Path,onlyOnce,fun)=>{
+                const db = getDatabase();
+                const dbRef = ref(db, Path);
+                onValue(dbRef, (snapshot) => {
+                    fun(snapshot);
+                    }, {
+                        onlyOnce: onlyOnce
+                });
+            }
+            var GET=(Path)=>{
+                return new Promise((resulve,reject)=>{
+                    const dbRef = ref(getDatabase());
+                    get(child(dbRef, Path)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        resulve(snapshot.val());
+                    } else {
+                        resulve(null);
+                    }
+                    }).catch((error) => {
+                        reject(error);
+                    });
+                });
+            }
+            var Delete=(Path)=>{
+                return new Promise((resulve,reject)=>{
+                    const db = getDatabase();
+                    remove(child(ref(db), Path)).then(res=>{
+                        resulve(true);
+                    }).catch(err=>{
+                        resulve(false);
+                    });
+                });
+            }
+
+            RenderDataBaseFire=(firebaseConfig)=>{
+                // Initialize Firebase
+                return {app:app,getDatabase:getDatabase,AddEditData:AddEditData,AddNewData:AddNewData,ListingData:ListingData,GET:GET,Delete:Delete,Update:Update};
+            }
+
+            DataBaseFire= RenderDataBaseFire(firebaseConfig);
+          </script>
+        <script src="assets/libs/jquery-toast/jquery.toast.min.js"></script>
+        <script>
+            var $viewer = null;
+            // Open
+            let img = document.querySelector('#modelViewerImage #image');
+            img.src = "https://i0.wp.com/livetechnoid.com/wp-content/uploads/2021/02/3-Simple-Ways-to-Remove-Background-From-Your-Photos.png?fit=1200%2C696&ssl=1";
+            img.style.display = "none";
+            // modal.open();
+            $viewer = new Viewer(img, {
+                button: {
+                    "viewer-play": false
+                }
+            });
+
+
+            var TostK = {
+                Tost: function (title, text, timeStop, position, color) {
+                    $.toast({
+                        text: '<h4 style="color:#fff">' + title + '</h4>\n<p>' + text + '</p>',
+                        hideAfter: timeStop ? timeStop : 3000,
+                        showHideTransition: 'slide',
+                        position: position ? position : 'top-right',
+                        stack: 100,
+                        allowToastClose: true,
+                        bgColor: color
+                    });
+                },
+                info: function (title, text, timeStop, position) {
+                    this.Tost(title, text, timeStop, position, '#23B65D');
+                },
+                error: function (title, text, timeStop, position) {
+                    this.Tost(title, text, timeStop, position, '#E01A31');
+                },
+                warning: function (title, text, timeStop, position) {
+                    this.Tost(title, text, timeStop, position, '#ff9966');
+                },
+                help: function (title, text, timeStop, position) {
+                    this.Tost(title, text, timeStop, position, '#6523d9');
+                }
+            }
+
+            var URLStatICBAS = "http://localhost:3000";
+        </script>
+
+        <script src="/assets/js/Router.js"></script>
+
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M5BRXVSR"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    </body>
+
+</html>

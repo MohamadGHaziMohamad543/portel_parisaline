@@ -1,0 +1,36 @@
+{
+  "name": "Parisaline",
+  "short_name": "Parisaline",
+  "description": "Doctor ParisAline",
+  "start_url": "./",
+  "scope": ".",
+  "icons":[
+    {
+      "src": "/WPA/maskable_icon_x72.png",
+      "type": "image/png", "sizes": "72x72"
+    },
+    {
+      "src": "/WPA/maskable_icon_x96.png",
+      "type": "image/png", "sizes": "96x96"
+    },
+    {
+      "src": "/WPA/maskable_icon_x128.png",
+      "type": "image/png","sizes": "128x128"
+    },
+    {
+      "src": "/WPA/maskable_icon_x192.png",
+      "type": "image/png", "sizes": "192x192"
+    },
+    {
+      "src": "/WPA/maskable_icon_x384.png",
+      "type": "image/png", "sizes": "384x384"
+    },
+    {
+      "src": "/WPA/maskable_icon_x512.png",
+      "type": "image/png", "sizes": "512x512"
+    }
+  ],
+  "background_color": "#6868ab",
+  "theme_color": "#6868ab",
+  "display": "standalone"
+}

@@ -1,0 +1,326 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+      <div class="card-header cardheaderCases">
+        Treatment Plan
+      </div>
+      <div class="card-body cardBodyCases" style="padding: 17px 15px;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tabKiven">
+              <div class="tabs">
+                <div class="tab" ng-repeat="tab in Tabs" ng-class="{'active': tab.set}" ng-click="setTabs(tab.id)"> Option {{tab.nLevel}}</div>
+              </div>
+              <div class="content">
+                <div class="row">
+                  <div class="col-md-10">
+                    <div ng-repeat="tab in Tabs">
+                      <div class="content-item" ng-class="{'active': tab.set}">
+                        <div class="row tabLevel">
+                          <div class="tabs col-md-12" style="display: inline-flex;">
+                            <div class="tab" ng-if="tab.additionalInstructions"
+                              ng-class="{'active': tab.select=='additionalInstructions'}"
+                              ng-click="setSelect('additionalInstructions',tab.nLevel)">add. Instructions</div>
+                            <div class="tab" ng-if="tab.V3dV || NemoLink" ng-class="{'active': tab.select=='V3dV'}"
+                              ng-click="setSelect('V3dV',tab.nLevel)">3d Viwer</div>
+                            <div class="tab" ng-if="tab.Frontal" ng-class="{'active': tab.select=='Frontal'}"
+                              ng-click="setSelect('Frontal',tab.nLevel)">Frontal Video </div>
+                            <div class="tab" ng-if="tab.Left" ng-class="{'active': tab.select=='Left'}"
+                              ng-click="setSelect('Left',tab.nLevel)">Left Video</div>
+                            <div class="tab" ng-if="tab.Right" ng-class="{'active': tab.select=='Right'}"
+                              ng-click="setSelect('Right',tab.nLevel)">Right Video</div>
+                            <div class="tab" ng-if="tab.Simulation" ng-class="{'active': tab.select=='Simulation'}"
+                              ng-click="setSelect('Simulation',tab.nLevel)">Simulation PDF</div>
+                            <div class="tab" ng-if="tab.Setup" ng-class="{'active': tab.select=='Setup'}"
+                              ng-click="setSelect('Setup',tab.nLevel)">Setup PDF</div>
+                          </div>
+                          <div class="content col-md-12">
+                            <div ng-if="tab.select=='V3dV'" style="background: #6565a7;">
+                              <div class="content-item active">
+
+                                <div class="kivenView" id="kiven{{tab.nLevel}}"></div>
+                                <div class="NotPeermstion" style="
+                                      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      z-index: 0;
+      padding: 11%;
+      opacity: 0.1;">
+                                  <h1 style="text-align: center;
+                                      width: 100%;
+                                      left: 0;
+                                      position: absolute;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="300.711" height="274.397"
+                                      viewBox="0 0 300.711 274.397">
+                                      <path fill="#fff" id="Path_460" data-name="Path 460"
+                                        d="M77.779,0H6.412A6.42,6.42,0,0,0,0,6.419v167.4a3.108,3.108,0,0,0,3.113,3.113H30.435a3.116,3.116,0,0,0,3.113-3.113V115.053H77.779q29.565,0,46.1-15.531T140.4,57.65q0-26.6-16.524-42.126T77.779,0m21,78.9q-7.829,7.329-22.489,7.332H33.547V28.821H76.286q14.657,0,22.489,7.452T106.6,57.65q0,13.918-7.825,21.25"
+                                        fill="#6868ac"></path>
+                                      <path fill="#fff" id="Path_461" data-name="Path 461"
+                                        d="M66.074,137.922h.06l10.125-28.575h0L82.971,90.2q11.178-29.815,21.616-60.629Q117.754,68.1,126.45,90.2l6.972,19.143,10.185,28.575,13.171,36.947a3.107,3.107,0,0,0,2.933,2.066h28.8a3.113,3.113,0,0,0,2.906-4.233L125.663,3.086A4.827,4.827,0,0,0,121.157,0H88.536a4.833,4.833,0,0,0-4.519,3.119l-64.555,169.6a3.1,3.1,0,0,0,2.906,4.213H50.2a3.119,3.119,0,0,0,2.939-2.08Z"
+                                        transform="translate(109.081)" fill="#6868ac"></path>
+                                      <path fill="#fff" id="Path_462" data-name="Path 462"
+                                        d="M127.484,75.363h-.02c-40.739,0-78.019-16.017-100.829-43.092A5.194,5.194,0,0,0,19.5,31.4L6.106,41.6a5.179,5.179,0,0,0-.92,7.385c27.895,33.634,73.167,53.564,122.278,53.564h.02c49.118,0,94.4-19.95,122.3-53.59a5.179,5.179,0,0,0-.926-7.385l-13.4-10.2a5.187,5.187,0,0,0-7.132.88c-22.8,27.082-60.083,43.112-100.835,43.112"
+                                        transform="translate(22.869 171.846)" fill="#6868ac"></path>
+                                    </svg>
+                                  </h1>
+                                </div>
+                                <h1 ng-if="!tab.V3dV">There is No File Here</h1>
+                              </div>
+                              <h6 style="text-align: center;color: #fff;background: #6565a7; padding-bottom: 12px;">The digital treatment plan is a simulation.Clinical results might vary</h6>
+                            </div>
+                            <div class="content-item active" ng-if="tab.select=='Setup'">
+                              <iframe ng-if="tab.Setup" ng-src="{{tab.Setup}}"
+                                style="border: 1px solid black;width: 100%;min-height: 400px;"></iframe>
+                              <h1 ng-if="!tab.Setup">There is No File Here</h1>
+                            </div>
+                            <div class="content-item active" ng-if="tab.select=='Simulation'">
+                              <iframe ng-if="tab.Simulation" ng-src="{{tab.Simulation}}"
+                                style="border: 1px solid black;width: 100%;min-height: 400px;"></iframe>
+                              <h1 ng-if="!tab.Simulation">There is No File Here</h1>
+                            </div>
+                            <div class="content-item active" ng-if="tab.select=='Right'">
+                              <video ng-if="tab.Right" style="width: 100%;min-height: 400px;" id="my-player"
+                                class="video-js" controls preload="auto" data-setup='{}'>
+                                <source src="{{tab.Right}}" type="video/mp4">
+                                </source>
+                              </video>
+                              <h1 ng-if="!tab.Right">There is No File Here</h1>
+                            </div>
+                            <div class="content-item active" ng-if="tab.select=='Left'">
+                              <video ng-if="tab.Left" style="width: 100%;min-height: 400px;" id="my-player"
+                                class="video-js" controls preload="auto" data-setup='{}'>
+                                <source src="{{tab.Left}}" type="video/mp4">
+                                </source>
+                              </video>
+                              <h1 ng-if="!tab.Left">There is No File Here</h1>
+                            </div>
+                            <div class="content-item active" ng-if="tab.select=='Frontal'">
+                              <video ng-if="tab.Frontal" style="width: 100%;min-height: 400px;" id="my-player"
+                                class="video-js" controls preload="auto" data-setup='{}'>
+                                <source src="{{tab.Frontal}}" type="video/mp4">
+                                </source>
+                              </video>
+                              <h1 ng-if="!tab.Frontal">There is No File Here </h1>
+                            </div>
+                            <div class="content-item active" ng-if="tab.select=='additionalInstructions'">
+                              <additional-Instructions Status="$ctrl.status" option-Id="{{tab.nLevel}}" style="width: 100%;height: 100%;"
+                                id-Patient="idPatient" filters="tst test tes"
+                                button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                      <div ng-if="tab.set"
+                        style="margin-top:10px;width: 70%;margin-bottom: 7px;width: 100%;display: {{tab.set?'flex':'none'}};">
+                        <input class="form-control" value="{{Tabs[0].link}}-{{tab.nLevel}}" id="linkShereyStringsUrl"
+                          readonly><a style="width: 200px;float: right;margin-left: 10px;" class="btn btn-outline-info"
+                          ng-click="CopyLink()">Copy link</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div style="    width: 100%;
+                         height: 70vh;
+                         border: 1px solid #6565a7;
+                         padding: 1px;">
+                      <div class="headerImageVoewr"
+                        style="text-align: center; background: #6565a7;color: #fff;padding: 10px;">
+                        Patient record
+                      </div>
+                      <div class="images" style="overflow-x: scroll;height: 94%;">
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageFrontPose && PR.imageFrontPose.length==1" id="imageFrontPose"
+                          idPatient="{{idPatient}}" imgclass="imagePatient"
+                          filesrc="{{PR.imageFrontPose.length==1?PR.imageFrontPose[0].path:''}}" filearray="{{PR}}"
+                          class="dragdrop" defultimage="assets/images/imagePatient/2.png" drag-Drop
+                          typefile="png jpeg jpg" multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageFrontSmiling && PR.imageFrontSmiling.length==1" id="imageFrontSmiling"
+                          idPatient="{{idPatient}}" imgclass="imagePatient"
+                          filesrc="{{PR.imageFrontSmiling.length==1?PR.imageFrontSmiling[0].path:''}}"
+                          filearray="{{PR}}" class="dragdrop" defultimage="assets/images/imagePatient/1.png" ; drag-Drop
+                          typefile="png jpeg jpg" multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageProfile && PR.imageProfile.length==1" id="imageProfile"
+                          idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                          filesrc="{{PR.imageProfile.length==1?PR.imageProfile[0].path:''}}" filearray="{{PR}}"
+                          defultimage="assets/images/imagePatient/3.png" drag-Drop typefile="png jpeg jpg"
+                          multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageUpperOcclusal && PR.imageUpperOcclusal.length==1" id="imageUpperOcclusal"
+                          idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                          filesrc="{{PR.imageUpperOcclusal.length==1?PR.imageUpperOcclusal[0].path:''}}"
+                          filearray="{{PR}}" defultimage="assets/images/imagePatient/4.png" drag-Drop
+                          typefile="png jpeg jpg" multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageLowerOcclusal && PR.imageLowerOcclusal.length==1" id="imageLowerOcclusal"
+                          idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                          filesrc="{{PR.imageLowerOcclusal.length==1?PR.imageLowerOcclusal[0].path:''}}"
+                          filearray="{{PR}}" defultimage="assets/images/imagePatient/5.png" drag-Drop
+                          typefile="png jpeg jpg" multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageLeftBuccal && PR.imageLeftBuccal.length==1" id="imageLeftBuccal"
+                          idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                          filesrc="{{PR.imageLeftBuccal.length==1?PR.imageLeftBuccal[0].path:''}}" filearray="{{PR}}"
+                          defultimage="assets/images/imagePatient/6.png" drag-Drop typefile="png jpeg jpg"
+                          multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageFrontal && PR.imageFrontal.length==1" id="imageFrontal"
+                          idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                          filesrc="{{PR.imageFrontal.length==1?PR.imageFrontal[0].path:''}}" filearray="{{PR}}"
+                          defultimage="assets/images/imagePatient/7.png" drag-Drop typefile="png jpeg jpg"
+                          multifile="false"></div>
+                        <div style="position: relative;margin-top: 1px;height: 142px;" noremove="1"
+                          ng-if="PR.imageRightBuccal && PR.imageRightBuccal.length==1" id="imageRightBuccal"
+                          idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                          filesrc="{{PR.imageRightBuccal.length==1?PR.imageRightBuccal[0].path:''}}" filearray="{{PR}}"
+                          defultimage="assets/images/imagePatient/8.png" drag-Drop typefile="png jpeg jpg"
+                          multifile="false"></div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" ng-if="priceStratige.DPrice==1">
+            <h4 style="text-align: left;margin-top: 20px;">Price: <strong
+                style="color: #6868aa;">{{priceStratige.Price-((priceStratige.Price/100)*priceStratige.percentage)}}{{priceStratige.currencyCode}}</strong>
+            </h4>
+          </div>
+          <div class="col-md-4" style="margin-top: 10px;text-align: center;font-size: 14px;">
+            <label style="margin-top: 10px;margin-right: 14px;color: #6868aa;"><strong>Lower Aligners
+                :{{LowersNumber}}</strong></label>
+          </div>
+          <div class="col-md-4" style="margin-top: 10px;text-align: center;font-size: 14px;">
+            <label style="margin-top: 10px;margin-right: 14px;color: #6868aa;"><strong>Upper Aligners
+                :{{UpperNumber}}</strong></label>
+          </div>
+          <div class="col-md-12" ng-if="$ctrl.status==4 && LowersNumber != UpperNumber"
+            style="margin-top: 10px;text-align: center;font-size: 14px;">
+            <div class="form-group " style="display: inline-flex;">
+              <label style="margin-top: 10px;margin-right: 14px;color: #6868aa;">Add more passive
+                {{(typeNumber=='L')?'Upper':'Lower'}} Aligners (optional)</label>
+              <input class="form-control inputLogin" id="numberAlignersIN" type="number" value="0" min="0"
+                max="{{(typeNumber=='U')?(UpperNumber-LowersNumber):(LowersNumber-UpperNumber)}}" style="width: 100px;">
+              <label
+                style="margin-top: 10px;margin-left: 14px;color: #6868aa;">MAX({{(typeNumber=='U')?(UpperNumber-LowersNumber):(LowersNumber-UpperNumber)}})</label>
+            </div>
+          </div>
+          <div class="col-md-6"></div>
+          <div class="col-md-12" ng-if="$ctrl.status=='12' || $ctrl.status=='14' || $ctrl.status=='5' || $ctrl.status=='5' || $ctrl.status=='10' || $ctrl.status=='6' || $ctrl.status=='15'">
+            <div style="display: inline-flex; justify-content: center; align-items: center; max-width: 312px;">
+              <img src="/assets/images/DoctorApproval.png" style="margin-right: 11px;width: 90px;">
+              <p style="font-size: 13px;  font-weight: bold; margin-bottom: 0;    color: #229990;text-transform: uppercase;" >OPTION {{ApprovedOption}} WAS APPROVED WITH {{PakageOption[0].NamePakageSelected}} PAKAGE</p>
+            </div>
+          </div>
+          <div class="col-md-12  mt-4" ng-if="$ctrl.status=='4.5' || $ctrl.status=='4'">
+            <div class="shoppings">
+              <label class="titleFormCreateOrder">Please select a shipping address</label>
+              <div class="row">
+                <div class="col-md-3" ng-repeat="(key, value) in DataAdress"  ng-click="SetShippingAddrss(value.id)">
+                    <div class="card p-3" ng-class="{'AcitveBtn':value.id==shippingAddrss}" style="cursor: pointer;">
+                        <div class="header">
+                            <h5 style="color: #6868ab;
+                            font-size: 15px;
+                            font-weight: 600;" class="float-left">{{value.fullName}}</h5>
+                            <button class="btn btn-dark float-right" ng-click="showModelShippingEdit(value.id)">Edit</button>
+                        </div>
+                        <div class="body">
+                          <p>
+                            {{value.fullName+' | '+value.address1+'  |  '+value.countryName+'  |  '+value.cityName}}
+                          </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 New">
+                  <div class="card p-3" ng-click="$ctrl.showModelShippingCreate()">
+                      <h4 style="color:#8BD670;">Add a new Address</h4>
+                      <a>
+                          <svg id="Group_69" data-name="Group 69" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 60.527 60.516">
+                              <defs>
+                                <clipPath id="clip-path">
+                                  <rect id="Rectangle_44" data-name="Rectangle 44" width="60.527" height="60.516" fill="#8bd670"/>
+                                </clipPath>
+                              </defs>
+                              <g id="Group_68" data-name="Group 68" clip-path="url(#clip-path)">
+                                <path id="Path_459" data-name="Path 459" d="M0,30.253A30.263,30.263,0,1,1,29.93,60.516,30.3,30.3,0,0,1,0,30.253M33,33h.855c3.329,0,6.658.005,9.988,0a2.736,2.736,0,1,0,.147-5.467c-3.394-.026-6.787-.008-10.181-.009H33v-.856c0-3.329.005-6.657,0-9.986a2.737,2.737,0,1,0-5.467-.147c-.026,3.393-.008,6.786-.009,10.179,0,.249,0,.5,0,.81h-.854c-3.351,0-6.7-.006-10.052,0a2.734,2.734,0,1,0-.085,5.465c3.394.028,6.787.009,10.181.01h.811c0,.347,0,.6,0,.853,0,3.307-.025,6.615.023,9.921a3.8,3.8,0,0,0,.5,1.811,2.589,2.589,0,0,0,3,1.054,2.641,2.641,0,0,0,1.943-2.522c.026-3.049.013-6.1.015-9.148,0-.62,0-1.24,0-1.969" transform="translate(0 -0.001)" fill="#8bd670"/>
+                              </g>
+                            </svg>                      
+                          </a>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" style="margin-top: 10px;" ng-if="$ctrl.status=='4.5' || $ctrl.status=='4'">
+            <button ng-if="PakageOptionCuurect !==true || refinementNumber" type="button" ng-click="approval(UpperNumber,LowersNumber,typeNumber)" class="btn btn-success btn-rounded waves-effect waves-light">
+              <span class="btn-label"><i class="mdi mdi-check-all"></i></span>Approve Option ({{nLevelSelected}})
+            </button>
+            <button ng-if="PakageOptionCuurect===true && !refinementNumber" type="button" ng-click="approval(UpperNumber,LowersNumber,typeNumber,PakageOption[0].PIdTrue)" class="btn btn-success btn-rounded waves-effect waves-light">
+              <span class="btn-label"><i class="mdi mdi-check-all"></i></span>Upgrade package to {{PakageOption[0].NamePakageTrue}},and Approve Option ({{nLevelSelected}})
+            </button>
+            <button type="button" ng-click="commentAndRefusal()"  class="btn btn-warning btn-rounded waves-effect waves-light float-right">
+              <span class="btn-label"><i class="mdi mdi-alert"></i></span> request modification
+            </button>
+          </div>
+          <p  ng-if="PakageOptionCuurect===true && !refinementNumber" style="padding: 17px;padding-top: 10px;">As a result of the treatment plan requiring more aligners than the selected package,<br> the package will automatically be upgraded once the case is approved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="card" ng-if="Submit" style="background: none; box-shadow: none;margin-top: 22%;">
+      <div class="card-body cardBodyCases" style="    border-radius: 10px;
+            background: #ffffffba;
+            border: 2px solid #fff;">
+        <div style="text-align:center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="flip animated" xmlns:xlink="http://www.w3.org/1999/xlink"  width="150" height="150" viewBox="0 0 210.078 210.078">
+            <defs>
+              <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+                <stop offset="0" stop-color="#8bd670" />
+                <stop offset="1" stop-color="#78bd5f" />
+              </linearGradient>
+            </defs>
+            <g id="Oval_4" data-name="Oval 4" transform="translate(2.331 2.33)">
+              <circle id="Oval_4-2" data-name="Oval 4" cx="102.709" cy="102.709" r="102.709" transform="translate(0 0)"
+                fill="#8bd670" />
+              <circle id="Oval_4-3" data-name="Oval 4" cx="85.764" cy="85.764" r="85.764"
+                transform="translate(-2.331 42.065) rotate(-15)" opacity="0.58" fill="url(#linear-gradient)" />
+            </g>
+            <path id="Icon"
+              d="M76.445,1.684a5.751,5.751,0,1,1,8.133,8.133L32.82,61.574a5.751,5.751,0,0,1-8.133,0l-23-23a5.751,5.751,0,0,1,8.133-8.133L28.754,49.375Z"
+              transform="matrix(1, 0.017, -0.017, 1, 62.177, 72.662)" fill="#fff" />
+          </svg>
+
+          <h2>Congratulations!</h2>
+          <a>Your Case Is Submited</a>
+        </div>
+      </div>
+      <a href="javascript:void(0);" class="btn btn-danger" ng-click="nextTab()" style="margin-top: 10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="29.24" viewBox="0 0 29.924 29.24">
+          <defs>
+            <clipPath id="clip-path">
+              <rect id="Rectangle_15" data-name="Rectangle 15" width="29.924" height="29.24" fill="#fff"></rect>
+            </clipPath>
+          </defs>
+          <g id="Group_23" data-name="Group 23" clip-path="url(#clip-path)">
+            <path id="Path_51" data-name="Path 51" d="M26.629,0H3.295A3.3,3.3,0,0,0,0,3.295V25.945A3.3,3.3,0,0,0,3.295,29.24H26.629a3.3,3.3,0,0,0,3.295-3.295V3.295A3.3,3.3,0,0,0,26.629,0M23.2,16.028H16.37v6.828H13.553V16.028H6.725V13.211h6.828V6.383H16.37v6.828H23.2Z"  fill="#fff" fill-rule="evenodd"></path>
+          </g>
+        </svg>
+        Add An Additional Instructions
+      </a>
+    </div>
+
+  </div>
+  <div class="col-md-4">
+
+  </div>
+</div>

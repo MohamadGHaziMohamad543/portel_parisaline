@@ -1,0 +1,28 @@
+<div class="container" id="appointment" style="margin-top: 135px;padding: 2%;" ng-if="PartnerDoctor=='1'">
+    <div class="tabs row">
+        <div class="col-md-12 nav">
+            <div class="items">
+                <div class="item" ng-class="{'Active':Tabs[0].status==1}" ng-click="selectTabs(Tabs[0].name)">
+                    <a>{{Tabs[0].name}}</a>
+                </div>
+                <div class="item" ng-class="{'Active':Tabs[1].status==1}" ng-click="selectTabs(Tabs[1].name)">
+                    <a>{{Tabs[1].name}}</a>
+                </div>
+                <div class="item" ng-class="{'Active':Tabs[2].status==1}" ng-click="selectTabs(Tabs[2].name)">
+                    <a>{{Tabs[2].name}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 containers">
+            <div class="item" ng-if="Tabs[0].status==1">
+                <comappointment filters="Previous"></comappointment>
+            </div>
+            <div class="item" ng-if="Tabs[1].status==1">
+                <comappointment filters="today"></comappointment>
+            </div>
+            <div class="item" ng-if="Tabs[2].status==1">
+                <comappointment filters="Upcoming"></comappointment>
+            </div>
+        </div>
+    </div>
+</div>

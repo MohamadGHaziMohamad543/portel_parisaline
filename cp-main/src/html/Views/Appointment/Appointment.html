@@ -1,0 +1,145 @@
+<div>
+    <div>
+        <table id="AppointmentTable" class="table dt-responsive nowrap tabelStatus">
+            <thead>
+                <tr>
+                    <th>Parisaline Id</th>
+                    <th>Doctor Name</th>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Geneder</th>
+                    <th>Appointment Date & Time</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- sample modal content -->
+<div id="modelAppoentment" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="modelShippings">
+            <div class="LoaderKiven" ng-if="LoaderForm">
+                <div class="spinner-border avatar-lg text-primary m-2" role="status"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{dataEdit.AppointmentZohoId}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="    display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100%;">
+                            <h4 class="modal-title" id="myModalLabel"><img
+                                    style=" width: 50px; border-radius: 10px; margin-right: 12px;"
+                                    src="{{UServer+dataEdit.PatientImage}}">{{dataEdit.PatientName}}</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label>Geneder</label>
+                            <div>
+                                <img src="{{dataEdit.PateintGeneder==1?'https://cdn-icons-png.flaticon.com/512/44/44483.png':'https://www.iconpacks.net/icons/2/free-female-symbol-icon-2240-thumb.png'}}"
+                                    style="width: 22px;opacity: 0.4;">
+                                <strong>{{dataEdit.PateintGeneder==1?'Male':'female'}}</strong>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label>Appointment Date & Time</label>
+                            <div>
+                                <strong>{{dataEdit.AppointmentDate}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="col-md-12">
+                        <p>{{dataEdit.NotesByParisaline}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <label>Notes</label>
+                            <textarea class="form-control" id="NotesByClinic" readonly VFORM required=""  EClass="errorInput" SClass="sucssInput"></textarea>
+                            <a class="ErrorMessage" titleError="Note is requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <label>Status</label>
+                            <select class="form-control" id="AppointmentStatus" disabled VFORM required="" EClass="errorInput" SClass="sucssInput">
+                                <option disabled="" selected="" value="">Select Status</option>
+                                <option value="1">Arrived</option>
+                                <option value="2">Sold</option>
+                                <option value="3">No Show</option>
+                                <option value="4">Cancelled</option>
+                            </select>
+                            <a class="ErrorMessage" titleError="Status is requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-8" ng-if="AppointmentStatus==2">
+                        <div class="form-group ">
+                            <label>Sold Price</label>
+                            <input class="form-control" type="number" id="SoldPrice" readonly VFORM required="" placeholder="Sold Price" EClass="errorInput" SClass="sucssInput">
+                            <a class="ErrorMessage" titleError="Sold Price is requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-4" ng-if="AppointmentStatus==2">
+                        <div class="form-group ">
+                            <label style="color: #fff;">|  </label>
+                            <select id="SoldPriceCurrencycode" class="form-control" disabled  VFORM required="" EClass="errorInput" SClass="sucssInput">
+                                <option ng-repeat="cu in dataCurrancy" value="{{cu.currencyName}}" ng-selected="CuurancyDefault==cu.id">{{cu.currencyName}}</option>
+                            </select>
+                            <a class="ErrorMessage" titleError="Sold Price is requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-8" ng-if="AppointmentStatus==2">
+                        <div class="form-group ">
+                            <label>Amount Paid</label>
+                            <input class="form-control" type="number" id="AmountPaid" readonly VFORM required="" EClass="errorInput" SClass="sucssInput" placeholder="Amount Paid">
+                            <a class="ErrorMessage" titleError="Amount Paid is requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-4" ng-if="AppointmentStatus==2">
+                        <div class="form-group ">
+                            <label style="color: #fff;">|  </label>
+                            <select id="AmountPaidCurrencycode" class="form-control" disabled  VFORM required="" EClass="errorInput" SClass="sucssInput">
+                                <option ng-repeat="cu in dataCurrancy" value="{{cu.currencyName}}"  ng-selected="CuurancyDefault==cu.id">{{cu.currencyName}}</option>
+                            </select>
+                            <a class="ErrorMessage" titleError="Sold Price is requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-if="AppointmentStatus==2" ng-init="RenderSoldTreatment()">
+                        <div class="form-group">
+                            <label for="SoldTreatment">Sold Treatnment</label>
+                            <select id="SoldTreatment" VFORM class="form-control" disabled required="" EClass="errorInput" SClass="sucssInput">
+                                <option disabled="" selected="" value="">Select Treatment</option>
+                                <option value="0">Clear Aligner</option>
+                                <option value="1">Other Dental Treatnment</option>
+                                <option value="2">Clear Aligner & Other Dental Treatment</option>
+                            </select>
+                            <a class="ErrorMessage" titleError="Sold Treatnment is requement"></a>
+                            <span class="help-block create-case-option" ng-if="SoldTreatment==0" ng-init="RenderspanTogel()"><span
+                                    class="mdi mdi-information"></span> New case will be created for this patient <a
+                                    tabindex="0" role="button" data-trigger="focus" data-toggle="popover" title=""
+                                    data-content="Since the patient was sold a clear aligner treatment, once you save the details of the appointment,  a case for the same patient will be created automatically in order to proceed with uploading the records and the impression files to prepare the case for submission"
+                                    data-original-title="New Case Creation Notice">What does this mean</a>?</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" ng-click="UpdateStatus()" class="btn btn-primary waves-effect waves-light">Save</button> -->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

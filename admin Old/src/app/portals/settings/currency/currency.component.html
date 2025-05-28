@@ -1,0 +1,155 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="CURRENCIES" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <div class="row">
+      <div class="col-md-8" >
+          <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-blue float-left">
+              CURRENCIES</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <label>{{trans.currency.card1_title1}}</label>
+              <button _ngcontent-ogl-c10="" (click)="add(modalCurrency)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> ADD</button>
+              <button _ngcontent-ogl-c10="" (click)="updateCurrency()" class="btn btn-success btn-rounded mb-3" type="button" style="float: right;"><i _ngcontent-ogl-c10="" class=" mdi mdi-autorenew"></i></button>
+              <div class="table-responsive" style="text-align: center;">
+                <table class="table table-dark table-borderless mb-0">
+                  <thead>
+                    <tr>
+                      <th>Currency Code</th>
+                      <th>{{trans.currency.symbol}}</th>
+                      <th>{{trans.currency.exchangeRate}}</th>
+                      <th>{{trans.currency.lastUpdated}}</th>
+                      <th>{{trans.currency.status}}</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let currenc of currency">
+                      <th>{{currenc.currencyCode}}</th>
+                      <th>{{currenc.symbol}}</th>
+                      <th>{{currenc.exchangeRate}}</th>
+                      <th>{{currenc.updatedAt|date:'yyyy-MM-dd hh:ss'}}</th>
+                      <td><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,currenc.id)"  [checked]="status(currenc.status)"></ui-switch></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="edit(currenc.id)"><i _ngcontent-ogl-c10="" class="fas fa-file-export"></i> </button>
+                        <button type="button" class="btn btn-danger" (click)="delete(modalCurrency,currenc.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> 
+            </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="currencyId!=-1">
+        <div class="card-box ribbon-box">
+          <div class="ribbon ribbon-blue float-left">
+            <i class="mdi mdi-coin mr-1"></i> CURRENCY LANGUAGES</div>
+          <h5 class="text-whaite float-leftmt-0"></h5>
+          <div class="ribbon-content">
+            <button _ngcontent-ogl-c10="" (click)="addName(modalCurrencyName)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> <i class="fas fa-key"></i></button>
+            <label>{{trans.currencyName.card1_title1}}</label>
+            <div class="table-responsive" style="text-align: center;">
+              <table class="table table-dark table-borderless mb-0">
+                <thead>
+                  <tr>
+                    <th>{{trans.currencyName.langCode}}</th>
+                    <th>Currency Name</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let currenName of currencyName">
+                    <td>{{getCodeLang(currenName.langId)}}</td>
+                    <td>{{currenName.currencyName}}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="deleteName(modalCurrencyName,currenName.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+<ng-template #modalCurrency role="document" let-modal="close">
+  <form class="needs-validation" name="formCurrency" [formGroup]="formCurrency" (ngSubmit)="onSubmit()"
+  novalidate>
+    <app-ui-preloader [display]="loading"></app-ui-preloader>
+    <div class="modal-header">
+        <h4 class="modal-title">{{titleForm}}</h4>
+        <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+      <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+
+      <div class="form-group mb-3">
+        <label for="name">Currency Code</label>
+        <ng-select   formControlName="currencyCode" (ngModelChange)="changeCurrunce($event)"  bindLabel="code" bindValue="code" [items]="listArray" >
+        </ng-select>
+        <div *ngIf="submitted && f.currencyCode.errors" class="invalid-feedback">
+          <div *ngIf="f.currencyCode.errors.required">Currency Code</div>
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="name">{{trans.currency.symbol}}</label>
+        <input type="symbol" formControlName="symbol" disabled class="form-control" [ngClass]="{ 'is-invalid': submitted && f.symbol.errors }" id="symbol"  />
+        <div *ngIf="submitted && f.symbol.errors" class="invalid-feedback">
+          <div *ngIf="f.symbol.errors.required">{{trans.currency.symbol}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+        <button type="button" class="btn btn-primary" type="submit">Save Changes</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #modalCurrencyName role="document" let-modal="close">
+  <form class="needs-validation" name="formCurrencyName" [formGroup]="formCurrencyName" (ngSubmit)="onSubmitName()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormName}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="errorName" [dismissible]="false">{{ errorName }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">Language Code</label>
+
+       <ng-select   formControlName="langId"  bindLabel="langCode" bindValue="id" [items]="Language" ></ng-select>
+      <div *ngIf="submitted && fn.langId.errors" class="invalid-feedback">
+        <div *ngIf="fn.langId.errors.required">Language Code</div>
+      </div>
+    </div>
+   
+    <div class="form-group mb-3">
+      <label for="name">Currency Name</label>
+
+      <input type="currencyName" formControlName="currencyName"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.currencyName.errors }" id="currencyName"  />
+
+      <div *ngIf="submitted && f.currencyName.errors" class="invalid-feedback">
+        <div *ngIf="fn.currencyName.errors.required">Currency Name</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+

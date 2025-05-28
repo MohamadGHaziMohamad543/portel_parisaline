@@ -1,0 +1,130 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="SMS MODEL" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <div class="row">
+      <div class="col-md-6" >
+          <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-blue float-left">
+              <i class="fas fa-mail-bulk mr-1"></i> SMS MODEL</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <button _ngcontent-ogl-c10="" (click)="add(smsModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> ADD</button>
+              <div class="table-responsive" style="text-align: center;">
+                <table class="table table-dark table-borderless mb-0">
+                  <thead>
+                    <tr>
+                      <th>{{trans.smsModel.nameModel}}</th>
+                      <th>{{trans.smsModel.status}}</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let sms of sms_model">
+                      <td>{{sms.nameModel}}</td>
+                      <td><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,sms.id)" [checked]="status(sms.status)"></ui-switch></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="edit(sms.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+                        <button type="button" class="btn btn-danger" (click)="delete(smsModal,sms.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> 
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="smsModelId!=-1">
+        <div class="card-box ribbon-box">
+          <div class="ribbon ribbon-blue float-left">
+            <i class="fas fa-language mr-1"></i> SMS CONTENT</div>
+          <h5 class="text-whaite float-leftmt-0"></h5>
+          <div class="ribbon-content">
+            <button _ngcontent-ogl-c10="" (click)="addContent(contentSmsModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> <i class="fas fa-key"></i></button>
+            <div class="table-responsive" style="text-align: center;">
+              <table class="table table-dark table-borderless mb-0">
+                <thead>
+                  <tr>
+                    <th>{{trans.contentSmsModel.langId}}</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let contentsms of content_sms_model">
+                    <td>{{getCodeLang(contentsms.langId)}}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="deleteContent(contentSmsModal,contentsms.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="editContent(contentSmsModal,contentsms.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+<ng-template #smsModal role="document" let-modal="close">
+  <form class="needs-validation" name="formSms_model" [formGroup]="formSms_model" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">{{trans.smsModel.nameModel}}</label>
+
+      <input type="nameModel" formControlName="nameModel"   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameModel.errors }" id="nameModel"  />
+
+      <div *ngIf="submitted && f.nameModel.errors" class="invalid-feedback">
+        <div *ngIf="f.nameModel.errors.required">{{trans.smsModel.nameModel}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+
+<ng-template #contentSmsModal role="document" let-modal="close">
+  <form class="needs-validation" name="formcontent_Sms_model" [formGroup]="formcontent_Sms_model" (ngSubmit)="onSubmitContent()"
+  novalidate>
+  <app-ui-preloader [display]="loadingContent"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormContent}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert type="danger" *ngIf="errorContent" [dismissible]="false">{{ errorContent }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">{{trans.contentSmsModel.langId}}</label>
+       <ng-select   formControlName="langId"  bindLabel="langCode" bindValue="id" [items]="Language" ></ng-select>
+      <div *ngIf="submittedContent && fn.langId.errors" class="invalid-feedback">
+        <div *ngIf="fn.langId.errors.required">{{trans.contentSmsModel.langId}}</div>
+      </div>
+    </div>
+    <div class="form-group mb-3" *ngIf="ngEditContent">
+      <label for="name">Text</label>
+      <textarea formControlName="content_model"   class="form-control"></textarea>
+  
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>

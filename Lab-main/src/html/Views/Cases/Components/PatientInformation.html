@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card" id="formInformationPatient" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Patient's information
+            </div>
+            <div class="card-body cardBodyCases">
+                <div class="form-group text-center">
+                    <i class="fe-plus" style="    position: absolute;
+                    font-size: 20px;
+                    background: green;
+                    color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 1px 1px 8px #ab9c9c;"></i>
+                    <img src="assets/images/attached-files/avatarImage.jpeg" id="imagePatient" ng-click="openFIle($event)" class="imgAvatar">
+                    <input  style="display: none;" id="imagePatientFile" ng-disabled="!EditForm"  type="file">
+                </div>
+                <div class="form-group ">
+                    <input class="form-control inputLogin" type="text" VFORM id="fullName" ng-disabled="!EditForm"  EClass="errorInput" SClass="sucssInput" required="" placeholder="Patient full name " style="border-radius: 5px;border-radius: 5px;">
+                    <a class="ErrorMessageDate" titleError="Please write the patient's name correctly"></a>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin" ng-disabled="!EditForm"  type="text" VFORM id="BirthDate"  placeholder="dd/mm/yyyy" style="border-radius: 6px;background: #ffffff 0 0 no-repeat padding-box">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <select ng-disabled="!EditForm" class="form-control inputLogin" VFORM id="gender" style="background: #ffffff 0 0 no-repeat padding-box;border-radius: 6px;">
+                                <option value="1">Male</option>
+                                <option value="2">Fmale</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" ng-if="$ctrl.idPatient==-1">
+                    <a class="btn btnContinue" ng-click="Create()">Continue</a>
+                </div>
+                <div class="text-center" ng-if="$ctrl.idPatient!=-1 && $ctrl.deleteCases">
+                    Are You Sure You Want To Delete This Case Permanently?
+                </div>
+                <div class="text-center" ng-if="$ctrl.idPatient!=-1">
+                    <button class="btn btnContinue float-center" ng-disabled="EditForm" ng-click="nextTab()" ng-if="$ctrl.idPatient!=-1 && !$ctrl.deleteCases">next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>

@@ -1,0 +1,187 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+              Tasks For Case
+            </div>
+            <div class="card-box" ng-init="initTasks()">
+              <div class="mabs">
+                  <div class="uk-container uk-padding">
+                    <div class="LoaderDivTask" ng-if="Loader"><span class="spinner-border avatar-md text-primary m-2"></span></div>
+                    <div class="uk-timeline">
+                        <a class="btn btn-outline-success" style="width: 100%;height: 100%;" ng-if="Tasks.length==0" ng-click="OpenModel(0)">Start Task</a>
+                        <div ng-repeat="(index, task) in Tasks" class="uk-timeline-item">
+                          <div class="uk-timeline-icon">
+                              <span uk-icon="plus-circle" ng-click="OpenModel(index)" ng-if="task.Start == null" class="btnAddStart"></span>
+                              <span uk-icon="plus-circle" ng-click="OpenModel(index+1)" ng-if="task.End == null || Tasks.length-1==index" class="btnAddEnd"></span>
+                              <span  class="uk-badge {{task.End == null?'':(task.endTask==true?'uk-label-success':'uk-label-danger')}}"><span uk-icon="{{task.End == null?'future':(task.End?'check':'close')}}"></span></span>
+                          </div>
+                          <div class="uk-timeline-content">
+                              <div class="uk-card uk-card-default uk-overflow-auto" style=" margin-bottom: 16px!important;">
+                                  <div class="uk-card-header">
+                                      <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                          <div ng-if="task.usertype==3">
+                                            <img src="{{serverImage+task.lablogo}}" style="width: 40px;height: 40px;border-radius: 50%;">
+                                             <a>{{task.nameLab}}</a>
+                                          </div>
+                                          <div ng-if="task.usertype==4">
+                                            <img src="{{serverImage+task.logomid}}" style="width: 40px;height: 40px;border-radius: 50%;">
+                                             <a>{{task.nameMediator}}</a>
+                                          </div>
+                                          <div ng-if="task.usertype==5">
+                                            <img src="{{serverImage+task.logotrm}}" style="width: 40px;height: 40px;border-radius: 50%;">
+                                             <a>{{task.nameTreatmentPlanner}}</a>
+                                          </div>
+                                          <div ng-if="task.usertype==7">
+                                            <img src="{{serverImage+task.logosup}}" style="width: 40px;height: 40px;border-radius: 50%;">
+                                             <a>{{task.nameSupervisor}}</a>
+                                          </div>
+                                          <div ng-if="task.usertype==9">
+                                            <img src="{{serverImage+task.logosup}}" style="width: 40px;height: 40px;border-radius: 50%;">
+                                             <a>{{task.nameAcountant}}</a>
+                                          </div>
+                                          <div ng-if="task.rejectStartPoint==1" style="background: #8e0880;
+                                          color: #fff;
+                                          padding: 3px 6px;
+                                          margin-left: 12px;">This task will be referred to if the case from the doctor is rejected</div>
+                                          <div ng-if="task.usertype==2">
+                                                 <i class="fe-server" style="width: 40px;height: 40px;border-radius: 50%;font-size: 24px;"></i>
+                                                 <a ng-if="task.userId==0" style="position: relative;top: -5px;">Server:Case Revision</a>
+                                                 <a ng-if="task.userId==1" style="position: relative;top: -5px;">Server:Doctor Approval</a>
+                                                 <a ng-if="task.userId==2" style="position: relative;top: -5px;">Server:Case Fabrication</a>
+                                                 <a ng-if="task.userId==3" style="position: relative;top: -5px;">Server:Case Delivered</a>
+                                                 <a ng-if="task.userId==4" style="position: relative;top: -5px;">Server:Completed</a>  
+                                          </div>
+                                          <div ng-if="task.usertype==20">
+                                            <i class="fe-server" style="width: 40px;height: 40px;border-radius: 50%;font-size: 24px;"></i>
+                                            <a style="position: relative;top: -5px;" ng-repeat="fun in functionName" ng-if="task.userId==fun.id">Server:{{fun.userName}}</a>
+                                          </div>
+                                          <div class="uk-margin-auto-left" ng-if="task.End == null">
+                                            <a class="uk-text-danger" ng-if="task.Start != null" ng-click="rejectTask(task.numberIndex)"><span uk-icon="close"></span></a>
+                                            <a class="uk-text-success" ng-if="task.Start != null" ng-click="endTask(task.numberIndex)"><span uk-icon="check"></span></a>
+                                            <a class="uk-text-success" ng-if="task.Start == null" ng-click="removeTask(task.numberIndex)"><span uk-icon="trash"></span></a>
+                                          </div>
+                                          <span ng-if="task.usertype==3" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">Laboratory</span>
+                                          <span ng-if="task.usertype==4" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">Coordinator</span>
+                                          <span ng-if="task.usertype==7" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">Supervisors</span>
+                                          <span ng-if="task.usertype==5" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">TreatmentPlanner</span>
+                                          <span ng-if="task.usertype==2" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">Server</span>
+                                          <span ng-if="task.usertype==20" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">Server D</span>
+                                          <span ng-if="task.usertype==9" class="uk-label {{task.End != null?'uk-label-success':'uk-label-badge'}} uk-margin-auto-left">Acountant</span>
+                                          
+                                      </div>
+                                      <strong>Comment : </strong>{{task.commentAdmin}}
+                                      <div style="width: 100%;">
+                                        <a ng-if="task.usertype==3">{{((task.action==null||task.action==-1))?'All':(task.action==0?'Create Model Opn':(task.action==1?'Upload Print files Stl':'Just print the files'))}}</a>
+                                        <a ng-if="task.usertype==4">{{((task.action==null||task.action==-1))?'All':(task.action==0?'Take Impression Role':'Deliver Case Role')}}</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <div ng-if="Delete" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: #ffffffd1;text-align: center;">
+                  <div>
+                      <h1 style="    color: #6868ab;
+                      font-weight: 900;
+                      margin-top: 5%;">Do you want to delete template ?</h1>
+                      <button class="btn btn-outline-danger" ng-click="deleteTemp()"><i class="fe-trash"></i>Delete</button>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+<div id="FormModal" class="modal-demo">
+  <button type="button" class="close" onclick="Custombox.modal.close();">
+      <span>&times;</span><span class="sr-only">Close</span>
+  </button>
+  <h4 class="custom-modal-title" style="background: #4b4b8f;">{{titleForm}}</h4>
+  <div class="custom-modal-text">
+      <form action="#" id="formLogin">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group divGrop" VFORM >
+                     <select class="form-control inputLogin" ng-model="usertypeSelect" id="usertype" EClass="errorInput" SClass="sucssInput">
+                       <option value="3">Lab</option>
+                       <option value="4">Coordinators</option>
+                       <option value="7">Supervisors</option>
+                       <option value="5">TreatmentPlanners</option>
+                       <option value="9">Accountants</option>
+                       <option value="2">Function</option>
+                       <option value="20">Function Dynmic</option>
+                     </select>
+                  </div>
+                  <div style="height: 10px;">
+                      <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                      margin-top: -19px;
+                      margin-left: 18px;"></a>
+                    </div>
+              </div>
+              <div class="col-md-12" ng-if="usertypeSelect==5" style="padding: 20px;">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="rejectStartPoint">
+                  <label class="form-check-label">reject start point</label>
+                </div>
+              </div>
+              <div class="col-md-12" ng-if="usertypeSelect==3">
+                <div class="form-group divGrop" VFORM >
+                   <select class="form-control inputLogin" id="action" EClass="errorInput" SClass="sucssInput">
+                    <option value="-1">All</option>
+                    <option value="0">Create Model Opn</option>
+                    <option value="1">Upload Print files Stl</option>
+                    <option value="2">Just print the files</option>
+                   </select>
+                </div>
+                <div style="height: 10px;">
+                    <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                    margin-top: -19px;
+                    margin-left: 18px;"></a>
+                  </div>
+               </div>
+               <div class="col-md-12" ng-if="usertypeSelect==4">
+                <div class="form-group divGrop" VFORM >
+                   <select class="form-control inputLogin" id="action" EClass="errorInput" SClass="sucssInput">
+                    <option value="-1">All</option>
+                    <option value="0">Take Impression Role</option>
+                    <option value="1">Deliver Case Role</option>
+                   </select>
+                </div>
+                <div style="height: 10px;">
+                    <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                    margin-top: -19px;
+                    margin-left: 18px;"></a>
+                  </div>
+               </div>
+              <div class="col-md-12">
+                  <div class="form-group divGrop" VFORM >
+                     <select class="form-control inputLogin" id="UserId" EClass="errorInput" SClass="sucssInput">
+                       <option ng-repeat="user in Users" value="{{user.id}}">
+                         {{user.userName+' '+user.Country+' '+user.City}}
+                        </option>
+                     </select>
+                  </div>
+                  <div style="height: 10px;">
+                      <a class="ErrorMessagePhone" titleError="Are you sure you entered your phone correctly?" style="position: absolute;
+                      margin-top: -19px;
+                      margin-left: 18px;"></a>
+                    </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group ">
+                      <input class="form-control inputLogin"  VFORM type="text" id="CommentInput" EClass="errorInput" SClass="sucssInput" required="" placeholder="Comment ..">
+                      <a class="ErrorMessage" titleError="Are you sure you entered your email correctly?"></a>
+                  </div>
+              </div>
+          </div>
+          <div class="form-group mb-0 text-center">
+              <button class="ladda-button btn btn-primary"  data-style="expand-left" ng-click="addTask()" type="button" style="    width: 100%;border-radius: 10px !IMPORTANT;height: 45px;"> Add </button>
+          </div>
+      </form> 
+  </div>
+</div>  

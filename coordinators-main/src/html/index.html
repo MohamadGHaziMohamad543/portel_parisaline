@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>COORDINATORS</title>
+        <base href="/"> 
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/jquery-contextmenu/jquery.contextMenu.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/imageViewer/viewer.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x72.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x96.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x128.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x128.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x128.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x192.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x384.png" />
+        <link rel="apple-touch-icon" href="/assets/WPA/maskable_icon_x512.png" />
+        <meta name="apple-mobile-web-app-status-bar" content="#6868ab" />
+        <meta name="theme-color" content="#6868ab" /> -->
+    </head>
+
+    <body >
+        <!-- Begin page -->
+        <div id="wrapper" ng-app="adminApp">
+            <main ng-controller="Layouts" ng-include="'/Layouts/Layouts.html'"></main>
+            <div class="content-page">
+                <div class="content">
+                    <ng-view class="view"></ng-view> 
+                </div>
+            </div>
+        </div>
+        
+        <div id="modelViewerImage" data-animation="slide" class="modal makeway" tabindex="-1" role="dialog" aria-labelledby="full-width-modalLabel" aria-hidden="true" style="display: none;">
+            <img src="" style="width: 400px;height: auto;" id="image">
+        </div>
+
+
+        <script src="/STL/stl_viewer.min.js"></script>
+        <script src="/assets/js/vendor.min.js"></script>
+        <script>
+            var Routing=angular.module('adminApp', [
+                    'ngRoute','ngSanitize','ngCookies'
+                ]);
+                Routing.config(['$locationProvider', function($locationProvider) {
+                        $locationProvider.html5Mode(true);
+                    }
+                ]);
+
+                var adminApp=angular.module('adminApp');
+        </script>
+        <script src="/assets/js/app.min.js"></script>
+        <script src="/assets/libs/jquery-contextmenu/jquery.contextMenu.min.js"></script>
+        <script src="/assets/libs/imageViewer/viewer.min.js"></script>
+        <script src="https://cdn.staticaly.com/gh/jaridmargolin/formatter.js/master/dist/jquery.formatter.min.js"></script>
+        <script src="https://api.setupaligners.com/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+        <script src="assets/libs/jquery-toast/jquery.toast.min.js"></script>
+        <script>
+            var $viewer=null;
+            // Open
+            let img=document.querySelector('#modelViewerImage #image');
+            img.src="https://i0.wp.com/livetechnoid.com/wp-content/uploads/2021/02/3-Simple-Ways-to-Remove-Background-From-Your-Photos.png?fit=1200%2C696&ssl=1";
+            img.style.display="none";
+            // modal.open();
+            $viewer = new Viewer(img,{
+                button:{
+                    "viewer-play":false
+                }
+            });
+            
+
+            var TostK={
+                    Tost:function(title,text,timeStop,position,color){
+                        $.toast({
+                            text : '<h4 style="color:#fff">'+title+'</h4>\n<p>'+text+'</p>',
+                            hideAfter : timeStop?timeStop:3000,
+                            showHideTransition : 'slide',
+                            position : position?position:'top-right',
+                            stack : 100, 
+                            allowToastClose : true,  
+                            bgColor : color
+                        });
+                    },
+                    info:function(title,text,timeStop,position){
+                        this.Tost(title,text,timeStop,position,'#23B65D');
+                    },
+                    error:function(title,text,timeStop,position){
+                        this.Tost(title,text,timeStop,position,'#E01A31');
+                    },
+                    warning:function(title,text,timeStop,position){
+                        this.Tost(title,text,timeStop,position,'#ff9966');
+                    },
+                    help:function(title,text,timeStop,position){
+                        this.Tost(title,text,timeStop,position,'#6523d9');
+                    }
+                }
+
+                var URLStatICBAS="http://localhost:3000";
+        </script>
+
+        <script src="/assets/js/Router.js"></script>
+        <style>
+            .jq-toast-wrap {
+                display: block;
+                position: fixed;
+                width: 250px;
+                pointer-events: none!important;
+                letter-spacing: normal;
+                z-index: 9999999999999 !important;
+            }
+        </style>
+    </body>
+
+</html>

@@ -1,0 +1,21 @@
+<div class="container" id="itemCreateOrder" style="width:100%;text-align: center;color: #6868ac;">
+  <div class="box">
+    <div class="item" id="selectPakageItem">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="header">
+            <h3 style="color: #fff;text-align: left;">{{Pakages[0].nameStrategy}}</h3>
+          </div>
+          <h2>{{Pakages[0].titleStrategy}}</h2>
+        </div>
+        
+      </div>
+      <p id="errorPakaage" style="color:#ff0404;display: none;">This section is mandatary, please select an option</p>
+    </div>
+    <div class="text-center mt-2">
+      <button class="btn btnContinue float-right"  ng-click="nextTab()" ng-if="$ctrl.idPatient!=-1">Next</button>
+      <button class="btn btnContinue float-left"  ng-click="backTab()" ng-if="$ctrl.idPatient!=-1">Back</button>
+  </div>
+    <div class="mt-5"></div>
+  </div>
+</div>

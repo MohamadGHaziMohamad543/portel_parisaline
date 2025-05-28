@@ -1,0 +1,126 @@
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card" id="formInformationPatient" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Patient's information
+            </div>
+            <div class="card-body cardBodyCases">
+                <div class="form-group text-center">
+                    <i class="fe-plus" style="    position: absolute;
+                    font-size: 20px;
+                    background: green;
+                    color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 1px 1px 8px #ab9c9c;"></i>
+                    <img src="assets/images/attached-files/avatarImage.jpeg" id="imagePatient"
+                        ng-click="openFIle($event)" class="imgAvatar">
+                    <input style="display: none;" id="imagePatientFile" ng-disabled="!EditForm" type="file">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label style="color: #0009; font-size: 12px; margin-bottom: 0;">First name</label>
+                            <input class="form-control inputLogin" type="text" VFORM id="firstName" ng-disabled="!EditForm"
+                                EClass="errorInput" SClass="sucssInput" required="" placeholder="Patient First name "
+                                style="border-radius: 5px;border-radius: 5px;">
+                            <a class="ErrorMessageDate" titleError="Please write the patient's name correctly"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Last name</label>
+                            <input class="form-control inputLogin" type="text" VFORM id="lastName" ng-disabled="!EditForm"
+                                EClass="errorInput" SClass="sucssInput" required="" placeholder="Patient Last name "
+                                style="border-radius: 5px;border-radius: 5px;">
+                            <a class="ErrorMessageDate" titleError="Please write the patient's name correctly"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label id="DateBirthda" class=""> Minimum age should be 12 years</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Birth Of Date</label>
+                            <input class="form-control inputLogin" ng-disabled="!EditForm" type="text" VFORM
+                                id="BirthDate" placeholder="dd/mm/yyyy" value=""
+                                style="border-radius: 6px;background: #ffffff 0 0 no-repeat padding-box">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Gender</label>
+                        <div class="form-group">
+                            <select ng-disabled="!EditForm" class="form-control inputLogin" VFORM id="gender"
+                                style="background: #ffffff 0 0 no-repeat padding-box;border-radius: 6px;">
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Type</label>
+                        <div class="form-group">
+                            <select ng-disabled="!EditForm || casesStatusD > 1" ng-init="initTypeCases()"
+                                class="form-control inputLogin" VFORM id="type"
+                                style="background: #ffffff 0 0 no-repeat padding-box;border-radius: 6px;">
+                                <option disabled selected value> -- select an option -- </option>
+                                <option value="0">New Patient</option>
+                                <option value="1">Refinement</option>
+                                <option value="2">Retainer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-if="TypeCase!=0">
+                        <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Patient</label>
+                        <div class="form-group">
+                            <select ng-disabled="!EditForm || casesStatusD > 1" class="form-control inputLogin"
+                                ng-init="getAllPateitnRefiment()" VFORM id="refinementNumber"
+                                style="background: #ffffff 0 0 no-repeat padding-box;border-radius: 6px;">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 10px;" ng-if="TypeCase==0 && doctorPartner!=0">
+                        <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Was this case referred by
+                            Parisaline?</label>
+                        <div class="form-group">
+                            <select ng-disabled="!EditForm || casesStatusD > 1" ng-init="InitparisalinePartner()"
+                                class="form-control inputLogin" VFORM id="parisalinePartner"
+                                style="background: #ffffff 0 0 no-repeat padding-box;border-radius: 6px;">
+                                <option value="0">No</option>
+                                <option value="1" ng-selected="parisalinePartner==1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-if="parisalinePartner==1 && TypeCase==0 && doctorPartner!=0">
+                        <div class="form-group">
+                            <label style="color: #0009; font-size: 12px; margin-bottom: 0;">Parisaline Id</label>
+                            <input class="form-control inputLogin" ng-disabled="!EditForm || casesStatusD > 1" type="text" VFORM
+                                id="parisalineId" placeholder="OSXXXXXXXXXXX" value="{{parisalineId}}"
+                                style="border-radius: 6px;background: #ffffff 0 0 no-repeat padding-box">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" ng-if="$ctrl.idPatient==-1">
+                    <a class="btn btnContinue" ng-click="Create()">Continue</a>
+                </div>
+                <div class="text-center" ng-if="$ctrl.idPatient!=-1 && $ctrl.deleteCases">
+                    Are You Sure You Want To Delete This Case Permanently?
+                </div>
+                <div class="text-center" ng-if="$ctrl.idPatient!=-1">
+                    <button class="btn btnContinue float-left" ng-click="editForm()"
+                        ng-if="!EditForm && !$ctrl.deleteCases"><i class="mdi mdi-account-edit"></i>Edit</button>
+                    <button class="btn btnContinue float-left" ng-click="update()"
+                        ng-if="EditForm && !$ctrl.deleteCases"><i class="mdi mdi-account-edit"></i>Save</button>
+                    <button class="btn btnContinue float-right" ng-disabled="EditForm" ng-click="nextTab()"
+                        ng-if="$ctrl.idPatient!=-1 && !$ctrl.deleteCases">next</button>
+                    <button class="btn btn-outline-danger float-right" ng-disabled="EditForm" ng-click="DeleteCases()"
+                        ng-if="$ctrl.idPatient!=-1 && $ctrl.deleteCases"><i class="fe-trash"
+                            style="font-size: 17px;margin-right: 4px;margin-top: 0;position: relative;"></i>Yes</button>
+                    <a href="/" class="btn btn-outline-dark float-left" ng-disabled="EditForm" ng-click="nextTab()"
+                        ng-if="$ctrl.idPatient!=-1 && $ctrl.deleteCases">No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>

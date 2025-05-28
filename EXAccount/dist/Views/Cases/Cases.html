@@ -1,0 +1,118 @@
+
+
+<img class="imageCoverCases" ng-if="idPatient==-1" src="assets/images/attached-files/background.png">
+<img class="imageCoverCases" ng-if="hideNavbar"  src="assets/images/attached-files/submited.png">
+<input type="file" style="display: none;" id="uploadFiles">
+<div class="container" id="cases" style="margin-top: 135px;">
+    <h1 class="text-center" style="color: #000;" ng-if="!hideNavbar">{{idPatient==-1?'Create a new case':'Case Number '+idPatient}}</h1>
+    <div class="navTabs text-center" ng-if="!hideNavbar && !DeleteCases">
+        <div id="PatientInformation" ng-if="TAB.patientInformation.display" ng-click="nextTab('patientInformation',false,true)" class="boxTabNavTitle" ng-class="{navActive:TAB.patientInformation.set || TAB.patientInformation.active||Status >= 1}">
+            <div class="tabNavTitleL"></div>
+            <a class="">Patient's Information</a>
+        </div>
+        <div id="PatientRecords" ng-if="TAB.patientRecords.display" class="boxTabNavTitle" ng-click="nextTab('patientRecords',false,true)" ng-class="{navActive:TAB.patientRecords.set||TAB.patientRecords.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">Patient's Records</a>
+        </div>
+        <div id="CreateOrder" ng-if="TAB.createOrder.display" class="boxTabNavTitle" ng-click="nextTab('createOrder',false,true)" ng-class="{navActive:TAB.createOrder.set||TAB.createOrder.active||Status>=1}">
+            <div class="tabNavTitle "></div>
+            <a class="">Create Order</a>
+        </div>
+        <div id="SubmitCase" ng-if="TAB.submitCase.display && (Status ==0 || Status ==null)" ng-click="nextTab('submitCase',false,true)" class="boxTabNavTitle " ng-class="{navActive:TAB.submitCase.set||TAB.submitCase.active||Status>=1}">
+            <div class="tabNavTitle"></div>
+            <a>Submit Case</a>
+        </div>
+        <div id="AdditionalInstructions" ng-if="TAB.AdditionalInstructions.display" class="boxTabNavTitle" ng-click="nextTab('AdditionalInstructions',false,true)" ng-class="{navActive:TAB.AdditionalInstructions.set||TAB.AdditionalInstructions.active||Status>=1}">
+            <div class="{{TAB.tretmentPlan.display?'tabNavTitle':'tabNavTitleR'}}"></div>
+            <a>Additional Instructions</a>
+        </div>
+        <div id="tretmentPlan" ng-if="TAB.tretmentPlan.display" class="boxTabNavTitle" ng-click="nextTab('tretmentPlan',false,true)" ng-class="{navActive:TAB.tretmentPlan.set||TAB.tretmentPlan.active||Status>=1}">
+            <div class="tabNavTitleR"></div>
+            <a>Tretment Plan</a>
+        </div>
+    </div>
+    <div class="tabPanels">
+        <div id="PatientInformation" ng-if="TAB.patientInformation.display && TAB.patientInformation.set" class="boxTabsn active bounceInRight animated">
+            <patient-Information  id-Patient="idPatient" filters="tst test tes" delete-Cases="DeleteCases" button-Next="nextTab('patientRecords')"></patient-Information>
+        </div>
+        <div id="PatientRecords" ng-if="TAB.patientRecords.display && TAB.patientRecords.set" class="boxTabsn active bounceInRight animated">
+            <patient-Records id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('createOrder')" button-Back="nextTab('patientInformation')"></patient-Records>
+        </div>
+        <div id="CreateOrder" ng-if="TAB.createOrder.display && TAB.createOrder.set" class="boxTabsn active bounceInRight animated">
+            <create-Order show-Model-Shipping-Create="showModelShippingCreate()" button-Back="nextTab('patientRecords')" id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('submitCase')"></create-Order>
+        </div>
+        <div id="SubmitCase" ng-if="TAB.submitCase.display && TAB.submitCase.set && (Status==0 || !Status)" class="boxTabsn active">
+            <submit-Case filters="tst test tes" btn-Hide-Nav="hideNav()" button-Next="nextTab('AdditionalInstructions',true)" id-Patient="idPatient"></submit-Case>
+        </div>
+        <div id="AdditionalInstructions " ng-if="TAB.AdditionalInstructions.display && TAB.AdditionalInstructions.set" class="boxTabsn active bounceInRight animated">
+            <additional-Instructions id-Patient="idPatient" filters="tst test tes" button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+        </div>
+        <div id="tretmentPlan" ng-if="TAB.tretmentPlan.display && TAB.tretmentPlan.set" class="boxTabsn active bounceInRight animated">
+            <tretment-Plan id-Patient="idPatient" status="Status" filters="tst test tes" button-Next="nextTab('AdditionalInstructions')"></tretment-Plan>
+        </div>
+    </div>
+</div>
+
+<div id="modelShippingForm" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modelShippings">
+            <div class="LoaderKiven" ng-if="LoaderFormSh">
+                <div class="spinner-border avatar-lg text-primary m-2" role="status"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{TitleFormSh}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="text" id="fullName" EClass="errorInput" SClass="sucssInput" required="" placeholder="Full Name">
+                            <a class="ErrorMessage" titleError="is Full Name requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="text" id="address1" EClass="errorInput" SClass="sucssInput" required="" placeholder="Address1">
+                            <a class="ErrorMessage" titleError="is Address1 requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="text" id="address2"  EClass="errorInput" SClass="sucssInput" placeholder="Address2">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <select class="form-control inputLogin" ng-change="changeCountry()"  ng-model="Country" VFORM id="countryId" EClass="errorInput" SClass="sucssInput" required="" placeholder="Country">
+                                <option value="{{value.id}}" ng-repeat="(key, value) in CountryItem">{{value.countryName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <select class="form-control inputLogin" ng-model="City"   VFORM id="cityId" EClass="errorInput" SClass="sucssInput" required="" placeholder="City">
+                                <option value="{{value.id}}" ng-repeat="(key, value) in CitysItem">{{value.cityName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="tel"  format  typeinp="number" id="phone" EClass="errorInput" SClass="sucssInput" required="" placeholder="Phone">
+                            <a class="ErrorMessage" titleError="is Phone requement"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <input class="form-control inputLogin"  VFORM type="tel"  id="postalCode" EClass="errorInput" SClass="sucssInput" required="" placeholder="PostalCode">
+                            <a class="ErrorMessage" titleError="is Postal Code requement"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="ShippingCreateUpdate()" class="btn btn-primary waves-effect waves-light" >Add</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

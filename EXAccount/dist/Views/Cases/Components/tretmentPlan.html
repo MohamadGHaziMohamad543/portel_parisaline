@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+              Treatment Plan
+            </div>
+            <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="tabKiven">
+                    <div class="tabs">
+                      <div class="tab" ng-repeat="tab in Tabs" ng-class="{'active': tab.set}" ng-click="setTabs(tab.id)">Option {{tab.nLevel}}</div>
+                    </div>
+                    <div class="content">
+                        <div class="content-item" ng-class="{'active': tab.set}" ng-repeat="tab in Tabs">
+                            <div class="row tabLevel">
+                              <div class="tabs col-md-3">
+                                <h3 style="text-align: center;">Price <strong style="color: #6868aa;">{{tab.salary}}$</strong></h3>
+                                <div class="tab" ng-if="tab.Setup" ng-class="{'active': tab.select=='Setup'}" ng-click="setSelect('Setup',tab.nLevel)">Setup PDF</div>
+                                <div class="tab" ng-if="tab.Simulation" ng-class="{'active': tab.select=='Simulation'}" ng-click="setSelect('Simulation',tab.nLevel)">Simulation PDF</div>
+                                <div class="tab" ng-if="tab.Right" ng-class="{'active': tab.select=='Right'}" ng-click="setSelect('Right',tab.nLevel)">Right Video</div>
+                                <div class="tab" ng-if="tab.Left" ng-class="{'active': tab.select=='Left'}" ng-click="setSelect('Left',tab.nLevel)">Left Video</div>
+                                <div class="tab" ng-if="tab.Frontal" ng-class="{'active': tab.select=='Frontal'}" ng-click="setSelect('Frontal',tab.nLevel)">Frontal and Occlusal Views</div>
+                              </div>
+                              <div class="content col-md-9">
+                                  <div  style="margin-top: -26px;width: 70%;margin-bottom: 7px;width: 100%;display: flex;">
+                                    <input class="form-control" value="{{tab.link}}" id="linkShereyStringsUrl" readonly><a style="width: 200px;float: right;margin-left: 10px;" class="btn btn-outline-info" ng-click="CopyLink()">Copy share link</a>
+                                  </div>
+                                  <div class="content-item active" ng-if="tab.select=='Setup'">
+                                    <iframe ng-if="tab.Setup" ng-src="{{tab.Setup}}" style="border: 1px solid black;width: 100%;min-height: 400px;"></iframe>
+                                    <h1 ng-if="!tab.Setup">There is No File Here</h1>
+                                  </div>
+                                  <div class="content-item active" ng-if="tab.select=='Simulation'">
+                                    <iframe ng-if="tab.Simulation" ng-src="{{tab.Simulation}}" style="border: 1px solid black;width: 100%;min-height: 400px;"></iframe>
+                                    <h1 ng-if="!tab.Simulation">There is No File Here</h1>
+                                  </div>
+                                  <div class="content-item active" ng-if="tab.select=='Right'">
+                                      <video ng-if="tab.Right" style="width: 100%;min-height: 400px;"
+                                          id="my-player"
+                                          class="video-js"
+                                          controls
+                                          preload="auto"
+                                          data-setup='{}'>
+                                          <source src="{{tab.Right}}" type="video/mp4"></source>
+                                      </video>
+                                      <h1 ng-if="!tab.Right">There is No File Here</h1>
+                                  </div>
+                                  <div class="content-item active" ng-if="tab.select=='Left'">
+                                    <video ng-if="tab.Left" style="width: 100%;min-height: 400px;"
+                                        id="my-player"
+                                        class="video-js"
+                                        controls
+                                        preload="auto"
+                                        data-setup='{}'>
+                                        <source src="{{tab.Left}}" type="video/mp4"></source>
+                                    </video>
+                                    <h1 ng-if="!tab.Left">There is No File Here</h1>
+                                  </div>
+                                  <div class="content-item active" ng-if="tab.select=='Frontal'">
+                                    <video ng-if="tab.Frontal" style="width: 100%;min-height: 400px;"
+                                        id="my-player"
+                                        class="video-js"
+                                        controls
+                                        preload="auto"
+                                        data-setup='{}'>
+                                        <source src="{{tab.Frontal}}" type="video/mp4"></source>
+                                    </video>
+                                    <h1 ng-if="!tab.Frontal">There is No File Here</h1>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px;" ng-if="$ctrl.status==4">
+                    <button type="button" ng-click="approval()" class="btn btn-success btn-rounded waves-effect waves-light">
+                      <span class="btn-label"><i class="mdi mdi-check-all"></i></span>Approve
+                    </button>
+                    <button type="button" ng-click="$ctrl.buttonNext()" class="btn btn-warning btn-rounded waves-effect waves-light float-right">
+                      <span class="btn-label"><i class="mdi mdi-alert"></i></span> Comment
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+
+
+    <div class="col-md-4"></div>
+    <div class="col-md-4" >
+        <div class="card" ng-if="Submit" style="background: none; box-shadow: none;margin-top: 22%;">
+            <div class="card-body cardBodyCases" style="    border-radius: 10px;
+            background: #ffffffba;
+            border: 2px solid #fff;">
+                <div style="text-align:center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="flip animated" xmlns:xlink="http://www.w3.org/1999/xlink" width="150" height="150" viewBox="0 0 210.078 210.078">
+                        <defs>
+                          <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+                            <stop offset="0" stop-color="#8bd670"/>
+                            <stop offset="1" stop-color="#78bd5f"/>
+                          </linearGradient>
+                        </defs>
+                        <g id="Oval_4" data-name="Oval 4" transform="translate(2.331 2.33)">
+                          <circle id="Oval_4-2" data-name="Oval 4" cx="102.709" cy="102.709" r="102.709" transform="translate(0 0)" fill="#8bd670"/>
+                          <circle id="Oval_4-3" data-name="Oval 4" cx="85.764" cy="85.764" r="85.764" transform="translate(-2.331 42.065) rotate(-15)" opacity="0.58" fill="url(#linear-gradient)"/>
+                        </g>
+                        <path id="Icon" d="M76.445,1.684a5.751,5.751,0,1,1,8.133,8.133L32.82,61.574a5.751,5.751,0,0,1-8.133,0l-23-23a5.751,5.751,0,0,1,8.133-8.133L28.754,49.375Z" transform="matrix(1, 0.017, -0.017, 1, 62.177, 72.662)" fill="#fff"/>
+                      </svg>
+                      
+                    <h2>Congratulations!</h2>  
+                    <a>Your Case Is Submited</a>
+                </div>                
+            </div>
+            <a href="javascript:void(0);" class="btn btn-danger" ng-click="nextTab()" style="margin-top: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="29.24" viewBox="0 0 29.924 29.24">
+                <defs>
+                  <clipPath id="clip-path">
+                    <rect id="Rectangle_15" data-name="Rectangle 15" width="29.924" height="29.24" fill="#fff"></rect>
+                  </clipPath>
+                </defs>
+                <g id="Group_23" data-name="Group 23" clip-path="url(#clip-path)">
+                  <path id="Path_51" data-name="Path 51" d="M26.629,0H3.295A3.3,3.3,0,0,0,0,3.295V25.945A3.3,3.3,0,0,0,3.295,29.24H26.629a3.3,3.3,0,0,0,3.295-3.295V3.295A3.3,3.3,0,0,0,26.629,0M23.2,16.028H16.37v6.828H13.553V16.028H6.725V13.211h6.828V6.383H16.37v6.828H23.2Z" fill="#fff" fill-rule="evenodd"></path>
+                </g>
+              </svg>
+              Add An Additional Instructions
+            </a>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>

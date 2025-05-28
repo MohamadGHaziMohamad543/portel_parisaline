@@ -1,0 +1,15 @@
+<div style="position:fixed;width: 100%;height: 100%;top: 0;left: 0;">
+    <div class="navbar-custom"  ng-controller="topbar"  ng-include="'/Layouts/topbar.html'"></div>
+    <div class="row" style="    margin-top: 79px; height: 100vh;">
+        <div class="col-md-10">
+            <div id="meet" style="height: 89%;"></div>
+        </div>
+        <div class="col-md-2">
+            <div style="    border-bottom: 1px dashed; padding: 10px;margin-top: 10px;position: relative;" ng-repeat="(key,user) in Users" ng-if="user.isAdmin!=true">
+                <a>{{user.userName}}</a>
+                <a class="btn btn-outline-danger" ng-if="user.status==true" ng-click="StopUser(key)" style="cursor: pointer;float: right;font-size: 22px;position: absolute;top: 0px;right: 11px;padding: 0px 7px;"><i class="fe-user-x"></i></a>
+                <a class="btn btn-outline-success" ng-if="user.status==false" ng-click="AcceptedUser(key)"  style="cursor: pointer;float: right;font-size: 22px;position: absolute;top: 0px;right: 50px;padding: 0px 7px;"><i class="fe-user-check"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

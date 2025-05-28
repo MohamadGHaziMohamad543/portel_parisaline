@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+              Treatment Plan
+            </div>
+            <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="tabKiven">
+                    <div class="tabs">
+                      <div class="tab" ng-repeat="tab in Tabs" ng-class="{'active': tab.set}" ng-click="setTabs(tab.id)">Option {{tab.nLevel}}</div>
+                      <div class="btn btn-outline-info tab" ng-if="taskStatus==1"  style="margin-left: 3px;padding: 14px;" ng-click="AddLevel()"><i class="fe-plus"></i></div>
+                    </div>
+                    <div class="content">
+                        <div class="content-item" ng-class="{'active': tab.set}" ng-repeat="tab in Tabs">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="card">
+                                  <div class="card-Body" style="    text-align: center; padding: 10px; border: 1px dashed #c5c0c0;">
+                                    <label>File Model</label>
+                                    <a class="btn btn-outline-danger" ng-click="removeFile(tab.ModelOPN,tab.nLevel,'ModelOPN')" ng-if="tab.ModelOPN" style="width: 100%;">
+                                      Remove<i class="fe-trash"></i>
+                                    </a>
+                                    <a class="btn btn-outline-info"  ng-click="download(tab.ModelOPN,idPatient+'.opn')" ng-if="tab.ModelOPN && downloadSart===0" style="width: 100%;">
+                                      download <i class="fe-download"></i>
+                                    </a>
+                                    <div ng-if="!tab.ModelOPN && taskStatus==1" event-Done="eventDonUpload(PATH,tab.nLevel,'ModelOPN')" style="position: relative;"  id="TretmentPlan/{{tab.nLevel}}/ModelOPN" idPatient="{{idPatient}}"  imgclass="imageStl" filesrc="{{tab.ModelOPN?tab.ModelOPN:''}}"  class="dragdrop"  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop typefile="opn" multifile="false"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="card">
+                                  <div class="card-Body" style="    text-align: center; padding: 10px; border: 1px dashed #c5c0c0;">
+                                    <label>File Treatment Plan OPN</label>
+                                    <a class="btn btn-outline-info" href="{{tab.treatmentPlanOPN}}" target="_blank" ng-if="tab.treatmentPlanOPN" style="width: 100%;">
+                                      download <i class="fe-download"></i>
+                                    </a>
+                                    <div ng-if="!tab.treatmentPlanOPN && taskStatus==1" event-Done="eventDonUpload(PATH,tab.nLevel,'treatmentPlanOPN')" style="position: relative;"  id="TretmentPlan/{{tab.nLevel}}/treatmentPlanOPN" idPatient="{{idPatient}}"  imgclass="imageStl" filesrc="{{tab.treatmentPlanOPN?tab.treatmentPlanOPN:''}}"  class="dragdrop"  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop typefile="opn" multifile="false"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

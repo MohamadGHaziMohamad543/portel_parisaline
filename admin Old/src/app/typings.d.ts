@@ -1,0 +1,1 @@
+declare var klang:any;

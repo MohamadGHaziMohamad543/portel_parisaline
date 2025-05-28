@@ -1,0 +1,19 @@
+<div class="uploadBox" [ngClass]="{'boxHeaden':fileUpload.length == 0}" id="uploadBox">
+  <div class="header" id="header">
+    <a class="btn btnDown" (click)="btnDown()">
+      <svg style="width: 17px;" id="arrowUp" aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-angle-down fa-w-10 fa-fw fa-2x"><g class="fa-group"><path fill="currentColor" d="M160 256.14l-56.51 56.47-96.44-96.15a23.77 23.77 0 0 1-.18-33.61l.18-.18 22.59-22.51a23.94 23.94 0 0 1 33.85 0z" class="fa-secondary"></path><path fill="currentColor" d="M313 182.57L290.21 160a23.94 23.94 0 0 0-33.85 0L103.47 312.61 143 352l.06.06a24 24 0 0 0 33.93-.16L313 216.36l.18-.17a23.78 23.78 0 0 0-.18-33.62z" class="fa-primary"></path></g></svg>
+      <svg style="width: 17px;display:none;" id="arrowDown" aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-angle-up fa-w-10 fa-fw fa-2x"><g class="fa-group"><path fill="currentColor" d="M63.52 351.84a23.94 23.94 0 0 1-33.85 0L7.05 329.33l-.18-.18a23.77 23.77 0 0 1 .18-33.61l96.42-96.15L160 255.86z" class="fa-secondary"></path><path fill="currentColor" d="M313.13 295.81l-.18-.17L177 160.11a24 24 0 0 0-34-.11l-39.51 39.39L256.33 352a23.94 23.94 0 0 0 33.85 0L313 329.43a23.78 23.78 0 0 0 .13-33.62z" class="fa-primary"></path></g></svg>
+    </a>
+    <a>Files being downloaded now <strong style="float:right;">{{fileUpload.length}}</strong></a>
+  </div>
+  <div class="body">
+    <div class="item" *ngFor="let file of fileUpload">
+      <div style="margin-bottom: 7px;">       
+        <img src="assets/stl.png" style="width: 32px;">
+        <a>{{(file.namePatint.length>26)? (file.namePatint | slice:0:26)+'..':(file.namePatint)}}</a>
+        <a style="float: right;">{{file.value}}%</a>
+      </div>
+      <ngb-progressbar type="success" [value]="file.value" [striped]="true" [animated]="true"  height="4px"></ngb-progressbar>
+    </div>
+  </div>
+</div>

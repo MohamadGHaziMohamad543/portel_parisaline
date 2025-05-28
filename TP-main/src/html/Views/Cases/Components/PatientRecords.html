@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Patient's Records
+            </div>
+            <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+                <div class="row createOrderImage" ng-if="idPatient != -1">
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageFrontPose" id="imageFrontPose" idPatient="{{idPatient}}" imgclass="imagePatient"  filesrc="{{PR.imageFrontPose.length==1?PR.imageFrontPose[0].path:''}}" filearray="{{PR}}" class="dragdrop" notdelete="true" notdownload="true" defultimage="assets/images/imagePatient/2.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div  style="position: relative;" ng-if="PR.imageFrontSmiling" id="imageFrontSmiling" idPatient="{{idPatient}}" imgclass="imagePatient" filesrc="{{PR.imageFrontSmiling.length==1?PR.imageFrontSmiling[0].path:''}}" filearray="{{PR}}"  class="dragdrop" notdelete="true" notdownload="true"  defultimage="assets/images/imagePatient/1.png"; drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                     </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageProfile" id="imageProfile" idPatient="{{idPatient}}" imgclass="imagePatient"  class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.imageProfile.length==1?PR.imageProfile[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/3.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageUpperOcclusal" id="imageUpperOcclusal" idPatient="{{idPatient}}" imgclass="imagePatient"  class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.imageUpperOcclusal.length==1?PR.imageUpperOcclusal[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/4.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageLowerOcclusal" id="imageLowerOcclusal" idPatient="{{idPatient}}" imgclass="imagePatient"  class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.imageLowerOcclusal.length==1?PR.imageLowerOcclusal[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/5.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageLeftBuccal" id="imageLeftBuccal" idPatient="{{idPatient}}" imgclass="imagePatient"  class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.imageLeftBuccal.length==1?PR.imageLeftBuccal[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/6.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageFrontal" id="imageFrontal" idPatient="{{idPatient}}" imgclass="imagePatient"  class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.imageFrontal.length==1?PR.imageFrontal[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/7.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.imageRightBuccal" id="imageRightBuccal" idPatient="{{idPatient}}" imgclass="imagePatient" notdelete="true" notdownload="true"  class="dragdrop" filesrc="{{PR.imageRightBuccal.length==1?PR.imageRightBuccal[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/8.png" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row createOrderImage">
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div
+                            style="display: flex;justify-content: center; align-items: center;width: 100%;height: 100%;">
+                            <h1>X-Rays</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.PANAROMIC" id="PANAROMIC" idPatient="{{idPatient}}" imgclass="imagePatient higtAuto"  class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.PANAROMIC.length==1?PR.PANAROMIC[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/9.jpg" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3" style="margin-top: 5px">
+                        <div style="position: relative;" ng-if="PR.CEPHALOMETRIC" id="CEPHALOMETRIC" idPatient="{{idPatient}}" imgclass="imagePatient higtAuto" class="dragdrop" notdelete="true" notdownload="true" filesrc="{{PR.CEPHALOMETRIC.length==1?PR.CEPHALOMETRIC[0].path:''}}" filearray="{{PR}}" defultimage="assets/images/imagePatient/10.jpg" drag-Drop typefile="png jpeg jpg" multifile="false"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="width: 100%;height: 100%;padding: 3px 0px;" ng-if="PR.CBCT && PR.CBCT.length==0">
+                            <img src="https://www.aae.org/specialty/wp-content/uploads/sites/2/2018/10/ITCBCT_HeadIcon.png" style="width: 100%;  width: 100%; height: 109px; object-fit: contain; background: #7d7b7c; filter: grayscale(7); padding: 11px; border-radius: 7px; cursor: pointer;">
+                        </div>
+                        <div class="cbct" style="width: 100%;height: 100%;padding: 3px 0px;" ng-if="PR.CBCT && PR.CBCT.length!=0">
+                            <img src="https://www.aae.org/specialty/wp-content/uploads/sites/2/2018/10/ITCBCT_HeadIcon.png" style="width: 100%;  width: 100%; height: 109px; object-fit: contain; background: #7d7b7c; padding: 11px; border-radius: 7px;">
+                            <div class="kiven SucsessFile">
+                                <div>
+                                    <a class="btnSuccessfuly" ng-click="ShowModalCbctUpload(PR.CBCT[0])"><i class="fe-eye"></i></a>
+                                    <a class="btnRemove" style="background: #6868ac;" href="{{ServerUrl+PR.CBCT[0].path}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="main-grid-item-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-2">
+                    <button class="btn btnContinue float-right"  ng-click="nextTab()" ng-if="$ctrl.idPatient!=-1">Next</button>
+                    <button class="btn btnContinue float-left"  ng-click="backTab()" ng-if="$ctrl.idPatient!=-1">Back</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-2"></div>
+</div>

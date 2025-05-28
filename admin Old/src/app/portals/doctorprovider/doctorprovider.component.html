@@ -1,0 +1,157 @@
+<div class="container-fluid">
+  
+  <app-page-title title="Supervisor " [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <div class="row">
+      <div class="col-md-6">
+        <button _ngcontent-ogl-c10="" (click)="addUser(userModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> ADD</button>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table ">
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <th scope="row"><img src="{{url+'/'+user.photo}}" class="imageuser"></th>
+            <th scope="row">{{user.first_name+' '+user.last_name}}</th>
+            <td>{{user.telephone_number}}</td>
+            <td>{{user.email}}</td>
+            <td>
+              <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="editUser(userModal,user.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+              <button type="button" class="btn btn-danger" style="margin-right: 2px;" (click)="removeUser(userModal,user.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+              <button type="button" *ngIf="user.role==2" (click)="OpenPermission(permissionModal,user.id)" class="btn btn-outline-warning"><i class="mdi mdi-shield-key"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> 
+  </div>
+  
+
+</div>
+<ng-template #userModal role="document" let-modal="close">
+  <form class="needs-validation" name="formUser" [formGroup]="formUser" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+
+    <div class="col-lg-12">
+      
+      <div class="img-container">
+        <image-cropper 
+        [imageBase64]="imageChangedEvent" 
+        [maintainAspectRatio]="true" 
+        [aspectRatio]="20 / 20"
+        [resizeToWidth]="256" 
+        [cropperMinWidth]="300"
+        [cropperMinHeight]="300"
+        format="png" 
+        (imageCropped)="imageCropped($event)" style="height: 139px;" ></image-cropper>
+
+
+      </div>
+    </div>
+    <div class="form-group mb-3" *ngIf="ControllerPhoto">
+      <label>{{trans.users.choose_photo}} </label>
+      <div class="input-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" accept="image/x-png,image/gif,image/jpeg"  (change)="onFileSelect($event)" >
+            <label class="custom-file-label" for="inputGroupFile04">{{trans.users.choose_photo}} </label>
+          </div>
+      </div>
+    </div>
+    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+
+    <div class="form-group mb-3">
+      <label for="name">First Name</label>
+
+      <input type="text" formControlName="first_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" id="first_name" placeholder="Enter your first name" />
+
+      <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+        <div *ngIf="f.first_name.errors.required">First Name</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="name">Last Name</label>
+
+      <input type="text" formControlName="last_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" id="last_name" placeholder="Enter your last name" />
+
+      <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+        <div *ngIf="f.last_name.errors.required">Last Name</div>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+
+      <input type="email" formControlName="email" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="email" placeholder="Email" />
+
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">Email</div>
+        <div *ngIf="f.email.errors.email">Email</div>
+      </div>
+    </div>
+
+   
+    <div class="form-group mb-3">
+      <label for="phone">Phone Number</label>
+
+      <ngx-intl-tel-input 
+      [cssClass]="'form-control'" 
+      [preferredCountries]="preferredCountries"
+      [enableAutoCountrySelect]="true" 
+      [enablePlaceholder]="true" 
+      [searchCountryFlag]="true"
+      [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+      [selectFirstCountry]="false" 
+      [selectedCountryISO]="CountryISO.Turkey"
+      [tooltipField]="TooltipLabel.Name" 
+      [phoneValidation]="false" 
+      [separateDialCode]="separateDialCode"
+      name="phone" formControlName="telephone_number"  [ngClass]="{ 'is-invalid': submitted && f.telephone_number.errors }" >
+    </ngx-intl-tel-input>
+    <div *ngIf="submitted && f.telephone_number.errors" class="invalid-feedback">
+      <div *ngIf="f.telephone_number.errors.required">{{trans.users.Password_is_required}}</div>
+    </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="password">Password</label>
+
+      <input type="password" formControlName="password" class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="password" placeholder="Password" />
+
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">{{trans.users.Password_is_required}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+<ng-template #permissionModal role="document" let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title" style="text-transform: uppercase;">Permissions</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <app-permissions ID="{{ID}}" USERTYPE="{{USERTYPE}}"></app-permissions>
+  </div>
+</ng-template>

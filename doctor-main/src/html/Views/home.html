@@ -1,0 +1,56 @@
+<div class="container" style="margin-top: 135px;">
+    <div class="headerContent">
+        <a class="titleheader">Your Cases Status</a>
+        <a href="/Cases/_" class="btn btn-danger float-right">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="29.24" viewBox="0 0 29.924 29.24">
+            <defs>
+              <clipPath id="clip-path">
+                <rect id="Rectangle_15" data-name="Rectangle 15" width="29.924" height="29.24" fill="#fff"/>
+              </clipPath>
+            </defs>
+            <g id="Group_23" data-name="Group 23" clip-path="url(#clip-path)">
+              <path id="Path_51" data-name="Path 51" d="M26.629,0H3.295A3.3,3.3,0,0,0,0,3.295V25.945A3.3,3.3,0,0,0,3.295,29.24H26.629a3.3,3.3,0,0,0,3.295-3.295V3.295A3.3,3.3,0,0,0,26.629,0M23.2,16.028H16.37v6.828H13.553V16.028H6.725V13.211h6.828V6.383H16.37v6.828H23.2Z" fill="#fff" fill-rule="evenodd"/>
+            </g>
+          </svg>
+            Create a new case</a>
+    </div>
+    <div class="HeaderstatusContent">
+        <div class="boxStatus">
+            <h1>{{dreft}}</h1>
+            <a class="btnFilterCases">Case Draft</a>
+        </div>
+        <div class="boxStatus backGroundWhite" ng-repeat="(key, value) in StageNames" ng-if="value.numberStage!=0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="125" height="13" viewBox="0 0 145 13">
+                <rect id="_01" data-name="01" width="145" height="13" rx="2" fill="{{value.color}}"/>
+              </svg>
+              
+            <h1>{{countStage[value.nameStage]}}</h1>
+            <a class="btnFilterCases">{{value.nameStage}}</a>
+        </div>
+        <div class="boxStatus backGroundWhite">
+            <h1>{{Total}}</h1>
+            <a class="btnFilterCases">Total Cases</a>
+        </div>
+    </div>
+    <div>
+        <table id="scroll-vertical-datatable" class="table dt-responsive nowrap tabelStatus">
+            <thead>
+                <tr>
+                    <th>Case Number</th>
+                    <th>Type</th>
+                    <th>Case Date</th>
+                    <th>Patient's Name</th>
+                    <th>Case Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+        
+        
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+  

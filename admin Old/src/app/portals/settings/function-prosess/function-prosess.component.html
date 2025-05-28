@@ -1,0 +1,119 @@
+<div class="container-fluid">
+  <app-page-title title="Functions" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box ribbon-box">
+        <div class="ribbon ribbon-primary float-left">
+          <i class="fe-mail mr-1"></i> Functions
+        </div>
+        <h5 class="text-whaite float-leftmt-0"></h5>
+        <div class="ribbon-content">
+          <h4 class="header-title">Functions</h4>
+          <div class="byttondiv">
+            <button type="button" class="btn btn-primary" (click)="showModelMemberships(BarcodesModel)"><i class="mdi mdi-plus"></i>ADD</button>
+          </div>
+          <div class="table-responsive mt-3">
+            <table class="table table-dark table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Function Name</th>
+                  <th>Function Type</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Fun of Func">
+                  <th>{{Fun.nameFun}}</th>
+                  <th>{{Fun.typeFun===0?'Change Stage':(Fun.typeFun===1?'Send Emai':'Send WhatsApp')}}</th>
+                  <td>
+                    <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="showModelMemberships(BarcodesModel,Fun.id)"><i class="fas fa-edit"></i> </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #BarcodesModel role="document" let-modal="close">
+    <form class="needs-validation" name="formBarcodes" [formGroup]="formBarcodes" (ngSubmit)="Save()"
+    novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-1" class="control-label">Function Name</label>
+            <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameFun.errors }" formControlName="nameFun" placeholder="Function Name">
+            <div *ngIf="submitted && f.nameFun.errors" class="invalid-feedback">
+              <div *ngIf="f.nameFun.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Function Type</label>
+            <ng-select  formControlName="typeFun"  bindLabel="nameType" bindValue="id" [items]="typeFun" ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===0">
+          <div class="form-group mb-3">
+            <label for="name">Stage</label>
+            <ng-select  formControlName="numberStatus"  bindLabel="nameStage" bindValue="id" [items]="Stages" ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===1">
+          <div class="form-group mb-3">
+            <label for="name">Type User</label>
+            <ng-select  formControlName="typeUser"  bindLabel="nameType" bindValue="id" [items]="typeUsers" (change)="GetUsers()" ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===1">
+          <div class="form-group mb-3">
+            <label for="name">User</label>
+            <ng-select  formControlName="idUser"  bindLabel="userName" bindValue="id" [items]="Users" ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===1">
+          <div class="form-group mb-3">
+            <label for="name">Email Content</label>
+            <app-keditor formControlName="emailContent" (getEditor)="getEditor($event)" IDEDIT="emailContent" VALUEEDIT="{{valueNotes}}" id="emailContent"  ></app-keditor>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===3">
+          <div class="form-group mb-3">
+            <label for="name">Type User</label>
+            <ng-select  formControlName="typeUser"  bindLabel="nameType" bindValue="id" [items]="typeUsers" (change)="GetUsers(true)" ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===3">
+          <div class="form-group mb-3">
+            <label for="name">User</label>
+            <ng-select  formControlName="idUser"  bindLabel="userName" bindValue="id" [items]="Users" ></ng-select>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="f.typeFun.value===3">
+          <div class="form-group mb-3">
+            <label for="name">Content</label>
+            <textarea formControlName="emailContent" class="form-control"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')">
+        Cancel </button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+
+  </ng-template>
+</div>

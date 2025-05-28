@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                File STL
+            </div>
+            <div class="card-body cardBodyCases">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row countStl">
+                            <div class="col-md-4 text-center" style="border-right: 1px dashed #d5d5d5;">
+                                <h4>Lower STL</h4>
+                                <div class="boxSTL">
+                                    <div style="position: relative;"  id="LowerStl" idPatient="{{idPatient}}" notdelete="true" notdownload="true" imgclass="imageStl" ng-if="ImpressionsFile.LowerStl"  filesrc="{{ImpressionsFile.LowerStl.length==1?ImpressionsFile.LowerStl[0].path:''}}"  class="dragdrop"  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop typefile="stl" multifile="false"></div>
+                                    <a class="btn btn-outline-info"  ng-click="download(serverStlUrl+ImpressionsFile.LowerStl[0].path,idPatient+'Lower.stl')" ng-if="ImpressionsFile.LowerStl.length==1 && downloadSart==0">Download</a>
+                                </div>
+                                                                                            
+                            </div>
+                            <div class="col-md-4 text-center" style="border-right: 1px dashed #d5d5d5;">
+                                <h4>Upper STL</h4>
+                                <div class="boxSTL">
+                                    <div  style="position: relative;"  id="UpperStl" idPatient="{{idPatient}}" notdelete="true" notdownload="true" imgclass="imageStl" ng-if="ImpressionsFile.UpperStl" filesrc="{{ImpressionsFile.UpperStl.length==1?ImpressionsFile.UpperStl[0].path:''}}"  class="dragdrop"  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop typefile="stl" multifile="false"></div>
+                                </div>  
+                                <a class="btn btn-outline-info" ng-click="download(serverStlUrl+ImpressionsFile.UpperStl[0].path,idPatient+'Upper.stl')" ng-if="ImpressionsFile.UpperStl.length==1 && downloadSart==0">Download</a>
+                            </div>
+                            <div class="col-md-4 text-center" >
+                                <h4>Occlusion STL</h4>
+                                <div class="boxSTL">
+                                    <div  style="position: relative;"  id="OcclusionStl" idPatient="{{idPatient}}" notdelete="true" notdownload="true" imgclass="imageStl" ng-if="ImpressionsFile.OcclusionStl" filesrc="{{ImpressionsFile.OcclusionStl.length==1?ImpressionsFile.OcclusionStl[0].path:''}}"  class="dragdrop"  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop typefile="stl" multifile="false"></div>
+                                </div> 
+                                <a class="btn btn-outline-info" ng-click="download(serverStlUrl+ImpressionsFile.OcclusionStl[0].path,idPatient+'Occlusion.stl')" ng-if="ImpressionsFile.OcclusionStl.length==1 && downloadSart==0">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-2" ng-click="hidePop()">
+                    <button class="btn btnContinue float-right" ng-click="nextTab()" >next</button>
+                    <button class="btn btnContinue float-left" ng-click="backTab()" >Back</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+    
+</div>

@@ -1,0 +1,152 @@
+<div class="row" id="AD{{$ctrl.typeUser}}" ng-init="init()">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Additional Instructions For {{UserType}}
+            </div>
+            <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+                <div class="row">
+                    <div class="boxChat">
+                        <div class="boxItems">
+                            <div class="box">
+                                <div ng-repeat="(key, value) in dataChat"
+                                    class="itemChat {{value.typeSend==1?'':'other'}}" style="position:relative;">
+                                    <div class="imageAvatar">
+                                        <img src="{{(value.logo.split('https://').length==2?value.logo:serverImage+value.logo)}}"
+                                            ng-if="value.typeSend==2">
+                                        <img src="{{serverImage+value.logo}}" ng-if="value.typeSend!=2">
+                                    </div>
+                                    <span class="chatNameONLogo" ng-if="value.typeSend!==1">
+                                        Dr.{{value.nameDoctor}}
+                                    </span>
+                                    <div class="Message" ng-if="value.typeSend!=40 && value.typeSend!=41">
+                                        <span style="background: green;color: #fff;padding: 6px; border-radius: 8px;"
+                                            ng-if="value.optionId && value.optionId!==-1">OPTION -
+                                            {{value.optionId}} </span>
+                                        <p style="direction: ltr;" ng-bind-html="value.message | nl2p"
+                                            ng-if="value.typeText==null"></p>
+                                        <div audio-render style="width: 200px;height: 100px;direction: ltr !important;"
+                                            srcadata="{{serverLink+value.link}}" ng-if="value.typeText==1"></div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==2">
+                                            <img src="{{serverLink+value.link}}" style="width: 100%;cursor: pointer;"
+                                                ng-click="showImage(serverLink+value.link)">
+                                        </div>
+                                        <div image-render style="width: 100%;" ng-if="value.typeText==3">
+                                            <img src="https://www.file-extension.info/images/resource/formats/stl.png"
+                                                style="width: 100%;cursor: pointer;" ng-click="showSTL(value.link)">
+                                        </div>
+                                        <div class="dateMessage">
+                                            <!-- <span style="float: left;">true</span> -->
+                                            <span class="mr-1"> {{value.createdAt | date}}</span><span>{{value.createdAt
+                                                | time}}</span>
+                                            <a class="mr-1" ng-if="typeUser!=2"
+                                                ng-click="setUserId(value.id)">Answer</a>
+                                        </div>
+                                    </div>
+                                    <div class="Message" style="position: relative;background-color: green;"
+                                        ng-if="value.typeSend==40">
+                                        <p ng-if="value.me" style="direction: ltr;color: #fff;">The case has been
+                                            approved by you</p>
+                                        <p ng-if="!value.me" style="direction: ltr;color: #fff;">Approved the case</p>
+                                        <p style="direction: ltr;color: #fff;" ng-if="value.message != null"
+                                            ng-bind-html="value.message | nl2p"></p>
+                                        <div class="dateMessage">
+                                            <span class="mr-1" style="color: #fff;"> {{value.createdAt |
+                                                date}}</span><span style="color: #fff;">{{value.createdAt |
+                                                time}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="Message" style="position: relative;background-color: #ad023e;"
+                                        ng-if="value.typeSend==41">
+                                        <p ng-if="value.me" style="direction: ltr;color: #fff;">The case has been
+                                            rejected by you</p>
+                                        <p ng-if="!value.me" style="direction: ltr;color: #fff;">Rejected the case</p>
+                                        <p style="direction: ltr;color: #fff;" ng-if="value.message != null"
+                                            ng-bind-html="value.message | nl2p"></p>
+                                        <div class="dateMessage">
+                                            <span class="mr-1" style="color: #fff;"> {{value.createdAt |
+                                                date}}</span><span style="color: #fff;">{{value.createdAt |
+                                                time}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: none;">
+                            <audio id="player" controls></audio>
+                            <audio id="recorder" muted hidden>
+                        </div>
+                        <div id="chartAudio" style="width: 85px;right: 57px;position: absolute;bottom: 62px;"></div>
+                        <div class="boxInput">
+                            <div class="inputMessage">
+                                <textarea placeholder="Type here..." ng-model="inputMessage"></textarea>
+                            </div>
+
+                            <button ng-if="(UserId != -1 && typeUser!=2) || typeUser==2" class="btnMessage"
+                                ng-click="sendMessage()" ng-disabled="inputMessage.trim().length==0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 43 43">
+                                    <circle id="Ellipse_2" data-name="Ellipse 2" cx="21.5" cy="21.5" r="21.5"
+                                        fill="#8bd670" />
+                                    <g id="Sent" transform="translate(15.052 14.167)">
+                                        <path id="Vector"
+                                            d="M1.771,2.18V4.329A.885.885,0,1,1,0,4.329V.885A.885.885,0,0,1,1.206.06l15.937,6.2a.885.885,0,0,1,0,1.65l-15.937,6.2A.885.885,0,0,1,0,13.281V8.854A2.656,2.656,0,0,1,2.656,6.2H7.083a.886.886,0,0,1,0,1.771H2.656a.885.885,0,0,0-.885.885v3.133l12.609-4.9Z"
+                                            transform="translate(0 0)" fill="#fff" />
+                                    </g>
+                                </svg>
+                            </button>
+                            <input type="file" style="display: none;" id="inputSendFile">
+                            <div class="kivenBtn" style="display: {{uploadAudio?'none':'block'}};"
+                                ng-if="(UserId != -1 && typeUser!=2) || typeUser==2">
+                                <nav class="float-action-button" style="position: absolute; bottom: 25px;right: 6px;">
+                                    <a href="#" class="buttons" id="btnImage" ng-click="btnSendImage('stl')"
+                                        title="sned Stl File" data-toggle="tooltip" data-placement="right"
+                                        style="color: #fff;">
+                                        STL
+                                    </a>
+                                    <a href="#" class="buttons" ng-click="btnSendImage('image')" title="Send photo "
+                                        data-toggle="tooltip" data-placement="right">
+                                        <i class="fe-image" style="color: #fff;"></i>
+                                    </a>
+                                    <a href="#" class="buttons btnRercord" id="btnRecord" title="Record"
+                                        data-toggle="tooltip" data-placement="right" ng-init="renderAudio()">
+                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 478 478"
+                                            style="enable-background:new 0 0 478 478;    width: 20px;fill: #fff;"
+                                            xml:space="preserve">
+                                            <g>
+                                                <g id="XMLID_708_">
+                                                    <path id="XMLID_2131_" d="M394,196.1c0-11.9-9.7-21.6-21.6-21.6s-21.6,9.7-21.6,21.6c0,61.7-50.2,111.8-111.8,111.8
+                                                        s-111.8-50.2-111.8-111.8c0-11.9-9.7-21.6-21.6-21.6S84,184.2,84,196.1c0,78.2,58.1,143,133.4,153.5v85.2h-55.6
+                                                        c-11.9,0-21.6,9.7-21.6,21.6s9.7,21.6,21.6,21.6h154.5c11.9,0,21.6-9.7,21.6-21.6s-9.7-21.6-21.6-21.6h-55.6v-85.2
+                                                        C335.9,339.1,394,274.2,394,196.1z" />
+                                                    <g id="XMLID_2124_">
+                                                        <path id="XMLID_2050_"
+                                                            d="M239,0L239,0c-46.4,0-84,37.6-84,84v110.7c0,46.4,37.6,84,84,84l0,0c46.4,0,84-37.6,84-84V84
+                                                            C323,37.6,285.4,0,239,0z M239.1,55.9c-15.1,0-27.4,12.3-27.4,27.4c0,6.9-5.6,12.5-12.5,12.5s-12.5-5.6-12.5-12.5
+                                                            c0-28.9,23.5-52.4,52.4-52.4c6.9,0,12.5,5.6,12.5,12.5S246,55.9,239.1,55.9z" />
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="buttons main-button" title="Share" data-toggle="tooltip"
+                                        data-placement="left">
+                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-share-alt"></i>
+                                    </a>
+                                </nav>
+                            </div>
+                            <div style="display: {{uploadAudio?'block':'none'}};">
+                                <span class="loading__anim"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <app-page-title title="Memberships" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box ribbon-box">
+        <div class="ribbon ribbon-primary float-left">
+          <i class="fe-mail mr-1"></i> Memberships
+        </div>
+        <h5 class="text-whaite float-leftmt-0"></h5>
+        <div class="ribbon-content">
+          <h4 class="header-title">Memberships</h4>
+          <div class="byttondiv">
+            <button type="button" class="btn btn-primary" (click)="showModelMemberships(MembershipModel)"><i
+                _ngcontent-ogl-c10="" class="mdi mdi-plus"></i>ADD</button>
+          </div>
+          <div class="table-responsive mt-3">
+            <table class="table table-dark table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Membership Name</th>
+                  <th>Percentage</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let Membership of Memberships">
+                  <th>{{Membership.nameMembership}}</th>
+                  <th>{{Membership.percentage}} %</th>
+                  <td>
+                    <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="showModelMemberships(MembershipModel,Membership.id)"><i class="fas fa-edit"></i> </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #MembershipModel role="document" let-modal="close">
+    <form class="needs-validation" name="formMemberships" [formGroup]="formMemberships" (ngSubmit)="Save()"
+    novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <label for="field-1" class="control-label">Membership Name</label>
+            <input type="nameMembership" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameMembership.errors }" formControlName="nameMembership" placeholder="Membership Name">
+            <div *ngIf="submitted && f.nameMembership.errors" class="invalid-feedback">
+              <div *ngIf="f.nameMembership.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="field-2" class="control-label">Percentage</label>
+            <input type="percentage" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.percentage.errors }" formControlName="percentage" placeholder="Percentage"><strong style="    position: absolute;
+            top: 39px;
+            right: 44px;">%</strong>
+            <div *ngIf="submitted && f.percentage.errors" class="invalid-feedback">
+              <div *ngIf="f.percentage.errors.required">Error</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')">
+        Cancel </button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    </form>
+
+  </ng-template>
+</div>

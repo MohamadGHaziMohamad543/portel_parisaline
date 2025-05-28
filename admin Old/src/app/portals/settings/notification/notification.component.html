@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="NOTIFICATIONS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <div class="ribbon ribbon-blue float-left">
+      <i class="fe-alert-circle mr-1"></i> NOTIFICATION DETAILS</div>
+    <h5 class="text-whaite float-leftmt-0"></h5>
+    <div class="ribbon-content">
+      <div class="table-responsive" style="text-align: center;">
+        <table class="table table-striped mb-0 ">
+          <thead>
+            <tr>
+              <th>Notices Type</th>
+              <th>User Type</th>
+              <th>User Name</th>
+              <th>Information</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let notiR of allNotiFi">
+              <td>{{getTypeNotfi(notiR.typeNotices)}}</td>
+              <td>{{getTypeUser(notiR.typeUser)}}</td>
+              <td>{{notiR.name}}</td>
+              <td>{{notiR.content[0].information}}</td>
+              <td>{{getDate(notiR.createdAt) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> 
+    </div>
+  </div>
+</div>
+    

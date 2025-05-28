@@ -1,0 +1,223 @@
+<div class="">
+    <ul class="list-unstyled topnav-menu float-right mb-0">
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0);"
+                role="button" aria-haspopup="false" aria-expanded="false">
+                <div class="spinner-border text-danger" id="loadStatusUploadFiles" role="status" style="    position: relative;right: -34px; top: 10px; width: 40px; height: 40px;display: none;">   </div>
+                <i class="fe-upload-cloud noti-icon"></i>
+                <span class="badge badge-danger rounded-circle noti-icon-badge" id="numberCountUploadFiles" style="display: none;">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+    
+                <!-- item-->
+    
+                <div>
+    
+                    <div class="dropdown-item noti-title">
+                        <h5 class="m-0">
+                            <span class="float-right">
+                                <a href="" class="text-dark">
+                                    <small></small>
+                                </a>
+                            </span>
+                        </h5>
+                    </div>
+                    <!-- item-->
+                    <div id="itemsUploadPrograss" style="max-height: 300px;overflow-y: auto;">
+                        <a ng-repeat="file in files" href="javascript:void(0);" class="dropdown-item notify-item active" style="margin-top: 3px;">
+                            <div ng-if="file.type=='image'" class="notify-icon">
+                                <img  src="{{file.image}}" class="img-fluid" alt="" />
+                            </div>
+                            <div ng-if="file.type!='image'" class="imageIcon">
+                                <i class="icon"></i>
+                                <span class="dragDrop-extension">{{file.type}}</span>
+                            </div>
+                            <p class="notify-details">{{file.fileName}}</p>
+                            <p class="text-muted mb-0 user-msg">
+                                <div class="progress mb-0" style="position: relative;">
+                                    <div id="prograssDiv" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width:{{file.filePrograss}}%"></div>
+                                    <span id="prograssNumber" style="position: absolute;left: 50%;color: #fff;top: -2px;">{{file.filePrograss}}%</span>
+                                </div>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+    
+                <!-- All-->
+                <a href="javascript:void(0);"
+                    class="dropdown-item text-center text-primary notify-item notify-all">
+                    <i class="fi-arrow-right"></i>
+                </a>
+    
+            </div>
+        </li>
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="false" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21.801" height="21.801" viewBox="0 0 21.801 21.801">
+                    <g id="_45-chat" data-name="45-chat" transform="translate(0)">
+                      <path id="Vector" d="M1.211,21.8A1.209,1.209,0,0,1,0,20.59V1.211A1.211,1.211,0,0,1,1.211,0H20.59A1.211,1.211,0,0,1,21.8,1.211V4.845a1.211,1.211,0,1,1-2.422,0V2.422H2.422V17.538l2.422-2.616a1.211,1.211,0,0,1,.92-.388H19.378V9.689a1.211,1.211,0,1,1,2.422,0v6.056a1.211,1.211,0,0,1-1.211,1.211H6.286L2.1,21.413a1.211,1.211,0,0,1-.884.388Z" transform="translate(0)" fill="#4e7d96"/>
+                      <path id="Vector-2" data-name="Vector" d="M10.9,2.422H1.211A1.211,1.211,0,0,1,1.211,0H10.9a1.211,1.211,0,1,1,0,2.422Zm0,4.845H1.211a1.211,1.211,0,0,1,0-2.422H10.9a1.211,1.211,0,1,1,0,2.422Z" transform="translate(4.845 4.845)" fill="#4e7d96"/>
+                    </g>
+                  </svg>
+                  
+                  <span class="badge badge-danger rounded-circle noti-icon-badge" ng-if="chatNotf.length != 0">{{chatNotf.length}}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+    
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h5 class="m-0">
+                        <span class="float-right">
+                            <a href="" class="text-dark">
+                            </a>
+                        </span>Notification For Chats
+                    </h5>
+                </div>
+    
+                <div class="slimscroll noti-scroll" style="overflow-y: auto;">
+    
+                    <!-- item-->
+                    <a ng-repeat="chat in chatNotf" style="cursor: pointer;" href="Cases/{{chat.patientId}}?TB=AdditionalInstructions" class="dropdown-item notify-item" >
+                        <div class="notify-icon">
+                            <i class="fe-message-square" style="font-size: 36px; color: #6868ab;"></i>
+                        </div>
+                        <p class="notify-details">Admin</p>
+                        <p class="text-muted mb-0 user-msg textNotfMessage">
+                            <small>{{chat.message}}</small>
+                        </p>
+                    </a>
+                </div>
+    
+                <!-- All-->
+                <a href="javascript:void(0);"
+                    class="dropdown-item text-center text-primary notify-item notify-all">
+                    <i class="fi-arrow-right"></i>
+                </a>
+    
+            </div>
+        </li>
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="false" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21.801" height="21.8" viewBox="0 0 21.801 21.8">
+                    <path id="_50-promotion" data-name="50-promotion" d="M21.8,8.477A4.845,4.845,0,0,0,18.167,3.8V1.21A1.212,1.212,0,0,0,16.544.072L5.971,3.911,1.284,3.632A1.205,1.205,0,0,0,0,4.844v8.478a1.209,1.209,0,0,0,1.356,1.2l1.587-.194,1.138,6.468A1.211,1.211,0,0,0,5.293,21.8h4.4a1.211,1.211,0,0,0,1.211-1.4L10,15.066l6.625,1.889a1.017,1.017,0,0,0,.327,0,1.211,1.211,0,0,0,1.211-1.211V13.152A4.845,4.845,0,0,0,21.8,8.477ZM2.422,6.127l2.422.133v5.39l-2.422.3ZM8.26,19.377H6.3l-.945-5.353.618-.073,1.453.4Zm7.485-5.232-6.6-1.829a1.211,1.211,0,0,0-.666-.206l-1.211-.339V6.055l8.478-3.076Zm2.422-3.633V6.394a2.422,2.422,0,0,1,0,4.166Z" transform="translate(0)" fill="#4e7d96"/>
+                  </svg>
+                  <span class="badge badge-danger rounded-circle noti-icon-badge" ng-if="notfiArray.length!=0">{{notfiArray.length}}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+    
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h5 class="m-0">
+                        <span class="float-right">
+                            <a href="" class="text-dark">
+                            </a>
+                        </span>Notification
+                    </h5>
+                </div>
+    
+                <div class="slimscroll noti-scroll">
+                    <a ng-repeat="note in notfiArray" style="cursor: pointer;"  ng-click="goToLinkNote(note[0].id,note[0].numberId)" class="dropdown-item notify-item" >
+                        <div class="notify-icon">
+                           <i class="fe-life-buoy" style="font-size: 36px; color: #6868ab;"></i>
+                        </div>
+                        <p class="notify-details" style="margin-top: 0px;">{{note[0].section}}</p>
+                        <p class="text-muted mb-0 user-msg" style="margin-top: 0px;">
+                            <small>{{note[0].information}}</small>
+                        </p>
+                    </a>
+                </div>
+    
+                <!-- All-->
+                <a href="javascript:void(0);"
+                    class="dropdown-item text-center text-primary notify-item notify-all">
+                    <i class="fi-arrow-right"></i>
+                </a>
+    
+            </div>
+        </li>
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="javascript:void(0);"
+                role="button" aria-haspopup="false" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24.223" height="23.267" viewBox="0 0 24.223 23.267">
+                <path id="Vector" d="M23.4,8.783,21.11,8.05,22.188,5.98a1.122,1.122,0,0,0,.1-.7,1.148,1.148,0,0,0-.335-.628l-2.58-2.478a1.229,1.229,0,0,0-.659-.326,1.256,1.256,0,0,0-.733.1L15.83,2.99l-.763-2.2a1.168,1.168,0,0,0-.438-.57,1.245,1.245,0,0,0-.7-.221H10.295a1.245,1.245,0,0,0-.708.217,1.168,1.168,0,0,0-.443.574l-.763,2.2L6.225,1.954a1.256,1.256,0,0,0-.727-.1,1.229,1.229,0,0,0-.654.322L2.265,4.653a1.148,1.148,0,0,0-.339.633,1.123,1.123,0,0,0,.109.7L3.113,8.062.824,8.795a1.209,1.209,0,0,0-.594.42A1.133,1.133,0,0,0,0,9.889v3.49a1.132,1.132,0,0,0,.226.68,1.209,1.209,0,0,0,.6.425l2.289.733L2.035,17.287a1.122,1.122,0,0,0-.1.7,1.148,1.148,0,0,0,.335.628l2.58,2.478a1.229,1.229,0,0,0,.659.326,1.255,1.255,0,0,0,.733-.1l2.156-1.035.763,2.2a1.168,1.168,0,0,0,.443.574,1.245,1.245,0,0,0,.708.217H13.94a1.245,1.245,0,0,0,.708-.217,1.168,1.168,0,0,0,.443-.574l.763-2.2,2.156,1.035a1.256,1.256,0,0,0,.721.1,1.229,1.229,0,0,0,.648-.317l2.58-2.478a1.148,1.148,0,0,0,.339-.633,1.123,1.123,0,0,0-.109-.7L21.11,15.205l2.289-.733a1.209,1.209,0,0,0,.594-.42,1.133,1.133,0,0,0,.23-.673V9.889A1.132,1.132,0,0,0,24,9.208,1.209,1.209,0,0,0,23.4,8.783Zm-1.6,3.758-1.453.465a2.446,2.446,0,0,0-.9.506,2.328,2.328,0,0,0-.594.822,2.244,2.244,0,0,0,.088,1.953l.69,1.326L18.3,18.893l-1.344-.7a2.513,2.513,0,0,0-2.01-.066,2.426,2.426,0,0,0-.845.565,2.309,2.309,0,0,0-.524.851l-.484,1.4H11.167l-.484-1.4a2.308,2.308,0,0,0-.527-.863A2.426,2.426,0,0,0,9.3,18.11a2.512,2.512,0,0,0-2.033.084l-1.381.663-1.332-1.28.727-1.291a2.244,2.244,0,0,0,.088-1.953,2.328,2.328,0,0,0-.594-.822,2.446,2.446,0,0,0-.9-.506l-1.453-.465V10.726l1.453-.465a2.446,2.446,0,0,0,.9-.506,2.328,2.328,0,0,0,.594-.822A2.244,2.244,0,0,0,5.281,6.98L4.59,5.689l1.332-1.28,1.344.663A2.512,2.512,0,0,0,9.3,5.157a2.426,2.426,0,0,0,.856-.571,2.308,2.308,0,0,0,.527-.863l.484-1.4h1.889l.484,1.4a2.308,2.308,0,0,0,.527.863,2.426,2.426,0,0,0,.856.571,2.512,2.512,0,0,0,2.033-.084l1.381-.663,1.332,1.28L18.942,6.98a2.244,2.244,0,0,0-.069,1.931,2.328,2.328,0,0,0,.588.811,2.445,2.445,0,0,0,.886.5l1.453.465ZM12.112,6.98a4.987,4.987,0,0,0-2.692.784A4.7,4.7,0,0,0,7.636,9.853a4.483,4.483,0,0,0-.276,2.689,4.6,4.6,0,0,0,1.326,2.383A4.909,4.909,0,0,0,11.166,16.2a5.03,5.03,0,0,0,2.8-.265,4.808,4.808,0,0,0,2.174-1.714,4.515,4.515,0,0,0-.6-5.876A4.947,4.947,0,0,0,12.112,6.98Zm0,6.98a2.494,2.494,0,0,1-1.346-.392,2.35,2.35,0,0,1-.892-1.044,2.242,2.242,0,0,1-.138-1.344A2.3,2.3,0,0,1,10.4,9.988a2.455,2.455,0,0,1,1.24-.637,2.515,2.515,0,0,1,1.4.132,2.4,2.4,0,0,1,1.087.857,2.257,2.257,0,0,1-.3,2.938A2.474,2.474,0,0,1,12.112,13.96Z" transform="translate(0 0)" fill="#4e7d96"/>
+                </svg>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                <!-- item-->
+                <div class="dropdown-header noti-title">
+                    <h6 class="text-overflow m-0">Settings </h6>
+                </div>
+    
+                <!-- item-->
+                <a href="/Settings/Accounts/" class="dropdown-item notify-item">
+                    <i class="fe-user"></i>
+                    <span>My Account</span>
+                </a>
+            </div>
+        </li>
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"
+                data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="false" aria-expanded="false">
+                <img class="imageUserTopBar" src="{{user.image | imageUser}}">
+                  
+                <span class="pro-user-name ml-1">
+                    {{user.name}} <i class="mdi mdi-chevron-down"></i>
+                </span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                <!-- item-->
+                <a href="javascript:void(0);" ng-click="LogOut()" class="dropdown-item notify-item">
+                    <i class="fe-log-out"></i>
+                    <span>Logout</span>
+                </a>
+    
+            </div>
+        </li>
+    
+    </ul>
+    
+    <!-- LOGO -->
+    <div class="logo-box">
+        <a href="/" class="logo text-center">
+            <span class="logo-lg">
+                <svg id="Group_22" data-name="Group 22" xmlns="http://www.w3.org/2000/svg" width="148.147" height="52.389" viewBox="0 0 148.147 52.389">
+                    <path id="Path_9" data-name="Path 9" d="M21.146,10.964h-7a1.072,1.072,0,0,0-1.073,1.073V28.588a.73.73,0,0,0,.73.73h2.02a.731.731,0,0,0,.73-.73V22.9h4.588a6.707,6.707,0,0,0,4.782-1.611,5.673,5.673,0,0,0,1.713-4.343,5.708,5.708,0,0,0-1.713-4.37,6.712,6.712,0,0,0-4.782-1.61m2.178,8.184a3.294,3.294,0,0,1-2.333.76H16.557V13.954h4.433a3.251,3.251,0,0,1,2.333.773,2.917,2.917,0,0,1,.812,2.217,2.875,2.875,0,0,1-.812,2.2" transform="translate(2.269 1.902)" fill="#6868ac"/>
+                    <path id="Path_10" data-name="Path 10" d="M37.958,19q0-3.994-5.541-4-5.11,0-5.865,3.654a.737.737,0,0,0,.718.884h1.745a.724.724,0,0,0,.7-.549,1.868,1.868,0,0,1,.636-1.088,3.383,3.383,0,0,1,2.037-.478,3.3,3.3,0,0,1,1.869.4,1.444,1.444,0,0,1,.554,1.251,1.252,1.252,0,0,1-.439,1.043,2.972,2.972,0,0,1-1.443.476l-2.011.181q-5.1.516-5.1,4.151a3.577,3.577,0,0,0,1.3,2.938,5.381,5.381,0,0,0,3.492,1.056,4.839,4.839,0,0,0,4.279-1.932,6.709,6.709,0,0,0,.262,1.394.357.357,0,0,0,.317.229h2.5a.315.315,0,0,0,.3-.426,5.667,5.667,0,0,1-.315-2.1Zm-3.143,4.357a3.042,3.042,0,0,1-.955,2.41,3.616,3.616,0,0,1-2.474.838,2.562,2.562,0,0,1-1.663-.476,1.626,1.626,0,0,1-.58-1.328,1.582,1.582,0,0,1,.554-1.3,3.659,3.659,0,0,1,1.842-.606l1.753-.205a3.9,3.9,0,0,0,1.078-.268.319.319,0,0,1,.444.3Z" transform="translate(4.479 2.603)" fill="#6868ac"/>
+                    <path id="Path_11" data-name="Path 11" d="M41.418,17.671V16.208a.909.909,0,0,0-.908-.908H39.181a.908.908,0,0,0-.908.908V27.871a.729.729,0,0,0,.73.73h1.788a.73.73,0,0,0,.73-.73V21.846a3.645,3.645,0,0,1,.992-2.771,3.982,3.982,0,0,1,2.849-.941h.825v-2.99a5.752,5.752,0,0,0-.8-.052,3.983,3.983,0,0,0-3.97,2.578" transform="translate(6.64 2.619)" fill="#6868ac"/>
+                    <path id="Path_12" data-name="Path 12" d="M61.67,22.146a7.368,7.368,0,0,0-3.518-1.391L56.475,20.5a4.225,4.225,0,0,1-1.7-.58,1.216,1.216,0,0,1-.516-1.044q0-1.546,2.321-1.547a3.506,3.506,0,0,1,2.062.5,1.773,1.773,0,0,1,.672,1.1.76.76,0,0,0,.74.589H61.6a.771.771,0,0,0,.755-.909q-.686-3.6-5.776-3.6a6.748,6.748,0,0,0-4.074,1.069,3.474,3.474,0,0,0-1.443,2.951q0,3.3,4.357,4.022l1.521.257a5.609,5.609,0,0,1,2.036.645,1.261,1.261,0,0,1,.567,1.109q0,1.6-2.629,1.6a3.589,3.589,0,0,1-2.152-.515,2.046,2.046,0,0,1-.716-1.191.755.755,0,0,0-.736-.561H51.647a.77.77,0,0,0-.751.921q.759,3.667,5.966,3.666a7.51,7.51,0,0,0,4.356-1.083A3.545,3.545,0,0,0,62.765,24.8a3.336,3.336,0,0,0-1.095-2.656" transform="translate(8.828 2.604)" fill="#6868ac"/>
+                    <path id="Path_13" data-name="Path 13" d="M76.27,34.616h0a14.4,14.4,0,0,1-11.056-4.725.569.569,0,0,0-.783-.1l-1.469,1.12a.569.569,0,0,0-.1.81A17.364,17.364,0,0,0,76.268,37.6h0a17.362,17.362,0,0,0,13.411-5.877.569.569,0,0,0-.1-.81l-1.47-1.12a.57.57,0,0,0-.783.1A14.389,14.389,0,0,1,76.27,34.616" transform="translate(10.884 5.149)" fill="#6868ac"/>
+                    <path id="Path_14" data-name="Path 14" d="M80.976,11.29H79.137a.909.909,0,0,0-.908.908V28.914a.73.73,0,0,0,.73.73h1.788a.73.73,0,0,0,.73-.73V11.791a.5.5,0,0,0-.5-.5" transform="translate(13.573 1.959)" fill="#6868ac"/>
+                    <path id="Path_15" data-name="Path 15" d="M86.486,15.194l-3.248-.987V28.8a.323.323,0,0,0,.323.323h2.6a.323.323,0,0,0,.323-.323Z" transform="translate(14.442 2.465)" fill="#6868ac"/>
+                    <path id="Path_16" data-name="Path 16" d="M46.51,15.21l3.248-.987V28.812a.323.323,0,0,1-.323.323h-2.6a.323.323,0,0,1-.323-.323Z" transform="translate(8.07 2.468)" fill="#6868ac"/>
+                    <path id="Path_17" data-name="Path 17" d="M95.52,15.322a4.773,4.773,0,0,0-4.146,2.214v-1a.909.909,0,0,0-.908-.908H89.139a.909.909,0,0,0-.908.908V28.6a.323.323,0,0,0,.323.323h2.6a.323.323,0,0,0,.323-.323V21.477a3.163,3.163,0,0,1,1.494-2.953,2.976,2.976,0,0,1,1.638-.392,2.193,2.193,0,0,1,2.328,2.521V28.6a.323.323,0,0,0,.323.323h2.6a.323.323,0,0,0,.323-.323V20.112a4.79,4.79,0,0,0-1.25-3.542,4.613,4.613,0,0,0-3.413-1.249" transform="translate(15.308 2.658)" fill="#6868ac"/>
+                    <path id="Path_18" data-name="Path 18" d="M106.717,15.322a6.309,6.309,0,0,0-4.766,1.906,7.047,7.047,0,0,0-1.8,5.048,6.985,6.985,0,0,0,1.829,5.048,6.336,6.336,0,0,0,4.79,1.906,6.646,6.646,0,0,0,4.018-1.2A5.547,5.547,0,0,0,112.95,24.8h-3.117a3.027,3.027,0,0,1-3.039,1.906,3.274,3.274,0,0,1-2.382-.863,4.044,4.044,0,0,1-1.069-2.563h9.942v-.772a7.507,7.507,0,0,0-1.777-5.2,6.116,6.116,0,0,0-4.79-1.983m-3.349,5.693q.463-3.168,3.322-3.168a3.123,3.123,0,0,1,2.267.85,3.882,3.882,0,0,1,1.082,2.319Z" transform="translate(17.376 2.658)" fill="#6868ac"/>
+                    <path id="Path_19" data-name="Path 19" d="M112.421,15.794a.409.409,0,0,0-.224-.4.442.442,0,0,0,.269-.441.489.489,0,0,0-.183-.407.788.788,0,0,0-.5-.147h-.866v1.914h.433v-.711h.4a.23.23,0,0,1,.175.054.339.339,0,0,1,.065.194l.014.2a.581.581,0,0,0,.067.262h.456a.475.475,0,0,1-.082-.262Zm-.665-.546h-.411v-.471h.4c.184,0,.276.076.276.231s-.087.239-.262.239" transform="translate(19.243 2.499)" fill="#6868ac"/>
+                    <path id="Path_20" data-name="Path 20" d="M111.824,13.659a1.863,1.863,0,0,0-1.352.537,1.831,1.831,0,0,0,0,2.624,1.981,1.981,0,0,0,2.713,0,1.85,1.85,0,0,0,0-2.624,1.873,1.873,0,0,0-1.361-.537m1.062,2.884a1.555,1.555,0,0,1-2.115-.008,1.363,1.363,0,0,1-.426-1.023,1.38,1.38,0,0,1,.426-1.039,1.544,1.544,0,0,1,2.115,0,1.488,1.488,0,0,1,0,2.07" transform="translate(19.071 2.37)" fill="#6868ac"/>
+                    <path id="Path_21" data-name="Path 21" d="M66.707,25.6h.007l1.05-2.964h0l.7-1.986q1.01-2.695,1.962-5.469a.3.3,0,0,1,.563,0q1.178,3.413,1.986,5.465l.722,1.986h-.023L74.742,25.6h.008l1.27,3.562a.729.729,0,0,0,.688.485h2.106a.73.73,0,0,0,.681-.993L73.119,12.2a1.431,1.431,0,0,0-1.335-.914h-2.1a1.432,1.432,0,0,0-1.339.922L62.082,28.654a.729.729,0,0,0,.682.988h2.008a.73.73,0,0,0,.689-.488Z" transform="translate(10.763 1.959)" fill="#6868ac"/>
+                    <path id="Path_22" data-name="Path 22" d="M144.454,52.389H3.692A3.7,3.7,0,0,1,0,48.7v-45A3.7,3.7,0,0,1,3.692,0H144.454a3.7,3.7,0,0,1,3.693,3.692v45a3.7,3.7,0,0,1-3.693,3.692M3.692,2.055A1.639,1.639,0,0,0,2.055,3.692v45a1.639,1.639,0,0,0,1.637,1.637H144.454a1.639,1.639,0,0,0,1.638-1.637v-45a1.639,1.639,0,0,0-1.638-1.637Z" transform="translate(0 0)" fill="#6868ac"/>
+                    <path id="Path_23" data-name="Path 23" d="M83.952,11.307h1.811a.693.693,0,0,1,.694.692v2.366l-3.2-.987V12a.692.692,0,0,1,.692-.692" transform="translate(14.446 1.962)" fill="#6868ac"/>
+                    <path id="Path_24" data-name="Path 24" d="M49.036,11.307H47.226a.693.693,0,0,0-.694.692v2.366l3.2-.987V12a.692.692,0,0,0-.692-.692" transform="translate(8.073 1.962)" fill="#6868ac"/>
+                  </svg>
+                  
+                <!-- <span class="logo-lg-text-light">UBold</span> -->
+            </span>
+            <span class="logo-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width: 35px;height: 35px;" viewBox="0 0 300.711 274.397">
+                    <path id="Path_460" data-name="Path 460" d="M77.779,0H6.412A6.42,6.42,0,0,0,0,6.419v167.4a3.108,3.108,0,0,0,3.113,3.113H30.435a3.116,3.116,0,0,0,3.113-3.113V115.053H77.779q29.565,0,46.1-15.531T140.4,57.65q0-26.6-16.524-42.126T77.779,0m21,78.9q-7.829,7.329-22.489,7.332H33.547V28.821H76.286q14.657,0,22.489,7.452T106.6,57.65q0,13.918-7.825,21.25" fill="#6868ac"/>
+                    <path id="Path_461" data-name="Path 461" d="M66.074,137.922h.06l10.125-28.575h0L82.971,90.2q11.178-29.815,21.616-60.629Q117.754,68.1,126.45,90.2l6.972,19.143,10.185,28.575,13.171,36.947a3.107,3.107,0,0,0,2.933,2.066h28.8a3.113,3.113,0,0,0,2.906-4.233L125.663,3.086A4.827,4.827,0,0,0,121.157,0H88.536a4.833,4.833,0,0,0-4.519,3.119l-64.555,169.6a3.1,3.1,0,0,0,2.906,4.213H50.2a3.119,3.119,0,0,0,2.939-2.08Z" transform="translate(109.081)" fill="#6868ac"/>
+                    <path id="Path_462" data-name="Path 462" d="M127.484,75.363h-.02c-40.739,0-78.019-16.017-100.829-43.092A5.194,5.194,0,0,0,19.5,31.4L6.106,41.6a5.179,5.179,0,0,0-.92,7.385c27.895,33.634,73.167,53.564,122.278,53.564h.02c49.118,0,94.4-19.95,122.3-53.59a5.179,5.179,0,0,0-.926-7.385l-13.4-10.2a5.187,5.187,0,0,0-7.132.88c-22.8,27.082-60.083,43.112-100.835,43.112" transform="translate(22.869 171.846)" fill="#6868ac"/>
+                  </svg>
+                  
+            </span>
+        </a>
+    </div>
+    <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+        <li>
+            <button class="button-menu-mobile waves-effect waves-light">
+                <i class="fe-menu" style="color: #6868ab;"></i>
+            </button>
+        </li>
+    
+    </ul>
+</div>
+

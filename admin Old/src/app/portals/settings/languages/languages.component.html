@@ -1,0 +1,157 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="LANGUAGES" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class=" mb-2 animated bounceInRight">
+    <div class="row">
+      <div class="col-md-6" >
+          <div class=" ribbon-box">
+            <div class="ribbon ribbon-blue float-left">
+              <i class="fas fa-language mr-1"></i> LANGUAGES</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <label>{{trans.Language.card1_title1}}</label>
+              <button _ngcontent-ogl-c10="" (click)="addLanguage(languageModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> <i class="fas fa-language"></i></button>
+              <div class="table-responsive" style="text-align: center;">
+                <table class="table table-dark table-borderless mb-0">
+                  <thead>
+                    <tr>
+                      <th>{{trans.Language.langCode}}</th>
+                      <th>{{trans.Language.direction}}</th>
+                      <th>{{trans.Language.active}}</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let lang of language">
+                      <td>{{lang.langCode}}</td>
+                      <td>{{lang.direction}}</td>
+                      <td><ui-switch *ngIf="lang.id != 1" defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangecheck($event,lang.id)" [checked]="status(lang.status)"></ui-switch></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="geLanguage_classifier(lang.id)"><i _ngcontent-ogl-c10="" class="fas fa-file-export"></i> </button>
+                        <button *ngIf="lang.id!=1" type="button" class="btn btn-danger" (click)="deleteLanguage(languageModal,lang.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> 
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="langId!=-1">
+        <div class=" ribbon-box">
+          <div class="ribbon ribbon-blue float-left" style="text-transform: uppercase;">
+            <i class="fas fa-language mr-1" ></i> languages Translator </div>
+          <h5 class="text-whaite float-leftmt-0"></h5>
+          <div class="ribbon-content">
+            <button _ngcontent-ogl-c10="" (click)="addLanguage_classifier(classifierModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> <i class="fas fa-key"></i></button>
+            <label>{{trans.language_classifier.card1_title1}}</label>
+            <div class="table-responsive" style="text-align: center;">
+              <table class="table table-dark table-borderless mb-0">
+                <thead>
+                  <tr>
+                    <th>{{trans.Language.langCode}}</th>
+                    <th>{{trans.language_classifier.langName}}</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let lang_class of language_classifier">
+                    <td>{{lang_class.langCode}}</td>
+                    <td>{{lang_class.langName}}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="deleteLanguage_classifie(classifierModal,lang_class.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+<ng-template #languageModal role="document" let-modal="close">
+  <form class="needs-validation" name="formLanguage" [formGroup]="formLanguage" (ngSubmit)="onSubmitLanguage()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+
+    <div class="form-group mb-3">
+      <label for="name">{{trans.Language.langCode}}</label>
+      
+      <select formControlName="langCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.langCode.errors }" id="langCode" >
+        <option value="{{langA.code|uppercase }}" *ngFor="let langA of langArray" >{{langA.name}}</option>
+      </select>
+      <div *ngIf="submitted && f.langCode.errors" class="invalid-feedback">
+        <div *ngIf="f.langCode.errors.required">{{trans.Language.langCode}}</div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="name">{{trans.Language.direction}}</label>
+
+      <select formControlName="direction" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.direction.errors }" id="direction" >
+        <option value="LTR">LTR</option>
+        <option value="RLT">RLT</option>
+      </select>
+
+      <div *ngIf="submitted && f.direction.errors" class="invalid-feedback">
+        <div *ngIf="f.direction.errors.required">{{trans.Language.direction}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+
+<ng-template #classifierModal role="document" let-modal="close">
+  <form class="needs-validation" name="formLanguageclassifier" [formGroup]="formLanguageclassifier" (ngSubmit)="onSubmitLanguageclassifier()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">languages Translator</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">{{trans.Language.langCode}}</label>
+      <select formControlName="langCode" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.langCode.errors }" id="langCode" >
+        <option value="{{lang.langCode|uppercase }}" *ngFor="let lang of language" >{{lang.langCode}}</option>
+      </select>
+      <div *ngIf="submitted && f.langCode.errors" class="invalid-feedback">
+        <div *ngIf="f.langCode.errors.required">{{trans.Language.langCode}}</div>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="name">{{trans.language_classifier.langName}}</label>
+
+      <input type="langName" formControlName="langName"   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.langName.errors }" id="langName"  />
+
+      <div *ngIf="submitted && f.langCode.errors" class="invalid-feedback">
+        <div *ngIf="f.langCode.errors.required">{{trans.Language.langCode}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>

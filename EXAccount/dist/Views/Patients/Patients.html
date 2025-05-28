@@ -1,0 +1,43 @@
+<h1 style="color: #6868ab;
+text-shadow: 1px 1px 8px #6868ab;">Completed Tasks</h1>
+<div style="position:relative;">
+    <table id="scroll-vertical-datatable" class="table dt-responsive nowrap tabelStatus">
+        <thead>
+            <tr>
+                <th>Case Number</th>
+                <th>Doctor Name</th>
+                <th>Patient Name</th>
+                <th>Gender</th>
+                <th>Number of Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+    <div class="modalTask" id="modalTask" ng-if="modelStatus">
+        <a class="btn  btn-dark" style="float:right;cursor: pointer;margin-bottom: 10px;margin-top: -26px;"  ng-click="closeModelTask()">X</a>
+        <div class="table-responsive" style="background: #fff;height: 100%;border: 3px solid #000000;text-align:center;">
+            <table class="table table-dark mb-0">
+               <thead>
+                   <tr>
+                       <th class="text-center" style="color: #fff;">Start Task</th>
+                       <th class="text-center" style="color: #fff;">End Task</th>
+                       <th class="text-center" style="color: #fff;">Comment</th>
+                       <th class="text-center" style="color: #fff;">Action</th>
+                   </tr>
+               </thead>
+               <tbody id="bodyTabelProcess">
+                   <tr ng-repeat="(key, value) in taskData">
+                       <td class="text-center" >{{value.Start}}</td>
+                       <td class="text-center" >{{value.End}}</td>
+                       <td class="text-center" >{{value.commentAdmin}}</td>
+                       <td class="text-center" >{{value.action}}</td>
+                   </tr>
+               </tbody>
+            </table>
+       </div>
+    </div>
+
+</div>
+

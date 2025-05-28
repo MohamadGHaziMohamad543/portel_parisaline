@@ -1,0 +1,138 @@
+
+<div class="container-fluid">
+  
+  <app-page-title title="EMAIL MODEL" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="card-box mb-2 animated bounceInRight">
+    <div class="row">
+      <div class="col-md-6" >
+          <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-blue float-left">
+              <i class="fas fa-mail-bulk mr-1"></i> EMAIL MODEL</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <button _ngcontent-ogl-c10="" (click)="add(emailModal)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i>ADD MODEL</button>
+              <div class="table-responsive" style="text-align: center;">
+                <table class="table table-dark table-borderless mb-0">
+                  <thead>
+                    <tr>
+                      <th>Model Name</th>
+                      <th>Status</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let email of email_model">
+                      <td>{{email.nameModel}}</td>
+                      <td><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,email.id)" [checked]="status(email.status)"></ui-switch></td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="edit(email.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+                        <button type="button" class="btn btn-danger" (click)="delete(emailModal,email.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> 
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="email_modelId!=-1">
+        <div class="card-box ribbon-box">
+          <div class="ribbon ribbon-blue float-left">
+            <i class="fas fa-language mr-1"></i>Email Content</div>
+          <h5 class="text-whaite float-leftmt-0"></h5>
+          <div class="ribbon-content">
+            <button _ngcontent-ogl-c10="" (click)="addContent(content_email_models)" class="btn btn-success btn-rounded mb-3" type="button"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> <i class="fas fa-key"></i></button>
+            <div class="table-responsive" style="text-align: center;">
+              <table class="table table-dark table-borderless mb-0">
+                <thead>
+                  <tr>
+                    <th>{{trans.contentEmailModel.langId}}</th>
+                    <th>{{trans.contentEmailModel.subject}}</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let contentEmails of content_email_model">
+                    <td>{{getCodeLang(contentEmails.langId)}}</td>
+                    <td>{{contentEmails.subject}}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="deleteContent(content_email_models,contentEmails.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="editContent(content_email_models,contentEmails.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+<ng-template #emailModal role="document" let-modal="close">
+  <form class="needs-validation" name="formEmail_model" [formGroup]="formEmail_model" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleForm}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+   
+    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">Model Name</label>
+
+      <input type="nameModel" formControlName="nameModel"   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameModel.errors }" id="nameModel"  />
+
+      <div *ngIf="submitted && f.nameModel.errors" class="invalid-feedback">
+        <div *ngIf="f.nameModel.errors.required">Model Name</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>
+
+<ng-template #content_email_models role="document" let-modal="close">
+  <form class="needs-validation" name="formcontent_email_model" [formGroup]="formcontent_email_model" (ngSubmit)="onSubmitContent()"
+  novalidate>
+  <app-ui-preloader [display]="loadingContent"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormContent}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert type="danger" *ngIf="errorContent" [dismissible]="false">{{ errorContent }}</ngb-alert>
+    <div class="form-group mb-3">
+      <label for="name">{{trans.contentEmailModel.langId}}</label>
+       <ng-select   formControlName="langId"  bindLabel="langCode" bindValue="id" [items]="Language" ></ng-select>
+      <div *ngIf="submittedContent && fn.langId.errors" class="invalid-feedback">
+        <div *ngIf="fn.langId.errors.required">{{trans.contentEmailModel.langId}}</div>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <label for="name">Subject</label>
+      <input type="subject" formControlName="subject"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.subject.errors }" id="subject"  />
+      <div *ngIf="submittedContent && fn.subject.errors" class="invalid-feedback">
+        <div *ngIf="fn.subject.errors.required">{{trans.contentEmailModel.subject}}</div>
+      </div>
+    </div>
+    <div class="form-group mb-3" *ngIf="ngEditContent">
+      <label for="name">Text</label>
+      <app-keditor formControlName="content_model" (getEditor)="getEditor($event)" IDEDIT="content_model" VALUEEDIT="{{valueNotes}}" id="content_model"  ></app-keditor>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" type="submit">{{trans.users.btn_modal_save}}</button>
+  </div>
+</form>
+</ng-template>

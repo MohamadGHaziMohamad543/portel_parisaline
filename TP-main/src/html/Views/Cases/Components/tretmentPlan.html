@@ -1,0 +1,367 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+      <div class="card-header cardheaderCases" style="    padding: 0;">
+        Treatment Plan
+      </div>
+      <div class="card-body cardBodyCases">
+        <a ng-click="toggleImages()" style="user-select: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="feather feather-align-justify">
+            <line x1="21" y1="10" x2="3" y2="10"></line>
+            <line x1="21" y1="6" x2="3" y2="6"></line>
+            <line x1="21" y1="14" x2="3" y2="14"></line>
+            <line x1="21" y1="18" x2="3" y2="18"></line>
+          </svg> Patient record</a>
+        <div class="row">
+          <div class="col-md-3" ng-if="ShowImage">
+            <div style="    width: 100%;
+                 height: 70vh;
+                 border: 1px solid #6565a7;
+                 padding: 1px;">
+              <div class="images" style="overflow-x: scroll;height: 94%;">
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageFrontPose && PR.imageFrontPose.length==1" id="imageFrontPose" idPatient="{{idPatient}}"
+                  imgclass="imagePatient" filesrc="{{PR.imageFrontPose.length==1?PR.imageFrontPose[0].path:''}}"
+                  filearray="{{PR}}" class="dragdrop" defultimage="assets/images/imagePatient/2.png" drag-Drop
+                  typefile="png jpeg jpg" multifile="false"></div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageFrontSmiling && PR.imageFrontSmiling.length==1" id="imageFrontSmiling"
+                  idPatient="{{idPatient}}" imgclass="imagePatient"
+                  filesrc="{{PR.imageFrontSmiling.length==1?PR.imageFrontSmiling[0].path:''}}" filearray="{{PR}}"
+                  class="dragdrop" defultimage="assets/images/imagePatient/1.png" ; drag-Drop typefile="png jpeg jpg"
+                  multifile="false">
+                </div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageProfile && PR.imageProfile.length==1" id="imageProfile" idPatient="{{idPatient}}"
+                  imgclass="imagePatient" class="dragdrop"
+                  filesrc="{{PR.imageProfile.length==1?PR.imageProfile[0].path:''}}" filearray="{{PR}}"
+                  defultimage="assets/images/imagePatient/3.png" drag-Drop typefile="png jpeg jpg" multifile="false">
+                </div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageUpperOcclusal && PR.imageUpperOcclusal.length==1" id="imageUpperOcclusal"
+                  idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                  filesrc="{{PR.imageUpperOcclusal.length==1?PR.imageUpperOcclusal[0].path:''}}" filearray="{{PR}}"
+                  defultimage="assets/images/imagePatient/4.png" drag-Drop typefile="png jpeg jpg" multifile="false">
+                </div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageLowerOcclusal && PR.imageLowerOcclusal.length==1" id="imageLowerOcclusal"
+                  idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                  filesrc="{{PR.imageLowerOcclusal.length==1?PR.imageLowerOcclusal[0].path:''}}" filearray="{{PR}}"
+                  defultimage="assets/images/imagePatient/5.png" drag-Drop typefile="png jpeg jpg" multifile="false">
+                </div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageLeftBuccal && PR.imageLeftBuccal.length==1" id="imageLeftBuccal"
+                  idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                  filesrc="{{PR.imageLeftBuccal.length==1?PR.imageLeftBuccal[0].path:''}}" filearray="{{PR}}"
+                  defultimage="assets/images/imagePatient/6.png" drag-Drop typefile="png jpeg jpg" multifile="false">
+                </div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageFrontal && PR.imageFrontal.length==1" id="imageFrontal" idPatient="{{idPatient}}"
+                  imgclass="imagePatient" class="dragdrop"
+                  filesrc="{{PR.imageFrontal.length==1?PR.imageFrontal[0].path:''}}" filearray="{{PR}}"
+                  defultimage="assets/images/imagePatient/7.png" drag-Drop typefile="png jpeg jpg" multifile="false">
+                </div>
+                <div style="position: relative;margin-top: 1px;height: 142px;" notdelete="true" noremove="1"
+                  ng-if="PR.imageRightBuccal && PR.imageRightBuccal.length==1" id="imageRightBuccal"
+                  idPatient="{{idPatient}}" imgclass="imagePatient" class="dragdrop"
+                  filesrc="{{PR.imageRightBuccal.length==1?PR.imageRightBuccal[0].path:''}}" filearray="{{PR}}"
+                  defultimage="assets/images/imagePatient/8.png" drag-Drop typefile="png jpeg jpg" multifile="false">
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div ng-class="{'col-md-6':ShowImage,'col-md-9':!ShowImage}">
+            <div class="tabKiven">
+              <div class="tabs"
+                style="padding: 9px;height: auto;-webkit-box-pack: initial;background: #d9d9fb;border: 1px solid #ccc;padding-bottom: 0;">
+                <div class="tab" ng-repeat="tab in Tabs" ng-class="{'active': tab.set}" ng-click="setTabs(tab.id)">
+                  Option {{tab.nLevel}}</div>
+                <div class="btn btn-outline-info tab" ng-if="taskStatus==1" style="margin-left: 3px;padding: 7px;"
+                  ng-click="AddLevel()"><i class="fe-plus"></i></div>
+              </div>
+              <div class="content">
+                <div class="content-item" ng-class="{'active': tab.set}" ng-repeat="tab in Tabs">
+                  <div class="row tabLevel">
+                    <div class="tabs col-md-12">
+                      <div style="display: block;width: 100%;text-align: center;">
+                        <div class="tab" style="width: max-content;display: inline-block;"
+                          ng-class="{'active': tab.select=='V3dV'}" ng-click="setSelect('V3dV',tab.nLevel)">3D Viwer
+                        </div>
+                        <div class="tab" style="width: max-content;display: inline-block;"
+                          ng-class="{'active': tab.select=='Setup'}" ng-click="setSelect('Setup',tab.nLevel)">Setup PDF
+                        </div>
+                        <div class="tab" style="width: max-content;display: inline-block;"
+                          ng-class="{'active': tab.select=='Simulation'}" ng-click="setSelect('Simulation',tab.nLevel)">
+                          Simulation PDF</div>
+                        <div class="tab" style="width: max-content;display: inline-block;"
+                          ng-class="{'active': tab.select=='Right'}" ng-click="setSelect('Right',tab.nLevel)">Right
+                          Video</div>
+                        <div class="tab" style="width: max-content;display: inline-block;"
+                          ng-class="{'active': tab.select=='Left'}" ng-click="setSelect('Left',tab.nLevel)">Left Video
+                        </div>
+                        <div class="tab" style="width: max-content;display: inline-block;"
+                          ng-class="{'active': tab.select=='Frontal'}" ng-click="setSelect('Frontal',tab.nLevel)">
+                          Frontal and Occlusal Views</div>
+                      </div>
+                    </div>
+                    <div class="content col-md-12">
+                      <div class="content-item active" style="{{tab.Setup?'display: inline-block;':''}}"
+                        ng-if="tab.select=='Setup'">
+                        <div ng-if="tab.Setup && taskStatus==1" style="width: 100%;padding: 2px;height: 45px;">
+                          <button class="btn btn-outline-danger" style="float: left;"
+                            ng-click="removeFile(tab.SetupBisec,tab.nLevel,'Setup')">Remove <i
+                              class="fe-delete"></i></button>
+                        </div>
+                        <iframe ng-if="tab.Setup" ng-src="{{tab.Setup}}"
+                          style="border: 1px solid black;width: 100%;min-height: 400px;"></iframe>
+                        <div ng-if="!tab.Setup && taskStatus==1" event-Done="eventDonUpload(PATH,tab.nLevel,'Setup')"
+                          style="position: relative;" id="TretmentPlan/{{tab.nLevel}}/Setup" idPatient="{{idPatient}}"
+                          imgclass="imageStl" filesrc="{{tab.Setup?tab.Setup:''}}" class="dragdrop"
+                          defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                          typefile="pdf" multifile="false"></div>
+                      </div>
+                      <div class="content-item active"
+                        style="{{tab.V3dV?'display: inline-block;':''}} ;position: relative;"
+                        ng-if="tab.select=='V3dV'">
+                        <div class="row" style="width: 100%;"
+                          ng-if="tab.V3dV.length!=2 && tab.V3dV[0].name !== 'NemoData'">
+                          <div class="col-md-8">
+                            <input class="form-control" type="url" id="linkOurthub{{tab.nLevel}}">
+
+                          </div>
+                          <div class="col-md-4">
+                            <a class="btn btn-outline-info" ng-click="GenrateViewr($event,tab.nLevel)">make a show</a>
+                          </div>
+                        </div>
+                        <div ng-if="tab.V3dV.length==2 || tab.V3dV[0].name == 'NemoData'"
+                          style="background: #6565a7;width: 100%;height: 53vh;">
+
+                          <div class="kivenView" id="kiven{{tab.nLevel}}" style="height: 53vh;"></div>
+                          <div style="width: 100%;padding: 2px;height: 45px;">
+                            <button class="btn btn-outline-danger" style="float: left;"
+                              ng-click="removeView(tab.V3dV[0].path,tab.nLevel,'V3dV')">Remove <i
+                                class="fe-delete"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="content-item active" style="{{tab.Simulation?'display: inline-block;':''}}"
+                        ng-if="tab.select=='Simulation'">
+                        <div ng-if="tab.Simulation && taskStatus==1" style="    width: 100%;padding: 2px;height: 45px;">
+                          <button class="btn btn-outline-danger" style="float: left;"
+                            ng-click="removeFile(tab.SimulationBisec,tab.nLevel,'Simulation')">Remove <i
+                              class="fe-delete"></i></button>
+                        </div>
+                        <iframe ng-if="tab.Simulation" ng-src="{{tab.Simulation}}"
+                          style="border: 1px solid black;width: 100%;min-height: 400px;"></iframe>
+                        <div ng-if="!tab.Simulation && taskStatus==1"
+                          event-Done="eventDonUpload(PATH,tab.nLevel,'Simulation')" style="position: relative;"
+                          id="TretmentPlan/{{tab.nLevel}}/Simulation" idPatient="{{idPatient}}" imgclass="imageStl"
+                          filesrc="{{tab.Simulation?tab.Simulation:''}}" class="dragdrop"
+                          defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                          typefile="pdf" multifile="false"></div>
+                      </div>
+                      <div class="content-item active" style="{{tab.Right?'display: inline-block;':''}}"
+                        ng-if="tab.select=='Right'">
+                        <div style="    width: 100%;padding: 2px;height: 45px;" ng-if="tab.Right && taskStatus==1">
+                          <button class="btn btn-outline-danger" style="float: left;"
+                            ng-click="removeFile(tab.RightBisec,tab.nLevel,'Right')">Remove <i
+                              class="fe-delete"></i></button>
+                        </div>
+                        <video ng-if="tab.Right" style="width: 100%;min-height: 400px;" id="my-player" class="video-js"
+                          controls preload="auto" data-setup='{}'>
+                          <source src="{{tab.Right}}" type="video/mp4">
+                          </source>
+                        </video>
+                        <div ng-if="!tab.Right && taskStatus==1" event-Done="eventDonUpload(PATH,tab.nLevel,'Right')"
+                          style="position: relative;" id="TretmentPlan/{{tab.nLevel}}/Right" idPatient="{{idPatient}}"
+                          imgclass="imageStl" filesrc="{{tab.Right?tab.Right:''}}" class="dragdrop"
+                          defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                          typefile="mp4 wmv mov" multifile="false"></div>
+                      </div>
+                      <div class="content-item active" ng-if="tab.select=='additionalInstructions'">
+                        <additional-Instructions option-Id="{{tab.nLevel}}" style="width: 100%;height: 100%;"
+                          id-Patient="idPatient" filters="tst test tes"
+                          button-Next="nextTab('tretmentPlan')"></additional-Instructions>
+                      </div>
+                      <div class="content-item active" style="{{tab.Left?'display: inline-block;':''}}"
+                        ng-if="tab.select=='Left'">
+                        <div style="    width: 100%;padding: 2px;height: 45px;" ng-if="tab.Left && taskStatus==1">
+                          <button class="btn btn-outline-danger" style="float: left;"
+                            ng-click="removeFile(tab.LeftBisec,tab.nLevel,'Left')">Remove <i
+                              class="fe-delete"></i></button>
+                        </div>
+                        <video ng-if="tab.Left" style="width: 100%;min-height: 400px;" id="my-player" class="video-js"
+                          controls preload="auto" data-setup='{}'>
+                          <source src="{{tab.Left}}" type="video/mp4">
+                          </source>
+                        </video>
+                        <div ng-if="!tab.Left && taskStatus==1" event-Done="eventDonUpload(PATH,tab.nLevel,'Left')"
+                          style="position: relative;" id="TretmentPlan/{{tab.nLevel}}/Left" idPatient="{{idPatient}}"
+                          imgclass="imageStl" filesrc="{{tab.Left?tab.Left:''}}" class="dragdrop"
+                          defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                          typefile="mp4 wmv mov" multifile="false"></div>
+                      </div>
+                      <div class="content-item active" style="{{tab.Frontal?'display: inline-block;':''}}"
+                        ng-if="tab.select=='Frontal'">
+                        <div style="    width: 100%;padding: 2px;height: 45px;" ng-if="tab.Frontal && taskStatus==1">
+                          <button class="btn btn-outline-danger" style="float: left;"
+                            ng-click="removeFile(tab.FrontalBisec,tab.nLevel,'Frontal')">Remove <i
+                              class="fe-delete"></i></button>
+                        </div>
+                        <video ng-if="tab.Frontal" style="width: 100%;min-height: 400px;" id="my-player"
+                          class="video-js" controls preload="auto" data-setup='{}'>
+                          <source src="{{tab.Frontal}}" type="video/mp4">
+                          </source>
+                        </video>
+                        <div ng-if="!tab.Frontal && taskStatus==1"
+                          event-Done="eventDonUpload(PATH,tab.nLevel,'Frontal')" style="position: relative;"
+                          id="TretmentPlan/{{tab.nLevel}}/Frontal" idPatient="{{idPatient}}" imgclass="imageStl"
+                          filesrc="{{tab.Frontal?tab.Frontal:''}}" class="dragdrop"
+                          defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                          typefile="mp4 wmv mov" multifile="false"></div>
+                      </div>
+                      <div ng-if="tab.set"
+                        style="margin-top:10px;width: 70%;margin-bottom: 7px;width: 100%;display: {{tab.set?'flex':'none'}};">
+                        <input class="form-control" value="{{Tabs[0].link}}-{{tab.nLevel}}" id="linkShereyStringsUrl"
+                          readonly><a style="width: 200px;float: right;margin-left: 10px;" class="btn btn-outline-info"
+                          ng-click="CopyLink()">Copy link</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-Body"
+                          style="    text-align: center; padding: 10px; border: 1px dashed #c5c0c0;">
+                          <label>File Model</label>
+                          <a class="btn btn-outline-info" target="_blank" href="{{tab.ModelOPN}}" ng-if="tab.ModelOPN"
+                            style="width: 100%;">
+                            download <i class="fe-download"></i>
+                          </a>
+                          <div ng-if="!tab.ModelOPN && taskStatus==1"
+                            event-Done="eventDonUpload(PATH,tab.nLevel,'ModelOPN')" style="position: relative;"
+                            id="TretmentPlan/{{tab.nLevel}}/ModelOPN" idPatient="{{idPatient}}" imgclass="imageStl"
+                            filesrc="{{tab.ModelOPN?tab.ModelOPN:''}}" class="dragdrop"
+                            defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png"
+                            drag-Drop typefile="opn" multifile="false"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card">
+                        <div class="card-Body"
+                          style="    text-align: center; padding: 10px; border: 1px dashed #c5c0c0;">
+                          <label>File Treatment Plan OPN</label>
+                          <a class="btn btn-outline-danger"
+                            ng-click="removeFile(tab.treatmentPlanOPN.toString().split(serverUrlStatic)[1],tab.nLevel,'treatmentPlanOPN')"
+                            ng-if="tab.treatmentPlanOPN" style="width: 100%;">
+                            Remove<i class="fe-trash"></i>
+                          </a>
+                          <a class="btn btn-outline-info" href="{{tab.treatmentPlanOPN}}" target="_blank"
+                            ng-if="tab.treatmentPlanOPN" style="width: 100%;">
+                            download <i class="fe-download"></i>
+                          </a>
+                          <div ng-if="!tab.treatmentPlanOPN && taskStatus==1"
+                            event-Done="eventDonUpload(PATH,tab.nLevel,'treatmentPlanOPN')" style="position: relative;"
+                            id="TretmentPlan/{{tab.nLevel}}/treatmentPlanOPN" idPatient="{{idPatient}}"
+                            imgclass="imageStl" filesrc="{{tab.treatmentPlanOPN?tab.treatmentPlanOPN:''}}"
+                            class="dragdrop"
+                            defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png"
+                            drag-Drop typefile="opn" multifile="false"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6" style="display: flex;justify-content: start;">
+                      <strong class="TextShadowNUmber" style="width: 145px;">Upper Aligners</strong>
+                      <div class="input-group" style="width: 100px;">
+                        <div class="input-group-append" ng-if="tab.UpperAlignersInput!=tab.UpperAligners">
+                          <button class="btn btn-outline-info waves-effect waves-light"
+                            ng-click="updateUpperAligner(tab.UpperAlignersInput,tab.nLevel)" type="button"><i
+                              class="fe-save"></i> Save</button>
+                        </div>
+                        <input class="form-control text-center" ng-model="tab.UpperAlignersInput" min="0" max="100"
+                          type="number">
+                      </div>
+                    </div>
+                    <div class="col-md-6" style="display: flex;justify-content: end;">
+                      <strong class="TextShadowNUmber" style="width: 145px;">Lower Aligners</strong>
+                      <div class="input-group" style="width: 100px;">
+                        <div class="input-group-append" ng-if="tab.LowerAlignersInput!=tab.LowerAligners">
+                          <button class="btn btn-outline-info waves-effect waves-light"
+                            ng-click="updateLowerAligner(tab.LowerAlignersInput,tab.nLevel)" type="button"><i
+                              class="fe-save"></i> Save</button>
+                        </div>
+                        <input class="form-control text-center" ng-model="tab.LowerAlignersInput" min="0" max="100"
+                          type="number">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card" style="padding: 3px 10px;border: 1px solid #6868ab6e">
+              <label style="text-align: center;">Tretment Gols</label>
+              <div style="color: #9f9797;">
+                <textarea style=" width: 100%;
+                height: 100px;
+                border: none;
+                outline: none;
+                resize: none;
+                color: #0006;
+                font-size: 15px;" readonly ng-bind-html="$ctrl.tg"></textarea>
+              </div>
+            </div>
+            <div>
+              <label style="text-align: center;width: 100%;">Additional Instructions</label>
+              <div class="tabsAdd">
+                <div class="navAdd">
+                  <div class="itemBtn" ng-class="{'ActiveBtn':TabsAddsSelected=='Internal'}"
+                    ng-click="SelectTabsAdd('Internal')" style="margin-right: 5px;">
+                    Internal
+                  </div>
+                  <div class="itemBtn" ng-click="SelectTabsAdd('EXTERNAL')"
+                    ng-class="{'ActiveBtn':TabsAddsSelected=='EXTERNAL'}">
+                    External
+                  </div>
+                </div>
+                <div class="contentAdd">
+                  <div ng-if="TabsAddsSelected=='Internal'">
+                    <additional-Instructions style="width: 100%;display: inline-table;" id-Patient="idPatient"
+                      filters="tst test tes" option-id=""></additional-Instructions>
+                  </div>
+                  <div ng-if="TabsAddsSelected=='EXTERNAL'">
+                    <additional-Instructions style="width: 100%;display: inline-table;" id-Patient="idPatient"
+                      filters="tst test tes" option-Id="nLevel"></additional-Instructions>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" ng-if="taskStatus==1">
+            <hr>
+            <label>Comments</label>
+            <textarea class="form-control" ng-model="CommentInnput" placeholder="Write Your Note"></textarea>
+            <div class="mt-3">
+              <button class="btn btn-outline-danger" ng-click="RejectTash(CommentInnput)" ng-if="taskStatus==1 && IsYouCanReject"
+                ng-disabled="CommentInnput==''">Reject and Comment</button>
+                <select class="form-control" id="GoBack" ng-if="dataBackTask.length!==0 && IsYouCanReject" style="float: left;width: 200px;">
+                  <option value="-40" selected>Default</option>
+                  <option value="{{taskBack.numberIndex}}" ng-repeat="taskBack in dataBackTask">{{taskBack.nameTreatmentPlanner}}</option>
+                </select>
+                <select class="form-control" id="GoNext"  ng-if="dataNextTask.length!==0" style="float: right;width: 200px;">
+                  <option value="-40" selected>Default</option>
+                  <option value="{{taskBack.numberIndex}}" ng-repeat="taskBack in dataNextTask">{{taskBack.nameTreatmentPlanner}}</option>
+                  <option value="-30">Doctor Approval</option>
+                </select>
+              <button class="btn btn-outline-success float-right" ng-click="FinshTask(CommentInnput)"  ng-if="taskStatus==1" ng-disabled="CommentInnput==''">Approve & Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

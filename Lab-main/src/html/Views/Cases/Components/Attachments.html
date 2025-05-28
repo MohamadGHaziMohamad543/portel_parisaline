@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" style="background: none; box-shadow: none;">
+            <div class="card-header cardheaderCases">
+                Attachments
+                <a style="position: absolute;left: 5px;font-size: 14px;" ng-click="ShowModal()"><i class="fa fa-plus-square" aria-hidden="true"></i> Add a new File</a>
+            </div>
+            <div class="card-body cardBodyCases">
+                <div class="row">
+                    <div ng-repeat="(key, value) in Files" class="col-md-6">
+                        <h4 style="margin: 0;background: #6868ac;color: #fff;text-align: center;padding: 0px 33px;" class="truncate-text"><p><strong style="background: #000;display: inline-block;margin-top: 6px;border-radius: 9px;padding: 0px 12px;">{{value.id}} </strong> {{value.comment}}</p></h4>
+                        <div class="boxSTL">
+                            <div  style="position: relative;text-align: center;"
+                            event-Done="eventDonUpload(PATH,value.id)" eventafterremove="eventafterremove()" id="attachments/{{value.id}}" idPatient="{{idPatient}}"
+                            imgclass="imageStl" filesrc="{{value.Path?value.Path:''}}" class="dragdrop" nochangename="false"
+                            defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                            typefile="stl png jpeg jpg ptc zip" multifile="false"></div>
+                            <a class="btn btn-outline-info" ng-if="value.Path" style="width: 100%;" target="_blank"  href="{{ServerUrl+value.Path}}">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="FormModalFiles" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> Create a new Files </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="formBarcode">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Comment:</label>
+                        <textarea class="form-control" id="commentFile"></textarea>
+                    </div>
+                </div>
+                <div id="barcodePrintBox" style="width: 100%;" ng-if="barcodeAliner"></div>
+                <div class="col-md-12 text-center">
+                    <a  class="btn btn-outline-primary" ng-click="CreateFile()">Create</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

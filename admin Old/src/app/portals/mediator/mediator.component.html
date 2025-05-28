@@ -1,0 +1,153 @@
+<div class="container-fluid">
+
+  <app-page-title title="OPERATIONS COORDINATORS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+  <div class="col-lg-12 col-xl-12">
+    <div class="card-box">
+      <button _ngcontent-ogl-c10="" (click)="add(mediatorModal)" class="btn btn-success btn-rounded mb-3" type="button"> <i class="mdi mdi-perspective-more"></i><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> </button>
+
+      <h5 class="mb-3 mt-4 text-uppercase">
+        List of COORDINATORS</h5> 
+    <div class="table-responsive">
+        <table class="table table-borderless mb-0">
+            <thead class="thead-light">
+                <tr>
+                    <th>Logo</th>
+                    <th>Coordinator Name</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let md of mediator">
+                  <td><img src="{{url+'/'+md.logo}}" style="width: 39px" class="img-fluid rounded-circle"></td>
+                  <td><a routerLink="{{getLink(md.id)}}" routerLinkActive="active" class="side-nav-link-ref">{{md.nameMediator}}</a></td>
+                    <td>{{md.countryName}}</td>
+                    <td>{{md.cityName}}</td>
+                    <td>{{md.email}}</td>
+                    <td><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" (change)="onChangeStatus($event,md.id)"  [checked]="status(md.status)"></ui-switch></td>
+                    <td>
+                      <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-warning btn-sm" style="margin-right: 10px;" (click)="edit(mediatorModal,md.id)">Edit <i class="fas fa-minus-circle"></i> </button>
+                      <button _ngcontent-eot-c23="" type="button" class="btn btn-outline-danger btn-sm" (click)="delete(mediatorModal,md.id)">Delete <i class="fe-trash-2"></i>  </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+</div>
+
+
+<ng-template #mediatorModal role="document" let-modal="close">
+  <form class="needs-validation" name="formMediator" [formGroup]="formMediator" (ngSubmit)="onSubmit()"
+  novalidate>
+  <app-ui-preloader [display]="loading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{titleFormName}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="img-container">
+          <image-cropper 
+          [imageBase64]="imageChangedEvent" 
+          [maintainAspectRatio]="true" 
+          [aspectRatio]="20 / 20"
+          [resizeToWidth]="256" 
+          [cropperMinWidth]="300"
+          [cropperMinHeight]="300"
+          format="png" 
+          (imageCropped)="imageCropped($event)" style="height: 139px;" ></image-cropper>
+        </div>
+      </div>
+      <div class="form-group col-lg-6" >
+        <label>Logo </label>
+        <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" accept="image/x-png,image/gif,image/jpeg"  (change)="onFileSelect($event)" >
+              <label class="custom-file-label" for="inputGroupFile04">Logo </label>
+            </div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Coordinator Name</label>
+  
+        <input type="nameMediator" formControlName="nameMediator"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.nameMediator.errors }" id="nameMediator"  />
+        <div *ngIf="submitted && fn.nameMediator.errors" class="invalid-feedback">
+          <div *ngIf="fn.nameMediator.errors.required">Coordinator Name</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Phone Number</label>
+  
+        <input type="phoneNumber" formControlName="phoneNumber"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.phoneNumber.errors }" id="phoneNumber"  />
+        <div *ngIf="submitted && fn.phoneNumber.errors" class="invalid-feedback">
+          <div *ngIf="fn.phoneNumber.errors.required">Phone Number</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Email</label>
+  
+        <input type="email" formControlName="email"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.email.errors }" id="email"  />
+        <div *ngIf="submitted && fn.email.errors" class="invalid-feedback">
+          <div *ngIf="fn.email.errors.required">Email</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Postal Code</label>
+  
+        <input type="postalCode" formControlName="postalCode"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.postalCode.errors }" id="postalCode"  />
+        <div *ngIf="submitted && fn.postalCode.errors" class="invalid-feedback">
+          <div *ngIf="fn.postalCode.errors.required">Postal Code</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <label for="name">Country</label>
+        <ng-select   formControlName="countryId" (ngModelChange)="onChangeCountry()"  bindLabel="countryName" bindValue="id" [items]="Country" >
+          <ng-template ng-label-tmp let-item="item">
+            <flag-icon country="{{item.code}}" ></flag-icon>
+            <b>{{item.countryName}}</b>
+         </ng-template>
+         <ng-template ng-option-tmp let-item="item" let-index="index">
+          <flag-icon country="{{item.code}}" ></flag-icon>
+          <b>{{item.countryName}}</b>
+      </ng-template>
+        </ng-select>
+  
+        <div *ngIf="submitted && fn.countryId.errors" class="invalid-feedback">
+          <div *ngIf="fn.countryId.errors.required">Country</div>
+        </div>
+      </div>
+      
+      <div class="form-group col-lg-6">
+        <label for="name">City</label>
+  
+         <ng-select   formControlName="cityId"  bindLabel="cityName" (ngModelChange)="onChangeCountry()" bindValue="id" [items]="city" ></ng-select>
+        <div *ngIf="submitted && fn.cityId.errors" class="invalid-feedback">
+          <div *ngIf="fn.cityId.errors.required">City</div>
+        </div>
+      </div>
+      <div class="form-group col-lg-12">
+        <label for="name">Address</label>
+  
+        <textarea type="address" formControlName="address"   class="form-control" [ngClass]="{ 'is-invalid': submitted && fn.address.errors }" id="address"  >
+
+        </textarea>
+        <div *ngIf="submitted && fn.address.errors" class="invalid-feedback">
+          <div *ngIf="fn.address.errors.required">Email</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')" >{{trans.users.btn_modal_close}}</button>
+      <button type="button" class="btn btn-primary" *ngIf="typeForm!=2" type="submit">{{trans.users.btn_modal_save}}</button>
+      <button type="button" class="btn btn-primary" *ngIf="typeForm==2" type="submit">Delete</button>
+  </div>
+</form>
+</ng-template>

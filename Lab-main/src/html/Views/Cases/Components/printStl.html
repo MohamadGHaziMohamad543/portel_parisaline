@@ -1,0 +1,233 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card" ng-if="!Submit" style="background: none; box-shadow: none;">
+      <div class="card-header cardheaderCases">
+        Print File Stl ( option : {{OptionNumber}})
+      </div>
+      <div class="card-Body cardBodyCases" style="text-align: center;">
+        <div class="cart-animation-helper ng-scope" ng-if="fileSumlationPdf && fileSumlationPdf!='none'"
+          style="width: 250px;border: 1px dashed;text-align: center;padding: 5px;position: relative; margin-top: 10px;display: inline-block;">
+          <label style="width: 100%;background: #6868ab;color: #fff;font-size: 21px;" class="ng-binding">Simulation
+            PDF</label>
+          <a href="{{LinkServer+fileSumlationPdf}}" target="_blank" class="fileSumlationPdf"
+            style="background: #76089e; color: #fff; padding: 10px; border-radius: 23px; display: inline-block; width: 200px;">
+            Download File
+          </a>
+        </div>
+        <div class="cart-animation-helper ng-scope"
+          style="width: 250px;border: 1px dashed;text-align: center;padding: 5px;position: relative; margin-top: 10px;display: inline-block;">
+          <label style="width: 100%;background: #6868ab;color: #fff;font-size: 21px;" class="ng-binding">All File STL</label>
+          <a ng-if="!LinkStl && !Loading" ng-click="CompressAllFIleStlAndDownload()" target="_blank"
+            class="fileSumlationPdf"
+            style="background: #76089e; color: #fff; padding: 10px; border-radius: 23px; display: inline-block; width: 200px;">
+            Download All
+          </a>
+          <img ng-if="Loading" src="https://www.latinobarometro.org/oda/img/icons/progression2.gif"  style="width: 100px;height: 100px;">
+          <a ng-if="LinkStl" href="{{LinkServer+LinkStl}}" target="_blank" class="fileSumlationPdf" style="background: #306402ed; color: #fff; padding: 10px; border-radius: 23px; display: inline-block; width: 200px;">
+            Download Now
+          </a>
+        </div>
+      </div>
+      <div class="card-body cardBodyCases" style="padding: 23px 63px;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-3" ng-repeat="(key, value) in boxes">
+                <div class="boxBarcodeShipping cart">
+                  <strong class="numberBoxLength">{{value.value.length}}</strong>
+                  <a ng-if="value.value.length !=0" class="btn btn-outline-info" ng-click="showModelBarcode('BOX'+value.id,value.value.length-1,(UpperArray.length < LowerArray.length?LowerArray.length-1:UpperArray.length-1),1,null,null,null,null,null,(key+1))">
+                    <i class="fas fa-barcode"></i>
+                  </a>
+                  <div class="batchNumberBarcode" ng-if="value.batch">0{{value.batch}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="cart-animation-helper"
+              style="width: 100%;border: 1px dashed;text-align: center;padding: 5px;position: relative; margin-top: 10px;min-height: 146px;"
+              ng-repeat="(key, value) in UpperArray">
+              <label style="width: 100%;background: #6868ab;color: #fff;font-size: 21px;">{{value.name+" "+value.id}}
+                <a ng-if="value['barcode'] && !boxRemove[value.id]" ng-click="addBoxOrData(value.id)"
+                  class="btn btn-outline-success"
+                  style="padding: 1px 11px;float: left; margin-top: 4px;margin-left: 4px;"><i class="fe-box"></i></a>
+                <a ng-if="value['barcode'] && boxRemove[value.id]" ng-click="removeDviceOfBox(value.id)"
+                  class="btn btn-outline-danger"
+                  style="padding: 1px 11px;float: right; margin-top: 4px;margin-right: 4px;"><i class="fe-box"></i> <i
+                    class="fe-trash"></i></a>
+              </label>
+              <label ng-if="typeNumberAliner=='L' && UpperArray[UpperArray.length-1].id==value.id && NumberAliner!=0" style="position: absolute;top: 6px;left: 7px;font-size: 18px;background: #6868aa;border-radius: 10px;padding: 0px 10px;color: #fff;border: 1px dashed;">X{{NumberAliner}}</label>
+              <div class="row">
+                <div class="col-md-8">
+                  <div ng-if="value.Path==''&& JustprintFile!=true" style="position: relative;    border: 1px solid;"
+                  event-Done="eventDonUpload(PATH,value.name+value.id)" id="fileStlPrint" idPatient="{{idPatient}}"
+                  imgclass="imageStl" filesrc="" class="dragdrop" nochangename="true"
+                  staticname="{{value.name+value.id}}.stl"
+                  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                  typefile="stl" multifile="false"></div>
+                  <a ng-if="value.Path!=''" class="btn btn-outline-success" ng-click="showStl(value.Path)"
+                  style="margin: 10px;">
+                  <i class="fe-eye"></i>
+                </a>
+                <a ng-if="value.Path!='' && JustprintFile!=true" class="btn btn-outline-danger"
+                  ng-click="DeleteStl(LinkServer+value.Path,value.name+value.id)" style="margin: 10px;">
+                  <i class="fe-trash"></i>
+                </a>
+  
+                <a ng-if="showBarcode && value.Path!='' && JustprintFile==true && (UpperArray.length >= LowerArray.length || LowerArray.length == UpperArray.length)"
+                  class="btn btn-outline-info"
+                  ng-click="showModelBarcode('Device'+value.id,value.id,UpperArray.length,0,LowerArray.length,UpperArray.length,true,((LowerArray.length-1+NumberAliner)>=(value.id)?true:false),'U')"
+                  style="margin: 10px;">
+                  
+                  <svg version="1.1" style="width: 17px;" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                    <g>
+                      <rect x="15.2" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="109.6" y="25.6" style="fill:#0B3249;" width="10.4" height="296" />
+                      <rect x="63.2" y="25.6" style="fill:#0B3249;" width="2.4" height="296" />
+                      <rect x="272.8" y="25.6" style="fill:#0B3249;" width="2.4" height="296" />
+                      <rect x="248" y="25.6" style="fill:#0B3249;" width="10.4" height="296" />
+                      <rect x="151.2" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="300" y="25.6" style="fill:#0B3249;" width="52" height="296" />
+                      <rect x="424" y="25.6" style="fill:#0B3249;" width="72.8" height="296" />
+                      <rect x="205.6" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="378.4" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="15.2" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                      <rect x="109.6" y="400.8" style="fill:#0B3249;" width="10.4" height="85.6" />
+                      <rect x="63.2" y="400.8" style="fill:#0B3249;" width="2.4" height="85.6" />
+                      <rect x="272.8" y="400.8" style="fill:#0B3249;" width="2.4" height="85.6" />
+                      <rect x="248" y="400.8" style="fill:#0B3249;" width="10.4" height="85.6" />
+                      <rect x="151.2" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                      <rect x="300" y="400.8" style="fill:#0B3249;" width="52" height="85.6" />
+                      <rect x="424" y="400.8" style="fill:#0B3249;" width="72.8" height="85.6" />
+                      <rect x="205.6" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                      <rect x="378.4" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                    </g>
+                    <path style="fill:#E05407;" d="M507.2,364H4.8c-2.4,0-4.8-2.4-4.8-4.8s2.4-4.8,4.8-4.8h502.4c2.4,0,4.8,2.4,4.8,4.8
+                         C512,361.6,509.6,364,507.2,364z" />
+                    <path style="fill:#FF7631;" d="M507.2,354.4H4.8c-1.6,0-3.2,0.8-4,2.4c0.8,2.4,2.4,3.2,4,3.2h502.4c1.6,0,3.2-0.8,4-2.4
+                         C510.4,355.2,508.8,354.4,507.2,354.4z" />
+                  </svg>
+                </a>
+                <a ng-if="value.Path!=''" class="btn btn-outline-info" href="{{LinkServer+value.Path}}" target="_blank" style="width: 100%;">
+                  download <i class="fe-download"></i>
+                </a>
+                </div>
+                <div class="col-md-4">
+                  <div ng-if="UpperArraypts[key].Path==''&& JustprintFile!=true" style="position: relative;border: 1px solid;"
+                  event-Done="eventDonUpload(PATH,UpperArraypts[key].name+UpperArraypts[key].id,'pts')" id="fileStlPrint" idPatient="{{idPatient}}"
+                  imgclass="imageStl" filesrc="" class="dragdrop" nochangename="true"
+                  staticname="{{UpperArraypts[key].name+UpperArraypts[key].id}}.pts"
+                  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                  typefile="asc pts" multifile="false"></div>
+                  <a ng-if="UpperArraypts[key].Path==''&& JustprintFile!=true" style="    margin-top: -25px;position: absolute; z-index: 99996; background: #ffffff; display: inline-block;width: 71px; left: 92px; height: 20px; border-radius: 13px;  color: #3399db;  font-size: 15px;">PTS</a>
+                  <div style="    height: 100%; display: flex; justify-content: center; align-items: flex-end;">
+                    <a ng-if="UpperArraypts[key].Path!='' && JustprintFile!=true" class="btn btn-outline-danger"  ng-click="DeleteStl(LinkServer+UpperArraypts[key].Path,UpperArraypts[key].name+UpperArraypts[key].id ,'pts')" style="margin: 10px;">
+                        <i class="fe-trash"></i>
+                      </a>
+                      <a ng-if="UpperArraypts[key].Path!=''" class="btn btn-outline-info" href="{{LinkServer+UpperArraypts[key].Path}}" target="_blank"
+                        style="width: 100%;">
+                        PTS download <i class="fe-download"></i>
+                      </a>
+                 </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div
+              style="width: 100%;border: 1px dashed;text-align: center;padding: 5px;position: relative; margin-top: 10px;min-height: 146px;"
+              ng-repeat="(key, value) in LowerArray">
+              <label style="width: 100%;background: #6868ab;color: #fff;font-size: 21px;">{{value.name+" "+value.id}}
+                <a ng-if="value['barcode'] && !boxRemove[value.id]" ng-click="addBoxOrData(value.id)"
+                  class="btn btn-outline-success"
+                  style="padding: 1px 11px;float: left; margin-top: 4px;margin-left: 4px;"><i class="fe-box"></i></a>
+                <a ng-if="value['barcode'] && boxRemove[value.id]" ng-click="removeDviceOfBox(value.id)"
+                  class="btn btn-outline-danger"
+                  style="padding: 1px 11px;float: right; margin-top: 4px;margin-right: 4px;"><i class="fe-box"></i> <i
+                    class="fe-trash"></i></a>
+              </label>
+              <label ng-if="typeNumberAliner=='U' && LowerArray[LowerArray.length-1].id==value.id && NumberAliner!=0" style="    position: absolute;top: 6px;right: 7px;font-size: 18px;background: #6868aa;border-radius: 10px;padding: 0px 10px;color: #fff;border: 1px dashed;">X{{NumberAliner}}</label>
+              <div class="row">
+                <div class="col-md-8">
+                  <div ng-if="value.Path=='' && JustprintFile!=true" style="position: relative;border: 1px solid;"
+                  event-Done="eventDonUpload(PATH,value.name+value.id)" id="fileStlPrint" idPatient="{{idPatient}}"
+                  imgclass="imageStl" filesrc="" class="dragdrop" nochangename="true"
+                  staticname="{{value.name+value.id}}.stl"
+                  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                  typefile="stl" multifile="false"></div>
+                <a ng-if="value.Path!=''" class="btn btn-outline-success" ng-click="showStl(value.Path)" style="margin: 10px;">
+                  <i class="fe-eye"></i>
+                </a>
+                <a ng-if="value.Path!='' && JustprintFile != true" class="btn btn-outline-danger"
+                  ng-click="DeleteStl(value.Path,value.name+value.id)" style="margin: 10px;">
+                  <i class="fe-trash"></i>
+                </a>
+                <a ng-if="showBarcode && value.Path!='' && JustprintFile==true && LowerArray.length >= UpperArray.length && LowerArray.length != UpperArray.length"
+                  class="btn btn-outline-info"
+                  ng-click="showModelBarcode('Device'+value.id,value.id,LowerArray.length,0,LowerArray.length,UpperArray.length,false,((UpperArray.length-1+NumberAliner)>=(value.id)?true:false),'L')"
+                  style="margin: 10px;">
+                  <svg version="1.1" style="width: 17px;" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                    <g>
+                      <rect x="15.2" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="109.6" y="25.6" style="fill:#0B3249;" width="10.4" height="296" />
+                      <rect x="63.2" y="25.6" style="fill:#0B3249;" width="2.4" height="296" />
+                      <rect x="272.8" y="25.6" style="fill:#0B3249;" width="2.4" height="296" />
+                      <rect x="248" y="25.6" style="fill:#0B3249;" width="10.4" height="296" />
+                      <rect x="151.2" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="300" y="25.6" style="fill:#0B3249;" width="52" height="296" />
+                      <rect x="424" y="25.6" style="fill:#0B3249;" width="72.8" height="296" />
+                      <rect x="205.6" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="378.4" y="25.6" style="fill:#0B3249;" width="20.8" height="296" />
+                      <rect x="15.2" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                      <rect x="109.6" y="400.8" style="fill:#0B3249;" width="10.4" height="85.6" />
+                      <rect x="63.2" y="400.8" style="fill:#0B3249;" width="2.4" height="85.6" />
+                      <rect x="272.8" y="400.8" style="fill:#0B3249;" width="2.4" height="85.6" />
+                      <rect x="248" y="400.8" style="fill:#0B3249;" width="10.4" height="85.6" />
+                      <rect x="151.2" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                      <rect x="300" y="400.8" style="fill:#0B3249;" width="52" height="85.6" />
+                      <rect x="424" y="400.8" style="fill:#0B3249;" width="72.8" height="85.6" />
+                      <rect x="205.6" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                      <rect x="378.4" y="400.8" style="fill:#0B3249;" width="20.8" height="85.6" />
+                    </g>
+                    <path style="fill:#E05407;" d="M507.2,364H4.8c-2.4,0-4.8-2.4-4.8-4.8s2.4-4.8,4.8-4.8h502.4c2.4,0,4.8,2.4,4.8,4.8
+                       C512,361.6,509.6,364,507.2,364z" />
+                    <path style="fill:#FF7631;" d="M507.2,354.4H4.8c-1.6,0-3.2,0.8-4,2.4c0.8,2.4,2.4,3.2,4,3.2h502.4c1.6,0,3.2-0.8,4-2.4
+                       C510.4,355.2,508.8,354.4,507.2,354.4z" />
+                  </svg>
+                </a>
+                <a ng-if="value.Path!=''" class="btn btn-outline-info" href="{{LinkServer+value.Path}}" target="_blank"
+                  style="width: 100%;">
+                  download <i class="fe-download"></i>
+                </a>
+                </div>
+                <div class="col-md-4">
+                  <div ng-if="LowerArraypts[key].Path=='' && JustprintFile!=true" style="position: relative;border: 1px solid;"
+                  event-Done="eventDonUpload(PATH,LowerArraypts[key].name+LowerArraypts[key].id,'pts')" id="fileStlPrint" idPatient="{{idPatient}}"
+                  imgclass="imageStl" filesrc="" class="dragdrop" nochangename="true"
+                  staticname="{{LowerArraypts[key].name+LowerArraypts[key].id}}.pts"
+                  defultimage="https://www.pngall.com/wp-content/uploads/2/Upload-PNG-Image-File.png" drag-Drop
+                  typefile="asc pts" multifile="false">
+                  </div>
+                  <a ng-if="LowerArraypts[key].Path==''&& JustprintFile!=true" style="    margin-top: -25px;position: absolute; z-index: 99996; background: #ffffff; display: inline-block;width: 71px; left: 92px; height: 20px; border-radius: 13px;  color: #3399db;  font-size: 15px;">PTS</a>
+                  <div style="    height: 100%; display: flex; justify-content: center; align-items: flex-end;">
+                      <a ng-if="LowerArraypts[key].Path!='' && JustprintFile != true" class="btn btn-outline-danger"
+                      ng-click="DeleteStl(LowerArraypts[key].Path,LowerArraypts[key].name+LowerArraypts[key].id,'pts')" style="margin: 10px;">
+                      <i class="fe-trash"></i>
+                    </a>
+                    <a ng-if="LowerArraypts[key].Path!=''" class="btn btn-outline-info" href="{{LinkServer+LowerArraypts[key].Path}}" target="_blank" style="width: 100%;">
+                      PTS download <i class="fe-download"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

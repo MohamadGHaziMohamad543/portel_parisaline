@@ -1,0 +1,156 @@
+
+$ANContreoller.Cases={
+    FUN:['$scope','$location','$routeParams',function($scope,$location,$routeParams) {
+        Reloader.Start('#cases');
+        $scope.Status=-1;
+        $scope.Submited=false;
+        $scope.$emit('AuthChanged', true);
+        $scope.idPatient=-1;
+        $scope.DeleteCases=false;
+        $scope.CommentInnput="";
+        if($routeParams.id !="_")
+        {
+            let testId=$CRID.END($routeParams.id);
+            if(testId)
+            {
+                $scope.idPatient=testId
+            }
+            else{
+                $location.path('/NotFondPage');
+                return;
+            }
+        }
+    
+        $scope.dataCasesStlShipping=null;
+        if($scope.idPatient!=-1)
+        {
+            HTTPs.POST(CONFIG.serverUrl+"/GCSTLI",{id:$scope.idPatient}).then(res=>{;
+                res=JSON.parse(res);
+                if(res.length!=0)
+                {
+                    $scope.$apply(()=>{
+                        $scope.dataCasesStlShipping=res;
+                    })
+                }
+            });
+        }
+
+        $scope.dataCasesShipping=null;
+        if($scope.idPatient!=-1)
+        {
+            HTTPs.POST(CONFIG.serverUrl+"/GCSHI",{id:$scope.idPatient}).then(res=>{;
+                res=JSON.parse(res);
+                if(res.length!=0)
+                {
+                    $scope.$apply(()=>{
+                        $scope.dataCasesShipping=res;
+                    })
+                }
+            });
+        }
+
+        $scope.pathPdf=null;
+        $scope.GetTretmentPlan=()=>{
+            HTTPs.POST(CONFIG.serverUrl+"/GTP",{patientId:$scope.idPatient}).then(res=>{
+                res=JSON.parse(res);
+                if(res.error==0)
+                {
+                    $scope.$apply(()=>{
+                        if(res.data.length != 0)
+                        {
+                           if(res.data[res.data.length-1].pdfLink.Simulation.length != 0)
+                           {
+                                $scope.pathPdf=CONFIG.serverImageUrl+"/"+res.data[res.data.length-1].pdfLink.Simulation[0].path;
+                           }
+                           else{
+                                $scope.pathPdf=-1;
+                           }
+                        }
+                        else{
+                            $scope.pathPdf=-1;
+                        }
+                    });
+                }
+            });
+        }
+        $scope.GetTretmentPlan();
+        $scope.ImpressionsFile=[];
+        HTTPs.POST(CONFIG.serverUrl+"/GISTL",{id:$scope.idPatient}).then(res=>{
+          res=JSON.parse(res);
+          if(res.message==2000)
+          {
+              $scope.$apply(()=>{
+                  $scope.ImpressionsFile=res.data;
+              });
+          }
+        });
+
+        $scope.FinshTask=(Commnet)=>{
+            HTTPs.POST(CONFIG.serverUrl+"/TAS/FT",{id:$scope.idPatient,Commnet:Commnet}).then(res=>{
+                res=JSON.parse(res);
+                if(res.message==2000)
+                {
+                    $scope.$apply(()=>{
+                        $scope.taskStatus=0;
+                    });
+                }
+              });
+        }
+        $scope.RejectTash=(Commnet)=>{
+            HTTPs.POST(CONFIG.serverUrl+"/TAS/RT",{id:$scope.idPatient,Commnet:Commnet}).then(res=>{
+                res=JSON.parse(res);
+                if(res.message==2000)
+                {
+                    $scope.$apply(()=>{
+                        $scope.taskStatus=0;
+                    });
+                }
+              });
+        }
+        $scope.taskStatus=0;
+        $scope.taskData=null;
+        $scope.checkStatus=(Commnet)=>{
+            HTTPs.POST(CONFIG.serverUrl+"/TAS/CTS",{id:$scope.idPatient,Commnet:Commnet}).then(res=>{
+                res=JSON.parse(res);
+                console.log(res);
+                if(res.data)
+                {
+                    $scope.$apply(()=>{
+                        $scope.taskData=res.data;
+                        $scope.taskStatus=1;
+                    });
+                }
+              });
+        }
+        $scope.Submit=()=>{
+            HTTPs.POST(CONFIG.serverUrl+"/CITG",{id:$scope.idPatient}).then(res=>{
+                res=JSON.parse(res);
+                if(res.error==0)
+                {
+                    Tost.info("Submited","Records have been updated",3000);
+                    $scope.$apply(()=>{
+                        $location.path("/");
+                    })
+                }
+            })
+        }
+        $scope.checkStatus();
+         Reloader.Stop('#cases');
+       
+    }],
+    Router:{
+        Url:"/Cases/:id",
+        Templete:'Views/Cases/Cases.html',
+        Render:[
+            {link:'//vjs.zencdn.net/7.10.2/video-js.min.css',type:"CSS"},
+            {link:'assets/libs/animate/animate.min.css',type:"CSS"},
+            {link:'assets/libs/flatpickr/flatpickr.min.css',type:"CSS"},
+            {link:'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js',type:"JS"},
+            {link:'assets/libs/flatpickr/flatpickr.min.js',type:"JS"},
+            {link:'assets/libs/tippy-js/tippy.all.min.js',type:"JS"},
+            {link:'//vjs.zencdn.net/7.10.2/video.min.js',type:"JS"},
+        // {link:'assets/libs/jsPdf/jspdf.umd.min.js',type:"JS"},
+        ],
+        AUTH:true
+    }
+}

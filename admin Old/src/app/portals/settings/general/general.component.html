@@ -1,0 +1,241 @@
+
+<div class="container-fluid">
+  <app-page-title title="GENERAL" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+ 
+  <form>
+   <!-- <flag-icon country="fr" squared></flag-icon> --> 
+    <div class="row card-box ribbon-box">
+      <div class="col-lg-4" >
+          <div class="ribbon-box">
+              <div class="ribbon ribbon-blue float-left">
+                <i class="fas fa-language mr-1"></i> LANGUAGE</div>
+              <h5 class="text-whaite float-leftmt-0"></h5>
+              <div class="ribbon-content">
+                <label>DEFAULT LANGUAGE</label>
+                <ng-select [ngModelOptions]="{standalone: true}" [(ngModel)]="languageModel"  bindLabel="langName" bindValue="id" [items]="Language"  ></ng-select>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4" >
+        <div class=" ribbon-box">
+            <div class="ribbon ribbon-success float-left">
+              <i class="fas fa-dollar-sign mr-1"></i> CURRENCY</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <label>DEFAULT CURRENCY</label>
+              <ng-select [ngModelOptions]="{standalone: true}" [(ngModel)]="currencModel" [items]="currency" bindValue="id"  bindLabel="currencyName"></ng-select>
+            </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4" >
+        <div class=" ribbon-box">
+            <div class="ribbon ribbon-success float-left">
+              <i class="fe-mail mr-1"></i> EMAIL</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <div class="form-group mb-3">
+                <label for="simpleinput">DEFAULT EMAIL</label>
+                <input type="text" id="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="emailModel" class="form-control">
+            </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-12" >
+        <div class=" ribbon-box">
+            <div class="ribbon ribbon-success float-left">
+              <i class="far fa-address-card mr-1"></i>COMPANY ADDRESS</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <div class="form-group mb-3">
+                <label for="simpleinput">ADDRESS</label>
+                <textarea type="text" id="companyAddress" [ngModelOptions]="{standalone: true}" [(ngModel)]="companyAddress" class="form-control">
+                  </textarea>
+            </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button (click)="BtnSaveGenral()"  class="btn btn-success waves-effect" type="button">Save</button>
+      </div>
+    </div>
+
+    <div class="row card-box ribbon-box">
+      <div class="col-lg-4" >
+          <div class="ribbon-box">
+              <div class="ribbon ribbon-blue float-left">
+                <i class="fas fa-language mr-1"></i> Pakges </div>
+              <h5 class="text-whaite float-leftmt-0"></h5>
+              <div class="ribbon-content">
+                <label>Content</label>
+                <app-keditor  (getEditor)="getEditor($event)" IDEDIT="content_model" VALUEEDIT="{{valueNotes}}" id="content_model"  ></app-keditor>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-12 mt-3">
+        <button (click)="savePortFlio()"  class="btn btn-success waves-effect" type="button">Save</button>
+      </div>
+    </div>
+    SPF
+    <div class="row">
+      <div class="col-lg-6" >
+        <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-primary float-left">
+              <i class="fe-mail mr-1"></i> SOCIAL MEDIA LINKS</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <h4 class="header-title">PRIMARY LINKS</h4>
+              <div class="byttondiv">
+                <button type="button" class="btn btn-primary" (click)="OpenSocial(msocial,0)"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i> ADD</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table mb-0" style="text-align: center;border: 1px solid #dee2e6;">
+                  <thead>
+                    <tr>
+                      <th>{{trans.general.card4_sl_name}}</th>
+                      <th>{{trans.general.card4_sl_link}}</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let social of socialMedia">
+                      <td>{{social.name}}</td>
+                      <td>{{social.link}}</td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="OpenSocial(msocial,1,social.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+                        <button type="button" class="btn btn-danger" (click)="OpenSocial(msocial,2,social.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> <!-- end table-responsive-->
+      
+            </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6" >
+        <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-primary float-left">
+              <i class="fe-mail mr-1"></i> KEYWORDS</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <h4 class="header-title">SEO KEYWORDS</h4>
+              <div class="byttondiv">
+                <button type="button" class="btn btn-primary" (click)="OpenSeo(seo,0)"><i _ngcontent-ogl-c10="" class="mdi mdi-plus"></i>ADD</button>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-dark table-borderless mb-0">
+                  <thead>
+                    <tr>
+                   
+                      <th>NAME</th>
+                      <th>DESCRIPTION</th>
+                      <th>KEYWORDS</th>
+                      <th>#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let fseo of a_seo">
+                      <th scope="row">{{fseo.name}}</th>
+                      <td>{{fseo.description}}</td>
+                      <td>{{fseo.key_words}}</td>
+                      <td>
+                        <button type="button" class="btn btn-primary" style="margin-right: 2px;" (click)="OpenSeo(seo,1,fseo.id)"><i _ngcontent-ogl-c10="" class="fas fa-edit"></i> </button>
+                        <button type="button" class="btn btn-danger" (click)="OpenSeo(seo,2,fseo.id)"><i _ngcontent-ogl-c10="" class="fas fa-minus-circle"></i> </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div> 
+      
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-6" >
+        <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-primary float-left">
+              <i class="fe-mail mr-1"></i> SHIPPING ADDRESS </div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <h4 class="header-title">DEFAULT ADDRESS</h4>
+              <app-shipping-address USERTYPE="1" ID="1"></app-shipping-address>
+      
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-6" >
+        <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-primary float-left">
+              <i class="fe-mail mr-1"></i> PAYMENT ADDRESS</div>
+            <h5 class="text-whaite float-leftmt-0"></h5>
+            <div class="ribbon-content">
+              <h4 class="header-title">DEFAULT ADDRESS</h4>
+              <app-payment-address USERTYPE="1" ID="1"></app-payment-address>
+      
+            </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #msocial role="document" let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">{{sl_title}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              <label for="field-1" class="control-label">{{trans.general.card4_sl_name}}</label>
+              <input type="sl_name" class="form-control" [formControl]="sl_name"  placeholder="name link">
+          </div>
+      </div>
+      <div class="col-md-12">
+          <div class="form-group">
+              <label for="field-2" class="control-label">{{trans.general.card4_sl_link}}</label>
+              <input type="sl_link" class="form-control" [formControl]="sl_link"  placeholder="http://facebook.com">
+          </div>
+      </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')"> {{trans.general.modalsocial_btn_cancel}} </button>
+      <button type="button" class="btn btn-primary" (click)="BtnSaveSocial()">{{trans.general.modalsocial_btn_save}}</button>
+  </div>
+</ng-template>
+
+<ng-template #seo role="document" let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">{{sl_title}}</h4>
+      <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+              <label for="field-1" class="control-label">NAME</label>
+              <input type="sl_name" class="form-control" [formControl]="seo_name"  placeholder="NAME">
+          </div>
+      </div>
+      <div class="col-md-12">
+          <div class="form-group">
+              <label for="field-2" class="control-label">DESCRIPTION</label>
+              <input type="sl_link" class="form-control" [formControl]="seo_description"  placeholder="DESCRIPTION">
+          </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+            <label for="field-2" class="control-label">KEYWORDS</label>
+            <input type="sl_link" class="form-control" [formControl]="seo_key_words"  placeholder="KEYWORDS">
+        </div>
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-light waves-effect" (click)="modal('Cross click')"> {{trans.general.modalseo_btn_cancel}} </button>
+      <button type="button" class="btn btn-primary" (click)="BtnSaveSeo()">{{trans.general.modalseo_btn_save}}</button>
+  </div>
+</ng-template>
